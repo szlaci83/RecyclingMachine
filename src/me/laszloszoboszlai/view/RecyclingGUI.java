@@ -26,8 +26,12 @@ import java.awt.event.ActionListener;
                 case "Slot 4" :
                     myCustomerPanel.itemReceived(4);
                     break;
+                case "Status" :
+                    myCustomerPanel.printStatus();
+                    break;
                 case "Receipt":
                     myCustomerPanel.printReceipt();
+
             }
         }
 
@@ -36,6 +40,7 @@ import java.awt.event.ActionListener;
         JButton slot3 = new JButton("Slot 3");
         JButton slot4 = new JButton("Slot 4");
 
+        JButton status = new JButton("Status");
         JButton receipt = new JButton("Receipt");
 
         public RecyclingGUI() {
@@ -47,13 +52,14 @@ import java.awt.event.ActionListener;
             panel.add(slot2);
             panel.add(slot3);
             panel.add(slot4);
+            panel.add(receipt);
+            panel.add(status);
 
             slot1.addActionListener(this);
             slot2.addActionListener(this);
             slot3.addActionListener(this);
             slot4.addActionListener(this);
-
-            panel.add(receipt);
+            status.addActionListener(this);
             receipt.addActionListener(this);
 
             getContentPane().add(panel);

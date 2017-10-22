@@ -40,11 +40,12 @@ public class ReceiptBasis implements ReceiptBasisInterface {
 		if (item instanceof Cartoon){
 			size = Cartoon.getSize();
 		}
-		if (! (capacity - size < 0)){
+		if (! (capacity - size < 0)) {
 			myItems.add(item);
 			item.number = myItems.indexOf(item);
 			capacity -= size;
 		}
+
 	}
 
 	/**

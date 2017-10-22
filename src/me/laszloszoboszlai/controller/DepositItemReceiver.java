@@ -46,12 +46,26 @@ public class DepositItemReceiver {
 		theReceiptBasis.addItem(item);
 		printer.print(item.getName() + " Received.");
 	}
+
+	/**
+	 * Prints if the machine full or not.
+	 * @return true is the machine is full false otherwise.
+	 */
+	public void printStatus(){
+		String neg = "";
+		if ((theReceiptBasis == null) || (! theReceiptBasis.isFull())  ) {
+			neg = "not ";
+		}
+		printer.print("The machine is " + neg + "full.");
+	}
+
 	/**
 	 * Computes the sum, and uses the printer to print out the result, and clears the receiptbasis.
 	 */
-	public void printReceipt() { 
+	public void printReceipt() {
+	    if (theReceiptBasis != null){
 		String str = theReceiptBasis.computeSum(); 
-		printer.print(str); 
+		printer.print(str); }
 		theReceiptBasis = null; 
 	}
 }

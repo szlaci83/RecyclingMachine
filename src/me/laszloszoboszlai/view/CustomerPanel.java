@@ -32,4 +32,11 @@ public class CustomerPanel {
 	public void printReceipt() { 
 		receiver.printReceipt();
 	}
+
+	/**
+	 *  Prints the status of the machine (Full/ not full)
+	 */
+	public void printStatus(){
+		receiver.printStatus();
+	}
 }
