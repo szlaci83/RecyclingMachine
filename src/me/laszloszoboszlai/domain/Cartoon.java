@@ -14,11 +14,11 @@ public class Cartoon extends DepositItem {
 		value = 28;
 	}
 
-	public int getSize() {
+	public static int getSize() {
 		return size;
 	}
 
-	public  int getWeight(){
+	public static int getWeight(){
 		return weight;
 	}
 }

@@ -1,5 +1,5 @@
 package me.laszloszoboszlai.repository;
-import me.laszloszoboszlai.domain.DepositItem;
+import me.laszloszoboszlai.domain.*;
 
 import java.util.Vector;
 
@@ -27,9 +27,26 @@ public class ReceiptBasis implements ReceiptBasisInterface {
 	 * @param item an item that has been inserted into the machine (such as can, bottle, crate).
 	 */
 	public void addItem(DepositItem item) {
-		myItems.add(item);
-		item.number = myItems.indexOf(item);
+		int size = 0;
+		if (item instanceof Bottle){
+			size = Bottle.getSize();
+		}
+		if (item instanceof Can){
+			size = Can.getSize();
+		}
+		if (item instanceof Crate){
+			size = Crate.getSize();
+		}
+		if (item instanceof Cartoon){
+			size = Cartoon.getSize();
+		}
+		if (! (capacity - size < 0)){
+			myItems.add(item);
+			item.number = myItems.indexOf(item);
+			capacity -= size;
+		}
 	}
+
 	/**
 	 * Calculates a summary based on the items inserted.
 	 * @return the overall value of the items inserted by the customer.
@@ -49,6 +66,6 @@ public class ReceiptBasis implements ReceiptBasisInterface {
 
 	@Override
 	public boolean isFull() {
-		return false;
+		return capacity <= 20;
 	}
 }

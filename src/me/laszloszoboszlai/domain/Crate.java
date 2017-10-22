@@ -15,11 +15,11 @@ public class Crate extends DepositItem {
 		value = 42;
 	}
 
-	public int getSize() {
+	public static int getSize() {
 		return size;
 	}
 
-	public  int getWeight(){
+	public static int getWeight(){
 		return weight;
 	}
 
