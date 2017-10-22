@@ -8,7 +8,7 @@ import me.laszloszoboszlai.service.PrinterInterface;
  */
 public class CustomerPanel {
 
-	DepositItemReceiver receiver;
+	DepositItemReceiver receiver = null;
 
 	public CustomerPanel(PrinterInterface printer) {
 		receiver = new DepositItemReceiver(printer);

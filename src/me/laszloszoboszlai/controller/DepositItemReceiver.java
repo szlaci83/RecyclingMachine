@@ -2,7 +2,6 @@ package me.laszloszoboszlai.controller;
 
 import me.laszloszoboszlai.domain.*;
 import me.laszloszoboszlai.service.PrinterInterface;
-import me.laszloszoboszlai.service.ReceiptPrinter;
 
 /**
  * @author Marc Conrad
@@ -10,7 +9,7 @@ import me.laszloszoboszlai.service.ReceiptPrinter;
  */
 public class DepositItemReceiver {
 	ReceiptBasisInterface theReceiptBasis = null;
-	PrinterInterface printer = new ReceiptPrinter();
+	PrinterInterface printer = null;
 
 	public DepositItemReceiver(PrinterInterface printer) {
 		this.printer = printer;
@@ -20,7 +19,7 @@ public class DepositItemReceiver {
 	 * 
 	 */
 	public void createReceiptBasis() { 
-		theReceiptBasis = new AggregatedVATReceipt();
+		theReceiptBasis = new ReceiptBasis();
 	}
 	/**
 	 * @param slot
