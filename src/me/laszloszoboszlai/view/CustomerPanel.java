@@ -1,13 +1,18 @@
-package me.laszloszoboszlai.controller;
+package me.laszloszoboszlai.view;
 
+import me.laszloszoboszlai.controller.DepositItemReceiver;
 import me.laszloszoboszlai.service.PrinterInterface;
 
 /**
- * @author Marc Conrad
+ * Simple view of the recycling machine
+ * @author Laszlo Szoboszlai
  *
  */
 public class CustomerPanel {
 
+    /**
+     * The receiver used by the system.
+     */
 	DepositItemReceiver receiver = null;
 
 	public CustomerPanel(PrinterInterface printer) {
@@ -15,13 +20,14 @@ public class CustomerPanel {
 	}
 
 	/**
-	 * @param slot
+     * Classifies an item using the receiver.
+	 * @param slot  slot number where the item intserted
 	 */
 	public void itemReceived(int slot) { 
 		receiver.classifyItem(slot); 
 	}
 	/**
-	 * 
+	 * Prints the receipt for the deposited items.
 	 */
 	public void printReceipt() { 
 		receiver.printReceipt();

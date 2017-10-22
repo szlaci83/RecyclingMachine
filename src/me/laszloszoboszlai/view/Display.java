@@ -4,8 +4,8 @@ import me.laszloszoboszlai.service.PrinterInterface;
 
 import java.awt.Color;
 import javax.swing.*;
-/*
- * Displays text in a frame.
+/**
+ * Simple GUI to display the result of using the recycling machine.
  */
 public class Display extends JFrame implements PrinterInterface {
     /**
@@ -14,8 +14,8 @@ public class Display extends JFrame implements PrinterInterface {
     private static final long serialVersionUID = -8505887234618184162L;
     private JTextArea outputWindow;
 
-    /*
-     * when constructed the display will be directly visible.
+    /**
+     *  Basic window is created using awt.
      */
     public Display() {
         super();
@@ -26,9 +26,9 @@ public class Display extends JFrame implements PrinterInterface {
         getContentPane().add(outputWindow);
         setVisible(true);
     }
-    /*
+    /**
      * Prints the text str to the screen. Any previous text will be overwritten.
-     * @see com.perisic.beds.PrinterInterface#print(java.lang.String)
+     * @see me.laszloszoboszlai.service.PrinterInterface#print(java.lang.String)
      */
     public void print(String str) {
         outputWindow.setText(str);

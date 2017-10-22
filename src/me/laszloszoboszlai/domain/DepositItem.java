@@ -1,8 +1,8 @@
 package me.laszloszoboszlai.domain;
 
 /**
- * @author Marc Conrad
- *
+ * Abstract class representing a recyclable item
+ * @author Laszlo Szoboszlai
  */
 public abstract class DepositItem {
 	public int number;

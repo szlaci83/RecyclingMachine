@@ -1,7 +1,5 @@
 package me.laszloszoboszlai.view;
 
-import me.laszloszoboszlai.controller.CustomerPanel;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,14 +13,16 @@ import java.awt.event.ActionListener;
 
         public void actionPerformed(ActionEvent e) {
             String buttonName = e.getActionCommand();
-
             switch (buttonName){
                 case "Slot 1" :
                     myCustomerPanel.itemReceived(1);
+                    break;
                 case "Slot 2" :
                     myCustomerPanel.itemReceived(2);
+                    break;
                 case "Slot 3" :
                     myCustomerPanel.itemReceived(3);
+                    break;
                 case "Receipt":
                     myCustomerPanel.printReceipt();
             }

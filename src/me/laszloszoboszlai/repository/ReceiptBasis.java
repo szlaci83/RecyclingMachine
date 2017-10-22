@@ -1,4 +1,4 @@
-package me.laszloszoboszlai.controller;
+package me.laszloszoboszlai.repository;
 import me.laszloszoboszlai.domain.DepositItem;
 
 import java.util.Vector;
@@ -12,11 +12,22 @@ import java.util.Vector;
  *
  */
 public class ReceiptBasis implements ReceiptBasisInterface {
+	private int capacity;
+
+	public ReceiptBasis(){
+		this.capacity = 500;
+	}
+
+	public ReceiptBasis(int capacity){
+		this.capacity = capacity;
+	}
+
 	private Vector<DepositItem> myItems = new Vector<DepositItem>();
 	/**
 	 * @param item an item that has been inserted into the machine (such as can, bottle, crate).
 	 */
 	public void addItem(DepositItem item) {
+		item.
 		myItems.add(item);
 		item.number = myItems.indexOf(item);
 	}
@@ -35,5 +46,10 @@ public class ReceiptBasis implements ReceiptBasisInterface {
 		}
 		receipt = receipt + "Total: "+sum;
 		return receipt;
+	}
+
+	@Override
+	public boolean isFull() {
+		return false;
 	}
 }

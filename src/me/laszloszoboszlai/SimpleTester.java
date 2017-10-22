@@ -1,11 +1,13 @@
 package me.laszloszoboszlai;
 
-import me.laszloszoboszlai.controller.CustomerPanel;
+import me.laszloszoboszlai.view.CustomerPanel;
+import me.laszloszoboszlai.service.PrinterInterface;
+import me.laszloszoboszlai.service.ReceiptPrinter;
 import me.laszloszoboszlai.view.Display;
 
 /**
- * Tests the recycling machine.
- * @author Marc Conrad
+ * Tests basic functionality of the recycling machine.
+ * @author Laszlo Szoboszlai
  *
  */
 public class SimpleTester {

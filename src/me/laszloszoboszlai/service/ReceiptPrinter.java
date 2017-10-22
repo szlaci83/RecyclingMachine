@@ -1,12 +1,14 @@
 package me.laszloszoboszlai.service;
 
 /**
- * @author Marc Conrad
+ * Simple printer class implementing the PrinterInterface, to use standard output.
+ * @author Laszlo Szoboszlai
  *
  */
 public class ReceiptPrinter implements PrinterInterface {
 	/**
-	 * @param str
+	 * Prints to the standard output.
+	 * @param str the String to be printed.
 	 */
 	public void print(String str) { 
 		System.out.println(str);

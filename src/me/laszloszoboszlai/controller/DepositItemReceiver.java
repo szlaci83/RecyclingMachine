@@ -1,10 +1,13 @@
 package me.laszloszoboszlai.controller;
 
 import me.laszloszoboszlai.domain.*;
+import me.laszloszoboszlai.repository.ReceiptBasis;
+import me.laszloszoboszlai.repository.ReceiptBasisInterface;
 import me.laszloszoboszlai.service.PrinterInterface;
 
 /**
- * @author Marc Conrad
+ * Class to control the logic of receiving, classifying, and printing items.
+ * @author Laszlo Szoboszlai
  *
  */
 public class DepositItemReceiver {
@@ -16,13 +19,14 @@ public class DepositItemReceiver {
 	}
 
 	/**
-	 * 
+	 * Creates a single instance of the receipt basis.
 	 */
 	public void createReceiptBasis() { 
 		theReceiptBasis = new ReceiptBasis();
 	}
 	/**
-	 * @param slot
+     * Classifies the inserted item.
+	 * @param slot the number of the slot the item inserted into.
 	 */
 	public void classifyItem(int slot) { 
 		DepositItem item = null;
@@ -33,16 +37,17 @@ public class DepositItemReceiver {
 		} else if ( slot == 3 ) { 
 			item = new Crate();
 		} else if ( slot == 4 ) {
-			item = new Bottle2();
+			item = new Cartoon();
 		}
 
 		if( theReceiptBasis == null ) { 
 			createReceiptBasis(); 
 		}
-		theReceiptBasis.addItem(item); 
+		theReceiptBasis.addItem(item);
+		printer.print(item.getName() + " Received.");
 	}
 	/**
-	 * 
+	 * Computes the sum, and uses the printer to print out the result, and clears the receiptbasis.
 	 */
 	public void printReceipt() { 
 		String str = theReceiptBasis.computeSum(); 
