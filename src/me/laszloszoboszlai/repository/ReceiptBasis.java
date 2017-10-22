@@ -27,7 +27,6 @@ public class ReceiptBasis implements ReceiptBasisInterface {
 	 * @param item an item that has been inserted into the machine (such as can, bottle, crate).
 	 */
 	public void addItem(DepositItem item) {
-		item.
 		myItems.add(item);
 		item.number = myItems.indexOf(item);
 	}

@@ -23,6 +23,9 @@ import java.awt.event.ActionListener;
                 case "Slot 3" :
                     myCustomerPanel.itemReceived(3);
                     break;
+                case "Slot 4" :
+                    myCustomerPanel.itemReceived(4);
+                    break;
                 case "Receipt":
                     myCustomerPanel.printReceipt();
             }
@@ -31,6 +34,7 @@ import java.awt.event.ActionListener;
         JButton slot1 = new JButton("Slot 1");
         JButton slot2 = new JButton("Slot 2");
         JButton slot3 = new JButton("Slot 3");
+        JButton slot4 = new JButton("Slot 4");
 
         JButton receipt = new JButton("Receipt");
 
@@ -42,10 +46,12 @@ import java.awt.event.ActionListener;
             panel.add(slot1);
             panel.add(slot2);
             panel.add(slot3);
+            panel.add(slot4);
 
             slot1.addActionListener(this);
             slot2.addActionListener(this);
             slot3.addActionListener(this);
+            slot4.addActionListener(this);
 
             panel.add(receipt);
             receipt.addActionListener(this);
