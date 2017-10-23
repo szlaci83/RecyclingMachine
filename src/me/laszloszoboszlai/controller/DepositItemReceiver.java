@@ -3,7 +3,7 @@ package me.laszloszoboszlai.controller;
 import me.laszloszoboszlai.domain.*;
 import me.laszloszoboszlai.repository.ReceiptBasis;
 import me.laszloszoboszlai.repository.ReceiptBasisInterface;
-import me.laszloszoboszlai.service.CustomerPanel;
+import me.laszloszoboszlai.view.PrinterInterface;
 
 /**
  * Class to control the logic of receiving, classifying, and printing items.
@@ -12,9 +12,9 @@ import me.laszloszoboszlai.service.CustomerPanel;
  */
 public class DepositItemReceiver {
 	ReceiptBasisInterface theReceiptBasis = null;
-	CustomerPanel.PrinterInterface printer = null;
+	PrinterInterface printer = null;
 
-	public DepositItemReceiver(CustomerPanel.PrinterInterface printer) {
+	public DepositItemReceiver(PrinterInterface printer) {
 		this.printer = printer;
 	}
 

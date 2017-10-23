@@ -7,7 +7,7 @@ import me.laszloszoboszlai.service.CustomerPanel;
  * @author Laszlo Szoboszlai
  *
  */
-public class ReceiptPrinter implements CustomerPanel.PrinterInterface {
+public class ReceiptPrinter implements PrinterInterface {
 	/**
 	 * Prints to the standard output.
 	 * @param str the String to be printed.
