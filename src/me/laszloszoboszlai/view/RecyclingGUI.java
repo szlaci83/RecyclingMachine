@@ -1,5 +1,7 @@
 package me.laszloszoboszlai.view;
 
+import me.laszloszoboszlai.service.CustomerPanel;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

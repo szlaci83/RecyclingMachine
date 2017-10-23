@@ -1,13 +1,13 @@
 package me.laszloszoboszlai.view;
 
-import me.laszloszoboszlai.service.PrinterInterface;
+import me.laszloszoboszlai.service.CustomerPanel;
 
 import java.awt.Color;
 import javax.swing.*;
 /**
  * Simple GUI to display the result of using the recycling machine.
  */
-public class Display extends JFrame implements PrinterInterface {
+public class Display extends JFrame implements CustomerPanel.PrinterInterface {
     /**
      * A serialVersionUID is required by the JFrame class.
      */
@@ -28,7 +28,7 @@ public class Display extends JFrame implements PrinterInterface {
     }
     /**
      * Prints the text str to the screen. Any previous text will be overwritten.
-     * @see me.laszloszoboszlai.service.PrinterInterface#print(java.lang.String)
+     * @see CustomerPanel.PrinterInterface#print(java.lang.String)
      */
     public void print(String str) {
         outputWindow.setText(str);

@@ -1,8 +1,6 @@
 package me.laszloszoboszlai;
 
-import me.laszloszoboszlai.view.CustomerPanel;
-import me.laszloszoboszlai.service.PrinterInterface;
-import me.laszloszoboszlai.service.ReceiptPrinter;
+import me.laszloszoboszlai.service.CustomerPanel;
 import me.laszloszoboszlai.view.Display;
 
 /**

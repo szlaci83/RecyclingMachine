@@ -1,7 +1,6 @@
-package me.laszloszoboszlai.view;
+package me.laszloszoboszlai.service;
 
 import me.laszloszoboszlai.controller.DepositItemReceiver;
-import me.laszloszoboszlai.service.PrinterInterface;
 
 /**
  * Simple view of the recycling machine
@@ -39,4 +38,16 @@ public class CustomerPanel {
 	public void printStatus(){
 		receiver.printStatus();
 	}
+
+	/**
+     * Interface to be implemented by the printer classes of the system.
+     * @author Laszlo Szoboszlai
+     */
+    public static interface PrinterInterface {
+        /**
+         * Print method to be implemented by all the implementing classes.
+         * @param str the String to be printed.
+         */
+        public void print(String str);
+    }
 }
