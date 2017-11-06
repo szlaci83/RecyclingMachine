@@ -1,5 +1,5 @@
 package me.laszloszoboszlai.repository;
-import me.laszloszoboszlai.domain.*;
+import me.laszloszoboszlai.model.*;
 
 import java.util.Vector;
 

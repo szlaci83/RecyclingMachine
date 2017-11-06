@@ -1,6 +1,6 @@
 package me.laszloszoboszlai;
-import me.laszloszoboszlai.domain.Bottle;
-import me.laszloszoboszlai.domain.Can;
+import me.laszloszoboszlai.model.Bottle;
+import me.laszloszoboszlai.model.Can;
 import me.laszloszoboszlai.repository.ReceiptBasis;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;

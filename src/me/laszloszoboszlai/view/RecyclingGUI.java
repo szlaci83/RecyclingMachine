@@ -16,16 +16,16 @@ import java.awt.event.ActionListener;
         public void actionPerformed(ActionEvent e) {
             String buttonName = e.getActionCommand();
             switch (buttonName){
-                case "Slot 1" :
+                case "Bottle" :
                     myCustomerPanel.itemReceived(1);
                     break;
-                case "Slot 2" :
+                case "Can" :
                     myCustomerPanel.itemReceived(2);
                     break;
-                case "Slot 3" :
+                case "Crate" :
                     myCustomerPanel.itemReceived(3);
                     break;
-                case "Slot 4" :
+                case "Cartoon" :
                     myCustomerPanel.itemReceived(4);
                     break;
                 case "Status" :
@@ -37,10 +37,10 @@ import java.awt.event.ActionListener;
             }
         }
 
-        JButton slot1 = new JButton("Slot 1");
-        JButton slot2 = new JButton("Slot 2");
-        JButton slot3 = new JButton("Slot 3");
-        JButton slot4 = new JButton("Slot 4");
+        JButton slot1 = new JButton("Bottle");
+        JButton slot2 = new JButton("Can");
+        JButton slot3 = new JButton("Crate");
+        JButton slot4 = new JButton("Cartoon");
 
         JButton status = new JButton("Status");
         JButton receipt = new JButton("Receipt");

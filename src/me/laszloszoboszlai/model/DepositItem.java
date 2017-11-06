@@ -1,4 +1,4 @@
-package me.laszloszoboszlai.domain;
+package me.laszloszoboszlai.model;
 
 /**
  * Abstract class representing a recyclable item

@@ -1,6 +1,6 @@
 package me.laszloszoboszlai.repository;
 
-import me.laszloszoboszlai.domain.DepositItem;
+import me.laszloszoboszlai.model.DepositItem;
 
 /**
  * Interface implemented by the repository classes in the system.

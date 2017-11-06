@@ -1,4 +1,4 @@
-package me.laszloszoboszlai.domain;
+package me.laszloszoboszlai.model;
 
 /**
  * Domain class representing a recyclable bottle
