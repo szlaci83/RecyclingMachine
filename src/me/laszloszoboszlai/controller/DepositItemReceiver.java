@@ -4,8 +4,6 @@ import me.laszloszoboszlai.model.*;
 import me.laszloszoboszlai.repository.ReceiptBasis;
 import me.laszloszoboszlai.repository.ReceiptBasisInterface;
 import me.laszloszoboszlai.view.PrinterInterface;
-import me.laszloszoboszlai.service.CustomerPanel;
-import me.laszloszoboszlai.view.PrinterInterface;
 
 /**
  * Class to control the logic of receiving, classifying, and printing items.
