@@ -1,6 +1,7 @@
 package me.laszloszoboszlai.service;
 
 import me.laszloszoboszlai.controller.DepositItemReceiver;
+import me.laszloszoboszlai.controller.DepositItemReceiverInterface;
 import me.laszloszoboszlai.view.PrinterInterface;
 
 /**
@@ -13,7 +14,7 @@ public class CustomerPanel {
     /**
      * The receiver used by the system.
      */
-	DepositItemReceiver receiver = null;
+	DepositItemReceiverInterface receiver = null;
 
 	public CustomerPanel(PrinterInterface printer) {
 		receiver = new DepositItemReceiver(printer);

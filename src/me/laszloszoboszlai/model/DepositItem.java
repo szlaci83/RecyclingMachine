@@ -11,4 +11,6 @@ public abstract class DepositItem {
 	public String getName(){
 		return this.getClass().getSimpleName();
 	}
+
+
 }

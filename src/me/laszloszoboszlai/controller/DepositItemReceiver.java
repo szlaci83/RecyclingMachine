@@ -1,16 +1,24 @@
 package me.laszloszoboszlai.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.TypeAdapter;
 import me.laszloszoboszlai.model.*;
 import me.laszloszoboszlai.repository.ReceiptBasis;
 import me.laszloszoboszlai.repository.ReceiptBasisInterface;
 import me.laszloszoboszlai.view.PrinterInterface;
+
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.lang.reflect.Type;
 
 /**
  * Class to control the logic of receiving, classifying, and printing items.
  * @author Laszlo Szoboszlai
  *
  */
-public class DepositItemReceiver {
+public class DepositItemReceiver implements DepositItemReceiverInterface{
 	ReceiptBasisInterface theReceiptBasis = null;
 	PrinterInterface printer = null;
 
@@ -24,20 +32,22 @@ public class DepositItemReceiver {
 	public void createReceiptBasis() { 
 		theReceiptBasis = new ReceiptBasis();
 	}
+
+
 	/**
      * Classifies the inserted item.
 	 * @param slot the number of the slot the item inserted into.
 	 */
-	public void classifyItem(int slot) { 
+	public void classifyItem(int slot) {
 		DepositItem item = null;
-		if( slot == 1 ) { 
-			item = new Can();
+		if( slot == 1 ) {
+			item = Can.getFromJson();
 		} else if( slot == 2 ) { 
-			item = new Bottle();
+			item = Bottle.getFromJson();
 		} else if ( slot == 3 ) { 
-			item = new Crate();
+			item = Crate.getFromJson();
 		} else if ( slot == 4 ) {
-			item = new Cartoon();
+			item = Cartoon.getFromJson();
 		}
 
 		if( theReceiptBasis == null ) { 

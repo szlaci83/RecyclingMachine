@@ -8,7 +8,7 @@ import java.util.Vector;
  * in this class. We might call it our database (if we insist!).
  * It also provides a summative statement about all the items inserted into the
  * machine.
- * @author Marc Conrad
+ * @author Laszlo Szoboszlai
  *
  */
 public class ReceiptBasis implements ReceiptBasisInterface {
