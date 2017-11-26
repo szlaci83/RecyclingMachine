@@ -25,7 +25,7 @@ public class Bottle extends DepositItem {
 		} catch (IOException e) {
 			System.out.print(e);
 		}
-		return bottle;
+		return new Bottle();
 	}
 
 	/**

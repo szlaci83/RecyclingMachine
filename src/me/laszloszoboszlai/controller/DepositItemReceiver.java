@@ -1,17 +1,11 @@
 package me.laszloszoboszlai.controller;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.TypeAdapter;
 import me.laszloszoboszlai.model.*;
 import me.laszloszoboszlai.repository.ReceiptBasis;
 import me.laszloszoboszlai.repository.ReceiptBasisInterface;
+import me.laszloszoboszlai.repository.UserRepository;
+import me.laszloszoboszlai.repository.UserRepositoryInterface;
 import me.laszloszoboszlai.view.PrinterInterface;
-
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.lang.reflect.Type;
 
 /**
  * Class to control the logic of receiving, classifying, and printing items.
@@ -19,11 +13,25 @@ import java.lang.reflect.Type;
  *
  */
 public class DepositItemReceiver implements DepositItemReceiverInterface{
+
+	String sessioncookie = "fdfsdfsdfsdfsdf";
+
 	ReceiptBasisInterface theReceiptBasis = null;
 	PrinterInterface printer = null;
+	UserRepositoryInterface userRepository = new UserRepository();
 
 	public DepositItemReceiver(PrinterInterface printer) {
 		this.printer = printer;
+	}
+
+
+	public String login(String passwd){
+		if( passwd.equals(userRepository.getUserByName("admin"))){
+			sessioncookie = "Random"+Math.random();
+			return sessioncookie;
+		} else {
+			return "wrong";
+		}
 	}
 
 	/**
