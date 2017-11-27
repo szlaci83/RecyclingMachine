@@ -14,7 +14,8 @@ import me.laszloszoboszlai.view.PrinterInterface;
  */
 public class DepositItemReceiver implements DepositItemReceiverInterface{
 
-	String sessioncookie = "fdfsdfsdfsdfsdf";
+	// session cookie to identify the individual users
+	String sessioncookie = "notset";
 
 	ReceiptBasisInterface theReceiptBasis = null;
 	PrinterInterface printer = null;
@@ -25,6 +26,11 @@ public class DepositItemReceiver implements DepositItemReceiverInterface{
 	}
 
 
+	/**
+	 * Method to log users in, users first need to login in order to use the system.
+	 * @param passwd the password of the user
+	 * @return returns the sessioncookie if the login was success "wrong" otherwise
+	 */
 	public String login(String passwd){
 		if( passwd.equals(userRepository.getUserByName("admin"))){
 			sessioncookie = "Random"+Math.random();

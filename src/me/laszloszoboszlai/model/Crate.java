@@ -15,7 +15,10 @@ public class Crate extends DepositItem {
 	static int weight = 1516;
 	static int size = 90;
 
-
+	/**
+	 * Method to instantiate the Crete objects from a .json file
+	 * @return instance of the Crete object
+	 */
 	public static Crate getFromJson() {
 		Crate crate = null;
 		try (Reader reader = new InputStreamReader(Crate.class.getResourceAsStream("Crate.json"), "UTF-8")) {

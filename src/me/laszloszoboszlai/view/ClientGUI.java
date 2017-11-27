@@ -18,6 +18,11 @@ import org.apache.xmlrpc.XmlRpcClient;
 
 public class ClientGUI extends JFrame implements ActionListener  {
 
+    /**
+     * Method to get the MD5 hash of a given String
+     * @param word the word to be hashed
+     * @return the hashed word
+     */
     private String getHash(String word){
 		MessageDigest md = null;
 		try {

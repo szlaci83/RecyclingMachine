@@ -21,6 +21,10 @@ public class Can extends DepositItem {
 		value = 16; 
 	}
 
+	/**
+	 * Method to instantiate the Can objects from a .json file
+	 * @return instance of the Can object
+	 */
 	public static Can getFromJson() {
 		Can can = null;
 		try (Reader reader = new InputStreamReader(Can.class.getResourceAsStream("Can.json"), "UTF-8")) {

@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Properties;
 
+/**
+ * Helper class to write properties in a property file.
+ */
 public class PropertyWriter {
     public static void main(String[] args) {
 

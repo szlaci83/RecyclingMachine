@@ -8,7 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 
-/* Helper to write the Model classes to JSON */
+/* Helper method to write the Model classes to JSON */
 public class GsonWriter {
     public static void main(String[] args) throws IOException {
         Writer writer = new FileWriter("Crate.json");

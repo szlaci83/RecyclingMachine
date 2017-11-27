@@ -21,7 +21,10 @@ public class Cartoon extends DepositItem {
 		value = 28;
 	}
 
-
+	/**
+	 * Method to instantiate the Cartoon objects from a .json file
+	 * @return instance of the Cartoon object
+	 */
 	public static Cartoon getFromJson() {
 		Cartoon cartoon = null;
 		try (Reader reader = new InputStreamReader(Cartoon.class.getResourceAsStream("Cartoon.json"), "UTF-8")) {

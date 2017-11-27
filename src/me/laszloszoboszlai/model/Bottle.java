@@ -16,7 +16,10 @@ public class Bottle extends DepositItem {
 	static int weight = 10; 
 	static int size = 8;
 
-
+	/**
+	 * Method to instantiate the Bottle objects from a .json file
+	 * @return instance of the Bottle object
+	 */
 	public static Bottle getFromJson() {
 		Bottle bottle = null;
 		try (Reader reader = new InputStreamReader(Bottle.class.getResourceAsStream("Bottle.json"), "UTF-8")) {

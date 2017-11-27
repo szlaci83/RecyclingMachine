@@ -7,7 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
     /**
      * A Simple Graphical User Interface for the Recycling Machine.
-     * @author Marc Conrad
+     * @author Laszlo Szoboszlai
      *
      */
     public class RecyclingGUI extends JFrame implements ActionListener  {
@@ -17,10 +17,10 @@ import java.awt.event.ActionListener;
             String buttonName = e.getActionCommand();
             switch (buttonName){
                 case "Bottle" :
-                    myCustomerPanel.itemReceived(1);
+                    myCustomerPanel.itemReceived(2);
                     break;
                 case "Can" :
-                    myCustomerPanel.itemReceived(2);
+                    myCustomerPanel.itemReceived(1);
                     break;
                 case "Crate" :
                     myCustomerPanel.itemReceived(3);
@@ -37,8 +37,8 @@ import java.awt.event.ActionListener;
             }
         }
 
-        JButton slot1 = new JButton("Bottle");
-        JButton slot2 = new JButton("Can");
+        JButton slot2 = new JButton("Bottle");
+        JButton slot1 = new JButton("Can");
         JButton slot3 = new JButton("Crate");
         JButton slot4 = new JButton("Cartoon");
 
