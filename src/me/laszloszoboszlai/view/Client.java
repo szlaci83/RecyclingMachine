@@ -33,26 +33,26 @@ public class Client {
      * Method to call the classifyItem remote method on the server with different parameters.
      * @param i the number of the item recieved
      */
-    private static void classify(int i){
+    private static String classify(int i){
         Vector p = new Vector();
         p.add(i);
-        executeRemotely(HOST, "RecyclingServer.classifyItem",p );
+        return (String) executeRemotely(HOST, "RecyclingServer.classifyItem",p );
     }
 
     /**
      * Method to call the printReceipt remote method on the server
      */
-    private static void printReceipt(){
-        executeRemotely(HOST, "RecyclingServer.printReceipt",new Vector() );
+    private static String printReceipt(){
+        return (String) executeRemotely(HOST, "RecyclingServer.printReceipt",new Vector() );
     }
 
     public static void main(String[] args) {
         // Some test calls to the remote server.
-        classify(1);
-        classify(2);
-        classify(3);
-        classify(4);
-        printReceipt();
+        System.out.println(classify(1));
+        System.out.println(classify(2));
+        System.out.println(classify(3));
+        System.out.println(classify(4));
+        System.out.println(printReceipt());
     }
 
 }

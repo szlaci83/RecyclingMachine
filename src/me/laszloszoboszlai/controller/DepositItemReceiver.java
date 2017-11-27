@@ -1,11 +1,11 @@
 package me.laszloszoboszlai.controller;
 
 import me.laszloszoboszlai.model.*;
-import me.laszloszoboszlai.repository.ReceiptBasis;
-import me.laszloszoboszlai.repository.ReceiptBasisInterface;
-import me.laszloszoboszlai.repository.UserRepository;
-import me.laszloszoboszlai.repository.UserRepositoryInterface;
+import me.laszloszoboszlai.repository.*;
 import me.laszloszoboszlai.view.PrinterInterface;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Class to control the logic of receiving, classifying, and printing items.
@@ -23,6 +23,15 @@ public class DepositItemReceiver implements DepositItemReceiverInterface{
 
 	public DepositItemReceiver(PrinterInterface printer) {
 		this.printer = printer;
+		//this.intitialise();
+			}
+
+	ItemRepositoryInterface itemRepository = new ItemRepository();
+	Map<String,Integer> depositedItems = new HashMap<>();
+
+
+	private void intitialise(){
+		depositedItems = itemRepository.getItems();
 	}
 
 
@@ -32,7 +41,7 @@ public class DepositItemReceiver implements DepositItemReceiverInterface{
 	 * @return returns the sessioncookie if the login was success "wrong" otherwise
 	 */
 	public String login(String passwd){
-		if( passwd.equals(userRepository.getUserByName("admin"))){
+		if( passwd.equals(userRepository.getUserByName("password"))){
 			sessioncookie = "Random"+Math.random();
 			return sessioncookie;
 		} else {
@@ -48,11 +57,17 @@ public class DepositItemReceiver implements DepositItemReceiverInterface{
 	}
 
 
+
+	private void addItem(){
+		
+	}
+
+
 	/**
      * Classifies the inserted item.
 	 * @param slot the number of the slot the item inserted into.
 	 */
-	public void classifyItem(int slot) {
+	public String classifyItem(int slot) {
 		DepositItem item = null;
 		if( slot == 1 ) {
 			item = Can.getFromJson();
@@ -69,27 +84,34 @@ public class DepositItemReceiver implements DepositItemReceiverInterface{
 		}
 		theReceiptBasis.addItem(item);
 		printer.print(item.getName() + " Received.");
+
+		return item.getName() + " received";
 	}
 
 	/**
 	 * Prints if the machine full or not.
 	 * @return true is the machine is full false otherwise.
 	 */
-	public void printStatus(){
+	public String printStatus(){
 		String neg = "";
 		if ((theReceiptBasis == null) || (! theReceiptBasis.isFull())  ) {
 			neg = "not ";
 		}
-		printer.print("The machine is " + neg + "full.");
+		String msg = "The machine is " + neg + "full.";
+		printer.print(msg);
+		return msg;
 	}
 
 	/**
 	 * Computes the sum, and uses the printer to print out the result, and clears the receiptbasis.
 	 */
-	public void printReceipt() {
+	public String printReceipt() {
+		String result = null;
 	    if (theReceiptBasis != null){
-		String str = theReceiptBasis.computeSum(); 
-		printer.print(str); }
-		theReceiptBasis = null; 
+		String str = theReceiptBasis.computeSum();
+		printer.print(str);
+	    result = str;}
+		theReceiptBasis = null;
+	    return result;
 	}
 }

@@ -18,10 +18,9 @@ public class PropertyWriter {
             output = new FileOutputStream("usage.properties");
 
             // set the properties value
-            prop.setProperty("Can", "0");
-            prop.setProperty("Cartoon", "0");
-            prop.setProperty("Crate", "0");
-            prop.setProperty("Bottle", "0");
+
+            prop.setProperty("Cartoon", "6");
+
 
             // save properties to project root folder
             prop.store(output, null);

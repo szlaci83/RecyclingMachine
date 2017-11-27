@@ -45,9 +45,7 @@ public class ClientGUI extends JFrame implements ActionListener  {
 
                 Vector args = new Vector();
                 args.addElement(sessioncookie);
-                Object result = server.execute("sample.getNumberOfItems", args );
-
-
+                Object result = server.execute("RecyclingServer.getNumberOfItems", args );
 
                 if( result.toString().equals("-1")) {
                     System.out.println("Please login first");
@@ -66,7 +64,7 @@ public class ClientGUI extends JFrame implements ActionListener  {
                 XmlRpcClient server = new XmlRpcClient("http://localhost/RPC2"); //
                 Vector args  = new Vector();
                 args.addElement(getHash(message)); // need to work on that!
-                Object result = server.execute("sample.login", args );
+                Object result = server.execute("RecyclingServer.login", args );
 
                 if(result.equals("wrong")) {
                     System.out.println("Sorry, wrong password");
