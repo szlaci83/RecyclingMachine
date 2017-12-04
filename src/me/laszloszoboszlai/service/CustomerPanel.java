@@ -4,6 +4,8 @@ import me.laszloszoboszlai.controller.DepositItemReceiver;
 import me.laszloszoboszlai.controller.DepositItemReceiverInterface;
 import me.laszloszoboszlai.view.PrinterInterface;
 
+import java.io.IOException;
+
 /**
  * Simple view of the recycling machine
  * @author Laszlo Szoboszlai
@@ -30,7 +32,7 @@ public class CustomerPanel {
 	/**
 	 * Prints the receipt for the deposited items.
 	 */
-	public void printReceipt() { 
+	public void printReceipt() throws IOException {
 		receiver.printReceipt();
 	}
 
@@ -40,6 +42,11 @@ public class CustomerPanel {
 	public void printStatus(){
 		receiver.printStatus();
 	}
+
+	public void printCapacity(){
+		receiver.printCapacity();
+	}
+
 
 
 }

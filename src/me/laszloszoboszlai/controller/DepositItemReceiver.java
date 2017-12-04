@@ -4,6 +4,7 @@ import me.laszloszoboszlai.model.*;
 import me.laszloszoboszlai.repository.*;
 import me.laszloszoboszlai.view.PrinterInterface;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,18 +22,10 @@ public class DepositItemReceiver implements DepositItemReceiverInterface{
 	PrinterInterface printer = null;
 	UserRepositoryInterface userRepository = new UserRepository();
 
+
 	public DepositItemReceiver(PrinterInterface printer) {
 		this.printer = printer;
-		//this.intitialise();
 			}
-
-	ItemRepositoryInterface itemRepository = new ItemRepository();
-	Map<String,Integer> depositedItems = new HashMap<>();
-
-
-	private void intitialise(){
-		depositedItems = itemRepository.getItems();
-	}
 
 
 	/**
@@ -58,17 +51,12 @@ public class DepositItemReceiver implements DepositItemReceiverInterface{
 
 
 
-	private void addItem(){
-		
-	}
-
-
 	/**
      * Classifies the inserted item.
 	 * @param slot the number of the slot the item inserted into.
 	 */
 	public String classifyItem(int slot) {
-		DepositItem item = null;
+		Item item = null;
 		if( slot == 1 ) {
 			item = Can.getFromJson();
 		} else if( slot == 2 ) { 
@@ -93,24 +81,46 @@ public class DepositItemReceiver implements DepositItemReceiverInterface{
 	 * @return true is the machine is full false otherwise.
 	 */
 	public String printStatus(){
-		String neg = "";
-		if ((theReceiptBasis == null) || (! theReceiptBasis.isFull())  ) {
-			neg = "not ";
+		String statusString = "Status: \n";
+		if (theReceiptBasis == null){
+			return statusString;
 		}
-		String msg = "The machine is " + neg + "full.";
-		printer.print(msg);
-		return msg;
+		Map<String, Long>  status = theReceiptBasis.getStatus();
+		for (String itemName : status.keySet()){
+			statusString += itemName + ":" + status.get(itemName) + "\n";
+		}
+		printer.print(statusString);
+		return statusString;
 	}
+
+	/**
+	 * Prints if the machine full or not.
+	 * @return true is the machine is full false otherwise.
+	 */
+	public String printCapacity(){
+		String capacityString = "Capacity: \n";
+		if (theReceiptBasis == null){
+			return capacityString;
+		}
+		Map<String, Long>  status = theReceiptBasis.getCapacity();
+		for (String itemName : status.keySet()){
+			capacityString += itemName + ":" + status.get(itemName) + "\n";
+		}
+		printer.print(capacityString);
+		return capacityString;
+	}
+
 
 	/**
 	 * Computes the sum, and uses the printer to print out the result, and clears the receiptbasis.
 	 */
-	public String printReceipt() {
+	public String printReceipt() throws IOException {
 		String result = null;
 	    if (theReceiptBasis != null){
 		String str = theReceiptBasis.computeSum();
 		printer.print(str);
-	    result = str;}
+	    result = str;
+	    }
 		theReceiptBasis = null;
 	    return result;
 	}

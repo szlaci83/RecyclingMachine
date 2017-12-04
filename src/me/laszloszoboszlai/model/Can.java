@@ -11,7 +11,7 @@ import java.io.Reader;
  * Domain class representing a recyclable can
  * @author Laszlo Szoboszlai
  */
-public class Can extends DepositItem {
+public class Can extends Item {
 	static int weight = 4; 
 	static int size = 5; 
 	/**

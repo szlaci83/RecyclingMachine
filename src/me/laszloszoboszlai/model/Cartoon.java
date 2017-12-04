@@ -11,7 +11,7 @@ import java.io.Reader;
  * Domain class representing a recyclable cartoon
  * @author Laszlo Szoboszlai
  */
-public class Cartoon extends DepositItem {
+public class Cartoon extends Item {
 	static int weight = 20;
 	static int size = 16;
 	/**

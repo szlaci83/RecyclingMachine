@@ -1,6 +1,9 @@
 package me.laszloszoboszlai.repository;
 import me.laszloszoboszlai.model.*;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 
 /**
@@ -12,21 +15,22 @@ import java.util.Vector;
  *
  */
 public class ReceiptBasis implements ReceiptBasisInterface {
-	private int capacity;
+	private Map<String, Long> capacity;
+	private ItemRepositoryInterface itemRepository = new ItemRepository();
+	private HashMap<String, Item> existingItems;
 
 	public ReceiptBasis(){
-		this.capacity = 500;
+		this.capacity = itemRepository.loadCapacity();
+		this.existingItems = itemRepository.loadItems();
 	}
 
-	public ReceiptBasis(int capacity){
-		this.capacity = capacity;
-	}
+	private Map<String, Item> Items = new HashMap<>();
 
-	private Vector<DepositItem> myItems = new Vector<DepositItem>();
+
 	/**
 	 * @param item an item that has been inserted into the machine (such as can, bottle, crate).
 	 */
-	public void addItem(DepositItem item) {
+	public void addItem(Item item) {
 		int size = 0;
 		if (item instanceof Bottle){
 			size = Bottle.getSize();
@@ -40,33 +44,90 @@ public class ReceiptBasis implements ReceiptBasisInterface {
 		if (item instanceof Cartoon){
 			size = Cartoon.getSize();
 		}
-		if (! (capacity - size < 0)) {
-			myItems.add(item);
-			item.number = myItems.indexOf(item);
-			capacity -= size;
+		if (! isFull(item.getName())) {
+			if (Items.containsKey(item.getName())){
+				Item i = Items.get(item.getName());
+				long temp = i.getCount();
+				i.setCount(++ temp);
+				Items.put(item.getName(), i);
+			}
+			else {
+				item.setCount(1L);
+				Items.put(item.getName(), item);
+			}
+			//myItems.add(item);
+			item.number = Items.size();
 		}
 
 	}
+
+
+	public void recordDeposit() throws IOException {
+		itemRepository.saveItems(depositItems());
+	}
+
+	private Map depositItems() {
+		//System.out.println(existingItems);
+		Map<String, Item> addedItems = new HashMap<>();
+
+		for (String newItem : Items.keySet() ){
+			Item temp = Items.get(newItem);
+			if (existingItems.containsKey(newItem)){
+				Long updatedCount = Items.get(newItem).getCount() + existingItems.get(newItem).getCount();
+				temp.setCount(updatedCount);
+				existingItems.remove(newItem);
+			}
+			addedItems.put(newItem, temp);
+		}
+
+		for (String oldItem : existingItems.keySet()){
+			addedItems.put(oldItem, existingItems.get(oldItem));
+		}
+
+		return addedItems;
+	}
+
 
 	/**
 	 * Calculates a summary based on the items inserted.
 	 * @return the overall value of the items inserted by the customer.
 	 */
-	public String computeSum() {
+	public String computeSum() throws IOException {
 		String receipt = "";
-		int sum = 0;
-		for(int i=0; i < myItems.size(); i++ ) {
-			DepositItem item = myItems.get(i);
-			receipt = receipt + item.number +": "+item.value +" ("+item.getName()+")";
-			receipt = receipt + System.getProperty("line.separator");
-			sum = sum + item.value;
+		long sum = 0;
+		for (String item : Items.keySet() ){
+			Item i = Items.get(item);
+			long summa = i.value * i.getCount();
+			receipt += i.getCount() +": £"+ summa +" ("+i.getName()+")";
+    		receipt += System.getProperty("line.separator");
+			sum = sum + summa;
 		}
-		receipt = receipt + "Total: "+sum;
+		receipt = receipt + "Total: £"+sum;
+		recordDeposit();
 		return receipt;
 	}
 
+
+
 	@Override
-	public boolean isFull() {
-		return capacity <= 20;
+	public boolean isFull(String itemName) {
+		if (!existingItems.keySet().contains(itemName)){
+			return false;
+		}
+			 return (existingItems.get(itemName).getCount() >= capacity.get(itemName));
 	}
+
+	public Map<String, Long> getStatus(){
+		Map <String, Long> status = new HashMap<>() ;
+		for (String itemName : existingItems.keySet()){
+			status.put(itemName, existingItems.get(itemName).getCount());
+		}
+		return status;
+	}
+
+	public Map<String, Long> getCapacity(){
+		return capacity;
+	}
+
+
 }

@@ -1,6 +1,8 @@
 package me.laszloszoboszlai.repository;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -8,6 +10,7 @@ import java.util.Map;
  * @author Laszlo Szoboszlai
  */
 public interface ItemRepositoryInterface {
-    public void setItems(Map items) throws IOException;
-    public Map getItems();
+    public void saveItems(Map items) throws IOException;
+    public HashMap loadItems();
+    public HashMap loadCapacity();
 }

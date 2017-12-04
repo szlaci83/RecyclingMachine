@@ -11,7 +11,7 @@ import java.io.Reader;
  * Domain class representing a recyclable crate
  * @author Laszlo Szoboszlai
  */
-public class Crate extends DepositItem {
+public class Crate extends Item {
 	static int weight = 1516;
 	static int size = 90;
 

@@ -12,10 +12,9 @@ import java.io.Reader;
  * @author Laszlo Szoboszlai
  *
  */
-public class Bottle extends DepositItem {
+public class Bottle extends Item {
 	static int weight = 10; 
 	static int size = 8;
-
 	/**
 	 * Method to instantiate the Bottle objects from a .json file
 	 * @return instance of the Bottle object

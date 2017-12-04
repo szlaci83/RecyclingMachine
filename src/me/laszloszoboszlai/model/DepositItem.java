@@ -8,6 +8,19 @@ public abstract class DepositItem {
 	public int number;
 	public int value;
 
+	public DepositItem(){
+	}
+
+	public long getCount() {
+		return count;
+	}
+
+	public void setCount(long count) {
+		this.count = count;
+	}
+
+	private long count;
+
 	public String getName(){
 		return this.getClass().getSimpleName();
 	}

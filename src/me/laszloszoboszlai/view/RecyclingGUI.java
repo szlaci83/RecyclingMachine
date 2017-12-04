@@ -5,7 +5,9 @@ import me.laszloszoboszlai.service.CustomerPanel;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-    /**
+import java.io.IOException;
+
+/**
      * A Simple Graphical User Interface for the Recycling Machine.
      * @author Laszlo Szoboszlai
      *
@@ -32,7 +34,11 @@ import java.awt.event.ActionListener;
                     myCustomerPanel.printStatus();
                     break;
                 case "Receipt":
-                    myCustomerPanel.printReceipt();
+                    try {
+                        myCustomerPanel.printReceipt();
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
 
             }
         }
