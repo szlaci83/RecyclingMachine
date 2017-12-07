@@ -10,7 +10,8 @@ import java.util.Map;
  * @author Laszlo Szoboszlai
  */
 public interface ItemRepositoryInterface {
-    public void saveItems(Map items) throws IOException;
+    public void saveItems(Map items, String name) throws IOException;
     public HashMap loadItems();
     public HashMap loadCapacity();
+    public void recordUsage(Map items) throws IOException;
 }

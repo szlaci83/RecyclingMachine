@@ -7,4 +7,5 @@ public interface DepositItemReceiverInterface {
     String printStatus();
     String printCapacity();
     String printReceipt() throws IOException;
+    String emptySlot(int slot)throws IOException;
 }

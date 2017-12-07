@@ -18,9 +18,9 @@ public class GsonWriter {
 
         HashMap<String, Long> items = new HashMap<>();
         items.put("Bottle", 500L);
-        items.put("Crete", 500L);
+        items.put("Crate", 500L);
         items.put("Can", 500L);
-        items.put("Cartoon", 500L);
+        items.put("Carton", 500L);
 
             Gson gson = new GsonBuilder().create();
             Writer writer = new FileWriter(CAPACITY_PATH);

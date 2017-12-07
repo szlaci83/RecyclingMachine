@@ -9,23 +9,23 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 /**
-     * A Simple Graphical User Interface for the Recycling Machine.
-     * @author Laszlo Szoboszlai
-     *
-     */
-    public class RecyclingGUI extends JFrame implements ActionListener  {
+ * A Simple Graphical User Interface for the Recycling Machine maintanance.
+ * @author Laszlo Szoboszlai
+ *
+ */
+public class StatusGUI extends JFrame implements ActionListener{
 
-    private static String PATH = "/me/laszloszoboszlai/img/";
+        private static String PATH = "/me/laszloszoboszlai/img/";
 
-    private JLabel lblImageplaceholder = new JLabel("");
-    private Image img = new ImageIcon(this.getClass().getResource(PATH + "recycle.png")).getImage();
+        private JLabel lblImageplaceholder = new JLabel("");
+        private Image img = new ImageIcon(this.getClass().getResource(PATH + "maintanance.png")).getImage();
 
-    private Image canImg = new ImageIcon(this.getClass().getResource(PATH + "can.png")).getImage();
-    private Image statusImg = new ImageIcon(this.getClass().getResource(PATH + "status.png")).getImage();
-    private Image receiptImg = new ImageIcon(this.getClass().getResource(PATH + "receipt.png")).getImage();
-    private Image bottleImg = new ImageIcon(this.getClass().getResource(PATH + "bottle.jpg")).getImage();
-    private Image cartonImg = new ImageIcon(this.getClass().getResource(PATH + "carton.png")).getImage();
-    private Image crateImg = new ImageIcon(this.getClass().getResource(PATH + "crate.png")).getImage();
+        private Image canImg = new ImageIcon(this.getClass().getResource(PATH + "can.png")).getImage();
+        private Image statusImg = new ImageIcon(this.getClass().getResource(PATH + "status.png")).getImage();
+        private Image receiptImg = new ImageIcon(this.getClass().getResource(PATH + "receipt.png")).getImage();
+        private Image bottleImg = new ImageIcon(this.getClass().getResource(PATH + "bottle.jpg")).getImage();
+        private Image cartonImg = new ImageIcon(this.getClass().getResource(PATH + "carton.png")).getImage();
+        private Image crateImg = new ImageIcon(this.getClass().getResource(PATH + "crate.png")).getImage();
 
         CustomerPanel myCustomerPanel;
 
@@ -33,16 +33,32 @@ import java.io.IOException;
             String buttonName = e.getActionCommand();
             switch (buttonName){
                 case "Bottle" :
-                    myCustomerPanel.itemReceived(2);
+                    try {
+                        myCustomerPanel.emptySlot(2);
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
                     break;
                 case "Can" :
-                    myCustomerPanel.itemReceived(1);
+                    try {
+                        myCustomerPanel.emptySlot(1);
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
                     break;
                 case "Crate" :
-                    myCustomerPanel.itemReceived(3);
+                    try {
+                        myCustomerPanel.emptySlot(3);
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
                     break;
                 case "Carton" :
-                    myCustomerPanel.itemReceived(4);
+                    try {
+                        myCustomerPanel.emptySlot(4);
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
                     break;
                 case "Status" :
                     myCustomerPanel.printStatus();
@@ -72,13 +88,13 @@ import java.io.IOException;
             return img.getScaledInstance(50, 80, Image.SCALE_SMOOTH);
         }
 
-        public RecyclingGUI() {
+        public StatusGUI() {
             this.pack();
             this.setSize(640,800);
             this.setLocationRelativeTo(null);
 
             this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            this.setTitle("Recycling machine 0.1");
+            this.setTitle("Maintanance panel");
 
             Image scaledBack = img.getScaledInstance(450, 460, Image.SCALE_SMOOTH);
             lblImageplaceholder.setBounds(100, 0, 500, 530);
@@ -134,7 +150,7 @@ import java.io.IOException;
         }
 
         public static void main(String [] args ) {
-            RecyclingGUI myGUI = new RecyclingGUI();
+            me.laszloszoboszlai.view.StatusGUI myGUI = new me.laszloszoboszlai.view.StatusGUI();
             myGUI.setVisible(true);
         }
-    }
+}

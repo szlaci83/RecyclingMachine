@@ -30,4 +30,6 @@ public interface ReceiptBasisInterface {
 
     public Map<String, Long> getCapacity();
 
+    public void emptySlot(String slot) throws IOException;
+
 }

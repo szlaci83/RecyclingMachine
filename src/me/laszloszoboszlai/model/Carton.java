@@ -11,33 +11,33 @@ import java.io.Reader;
  * Domain class representing a recyclable cartoon
  * @author Laszlo Szoboszlai
  */
-public class Cartoon extends Item {
+public class Carton extends Item {
 	static int weight = 20;
 	static int size = 16;
 	/**
 	 * Creates a cartoon with value 28
 	 */
-	public Cartoon() {
+	public Carton() {
 		value = 28;
 	}
 
 	/**
-	 * Method to instantiate the Cartoon objects from a .json file
-	 * @return instance of the Cartoon object
+	 * Method to instantiate the Carton objects from a .json file
+	 * @return instance of the Carton object
 	 */
-	public static Cartoon getFromJson() {
-		Cartoon cartoon = null;
-		try (Reader reader = new InputStreamReader(Cartoon.class.getResourceAsStream("Cartoon.json"), "UTF-8")) {
+	public static Carton getFromJson() {
+		Carton carton = null;
+		try (Reader reader = new InputStreamReader(Carton.class.getResourceAsStream("Carton.json"), "UTF-8")) {
 			Gson gson = new GsonBuilder().create();
-			cartoon =  gson.fromJson(reader, Cartoon.class);
+			carton =  gson.fromJson(reader, Carton.class);
 		} catch (IOException e) {
 			System.out.print(e);
 		}
-		return cartoon;
+		return carton;
 	}
 
 
-	public Cartoon(int value) {
+	public Carton(int value) {
 		this.value = value;
 	}
 

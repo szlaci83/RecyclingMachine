@@ -48,4 +48,6 @@ public class Bottle extends Item {
     public static int getWeight(){
         return weight;
     }
+
+
 }

@@ -3,9 +3,9 @@ package me.laszloszoboszlai.controller;
 import me.laszloszoboszlai.model.*;
 import me.laszloszoboszlai.repository.*;
 import me.laszloszoboszlai.view.PrinterInterface;
+import org.bson.Document;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -18,13 +18,14 @@ public class DepositItemReceiver implements DepositItemReceiverInterface{
 	// session cookie to identify the individual users
 	String sessioncookie = "notset";
 
-	ReceiptBasisInterface theReceiptBasis = null;
+	ReceiptBasisInterface theReceiptBasis;
 	PrinterInterface printer = null;
 	UserRepositoryInterface userRepository = new UserRepository();
 
 
 	public DepositItemReceiver(PrinterInterface printer) {
 		this.printer = printer;
+		createReceiptBasis();
 			}
 
 
@@ -64,7 +65,7 @@ public class DepositItemReceiver implements DepositItemReceiverInterface{
 		} else if ( slot == 3 ) { 
 			item = Crate.getFromJson();
 		} else if ( slot == 4 ) {
-			item = Cartoon.getFromJson();
+			item = Carton.getFromJson();
 		}
 
 		if( theReceiptBasis == null ) { 
@@ -99,6 +100,7 @@ public class DepositItemReceiver implements DepositItemReceiverInterface{
 	 */
 	public String printCapacity(){
 		String capacityString = "Capacity: \n";
+
 		if (theReceiptBasis == null){
 			return capacityString;
 		}
@@ -124,4 +126,18 @@ public class DepositItemReceiver implements DepositItemReceiverInterface{
 		theReceiptBasis = null;
 	    return result;
 	}
+	public String emptySlot(int slot) throws IOException {
+		Item item = null;
+		if( slot == 1 ) {
+			theReceiptBasis.emptySlot("Can");
+		} else if( slot == 2 ) {
+			theReceiptBasis.emptySlot("Bottle");
+		} else if ( slot == 3 ) {
+			theReceiptBasis.emptySlot("Crate");
+		} else if ( slot == 4 ) {
+			theReceiptBasis.emptySlot("Carton");
+		}
+		return "Slot" + slot + "emptied.";
+	}
+
 }

@@ -4,7 +4,6 @@ import me.laszloszoboszlai.model.*;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Vector;
 
 /**
  * This is where the data lives, i.e. cans, bottles and crates are recorded
@@ -22,6 +21,8 @@ public class ReceiptBasis implements ReceiptBasisInterface {
 	public ReceiptBasis(){
 		this.capacity = itemRepository.loadCapacity();
 		this.existingItems = itemRepository.loadItems();
+		//System.out.println(capacity);
+		//System.out.println(existingItems);
 	}
 
 	private Map<String, Item> Items = new HashMap<>();
@@ -41,8 +42,8 @@ public class ReceiptBasis implements ReceiptBasisInterface {
 		if (item instanceof Crate){
 			size = Crate.getSize();
 		}
-		if (item instanceof Cartoon){
-			size = Cartoon.getSize();
+		if (item instanceof Carton){
+			size = Carton.getSize();
 		}
 		if (! isFull(item.getName())) {
 			if (Items.containsKey(item.getName())){
@@ -63,8 +64,17 @@ public class ReceiptBasis implements ReceiptBasisInterface {
 
 
 	public void recordDeposit() throws IOException {
-		itemRepository.saveItems(depositItems());
+		itemRepository.saveItems(depositItems(), "deposited");
 	}
+
+	public void recordCapacity()throws IOException {
+		itemRepository.saveItems(existingItems, "deposited");
+	}
+
+	public void recordUsage()throws IOException {
+		itemRepository.recordUsage(Items);
+	}
+
 
 	private Map depositItems() {
 		//System.out.println(existingItems);
@@ -103,6 +113,7 @@ public class ReceiptBasis implements ReceiptBasisInterface {
 			sum = sum + summa;
 		}
 		receipt = receipt + "Total: £"+sum;
+		recordUsage();
 		recordDeposit();
 		return receipt;
 	}
@@ -129,5 +140,11 @@ public class ReceiptBasis implements ReceiptBasisInterface {
 		return capacity;
 	}
 
-
+	@Override
+	public void emptySlot(String slot) throws IOException {
+		Item itemToBeEmptied = existingItems.get(slot);
+		itemToBeEmptied.setCount(0L);
+		existingItems.put(slot, itemToBeEmptied);
+		recordCapacity();
+	}
 }

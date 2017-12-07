@@ -8,8 +8,11 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="cis69mc1" level="project" />
     <orderEntry type="library" name="cis69mc" level="project" />
     <orderEntry type="library" name="lib" level="project" />
+    <orderEntry type="library" name="lib1" level="project" />
+    <orderEntry type="library" name="mongodb-driver-3.6.0" level="project" />
+    <orderEntry type="library" name="bson-3.6.0" level="project" />
+    <orderEntry type="library" name="mongodb-driver-core-3.6.0" level="project" />
   </component>
 </module>

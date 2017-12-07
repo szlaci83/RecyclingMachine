@@ -23,7 +23,7 @@ public class CustomerPanel {
 	}
 
 	/**
-     * Classifies an item using the receiver.
+     * Classifies an item using the receiver
 	 * @param slot  slot number where the item intserted
 	 */
 	public void itemReceived(int slot) { 
@@ -47,6 +47,7 @@ public class CustomerPanel {
 		receiver.printCapacity();
 	}
 
+	public void emptySlot(int slot) throws IOException { receiver.emptySlot(slot);}
 
 
 }

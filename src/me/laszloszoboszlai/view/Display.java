@@ -17,10 +17,14 @@ public class Display extends JFrame implements PrinterInterface {
      */
     public Display() {
         super();
+        this.setTitle("Display");
+        this.pack();
+        this.setLocation(460, 150);
+
         setSize(200, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         outputWindow = new JTextArea();
-        outputWindow.setForeground(Color.MAGENTA);
+        outputWindow.setForeground(Color.GREEN);
         getContentPane().add(outputWindow);
         setVisible(true);
     }
