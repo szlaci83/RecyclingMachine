@@ -16,6 +16,7 @@ import java.util.Map;
 public class ReceiptBasis implements ReceiptBasisInterface {
 	private Map<String, Long> capacity;
 	private ItemRepositoryInterface itemRepository = new ItemRepository();
+	private UsageRepositoryInterface usageRepository = new UsageRepository();
 	private HashMap<String, Item> existingItems;
 
 	public ReceiptBasis(){
@@ -72,7 +73,7 @@ public class ReceiptBasis implements ReceiptBasisInterface {
 	}
 
 	public void recordUsage()throws IOException {
-		itemRepository.recordUsage(Items);
+		usageRepository.insertOne(Items);
 	}
 
 
