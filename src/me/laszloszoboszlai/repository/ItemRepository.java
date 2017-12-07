@@ -12,8 +12,13 @@ import java.util.Map;
 
 public class ItemRepository implements ItemRepositoryInterface {
 
-    private static final String DEPOSITED_PATH = "/home/laszlo/Projects/RecyclingMachine/deposited.json";
-    private static final String CAPACITY_PATH = "/home/laszlo/Projects/RecyclingMachine/capacity.json";
+    //private static final String DEPOSITED_PATH = "/home/laszlo/Projects/RecyclingMachine/deposited.json";
+    //private static final String CAPACITY_PATH = "/home/laszlo/Projects/RecyclingMachine/capacity.json";
+
+    //WIN settings
+    private static final String DEPOSITED_PATH = "";
+    private static final String CAPACITY_PATH = "";
+
     private static final String MachineID = "1";
 
 
@@ -62,6 +67,4 @@ public class ItemRepository implements ItemRepositoryInterface {
         }
         return items;
     }
-
-
 }

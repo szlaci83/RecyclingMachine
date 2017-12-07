@@ -44,9 +44,9 @@ import java.io.IOException;
                 case "Carton" :
                     myCustomerPanel.itemReceived(4);
                     break;
-                case "Status" :
-                    myCustomerPanel.printStatus();
-                    break;
+                //case "Status" :
+                    //myCustomerPanel.printStatus();
+                  //  break;
                 case "Receipt":
                     try {
                         myCustomerPanel.printReceipt();
@@ -122,8 +122,15 @@ import java.io.IOException;
             bottle.addActionListener(this);
             crate.addActionListener(this);
             carton.addActionListener(this);
-            status.addActionListener(this);
+
             receipt.addActionListener(this);
+
+            status.addActionListener(ae -> {
+                this.hide();
+                JFrame login = new LoginGUI();
+                login.setVisible(true);
+
+            });
 
             getContentPane().add(panel);
             panel.repaint();

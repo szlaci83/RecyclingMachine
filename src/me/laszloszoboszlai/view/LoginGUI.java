@@ -1,11 +1,7 @@
 package me.laszloszoboszlai.view;
-import me.laszloszoboszlai.service.CustomerPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
 
 public class LoginGUI extends JFrame {
     private static String PATH = "/me/laszloszoboszlai/img/";
@@ -15,7 +11,8 @@ public class LoginGUI extends JFrame {
     private JLabel nameLabel = new JLabel("Name:");
     private JTextField userName = new JTextField(30);
     private JLabel passwordLabel = new JLabel("Password:");
-    private JTextField password = new JTextField(30);
+    private JPasswordField password = new JPasswordField(30);
+    private JButton login = new JButton("Login");
 
  public LoginGUI(){
      this.pack();
@@ -28,8 +25,6 @@ public class LoginGUI extends JFrame {
      Image scaledBack = img.getScaledInstance(180, 180, Image.SCALE_SMOOTH);
      lblImageplaceholder.setBounds(120, 0, 300, 200);
      lblImageplaceholder.setIcon(new ImageIcon(scaledBack));
-
-
 
      JPanel panel = new JPanel();
      panel.setLayout(null);
@@ -46,7 +41,11 @@ public class LoginGUI extends JFrame {
      panel.add(userName);
 
      password.setBounds(120,260,160,25);
+     password.setEchoChar('*');
      panel.add(password);
+
+     login.setBounds(300,220,80,40);
+     panel.add(login);
 
      getContentPane().add(panel);
      panel.repaint();

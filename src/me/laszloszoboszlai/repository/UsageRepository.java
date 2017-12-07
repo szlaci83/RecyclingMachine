@@ -40,6 +40,4 @@ public class UsageRepository  implements UsageRepositoryInterface{
         usageCollection.insertOne(new Document().append(date.toString(), items.toString()));
         client.close();
     }
-
-
 }
