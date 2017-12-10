@@ -10,4 +10,6 @@ public interface UsageRepositoryInterface  {
     public Document findAll() throws IOException;
 
     public void insertOne(Map map) throws IOException;
+
+    public void closeConnection();
 }

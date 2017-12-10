@@ -25,5 +25,11 @@ public abstract class DepositItem {
 		return this.getClass().getSimpleName();
 	}
 
+	public void setNumber(int number) {
+		this.number = number;
+	}
 
+	public void setValue(int value) {
+		this.value = value;
+	}
 }

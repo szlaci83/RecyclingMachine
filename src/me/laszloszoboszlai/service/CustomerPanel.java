@@ -49,5 +49,9 @@ public class CustomerPanel {
 
 	public void emptySlot(int slot) throws IOException { receiver.emptySlot(slot);}
 
+	public void closeConnection(){
+		receiver.closeConnection();
+	}
+
 
 }

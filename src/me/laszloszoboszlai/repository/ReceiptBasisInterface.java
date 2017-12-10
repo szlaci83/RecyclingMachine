@@ -32,4 +32,7 @@ public interface ReceiptBasisInterface {
 
     public void emptySlot(String slot) throws IOException;
 
+    public void closeConnection();
+
+    void changeItemValue(String name, int value);
 }

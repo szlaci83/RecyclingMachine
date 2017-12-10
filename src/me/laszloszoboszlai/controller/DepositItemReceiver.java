@@ -16,32 +16,16 @@ import java.util.Map;
 public class DepositItemReceiver implements DepositItemReceiverInterface{
 
 	// session cookie to identify the individual users
-	String sessioncookie = "notset";
+	//String sessioncookie = "notset";
 
-	ReceiptBasisInterface theReceiptBasis;
-	PrinterInterface printer = null;
-	UserRepositoryInterface userRepository = new UserRepository();
-
+	private ReceiptBasisInterface theReceiptBasis;
+	private PrinterInterface printer = null;
 
 	public DepositItemReceiver(PrinterInterface printer) {
 		this.printer = printer;
 		createReceiptBasis();
-			}
-
-
-	/**
-	 * Method to log users in, users first need to login in order to use the system.
-	 * @param passwd the password of the user
-	 * @return returns the sessioncookie if the login was success "wrong" otherwise
-	 */
-	public String login(String passwd){
-		if( passwd.equals(userRepository.getUserByName("password"))){
-			sessioncookie = "Random"+Math.random();
-			return sessioncookie;
-		} else {
-			return "wrong";
-		}
 	}
+
 
 	/**
 	 * Creates a single instance of the receipt basis.
@@ -112,6 +96,12 @@ public class DepositItemReceiver implements DepositItemReceiverInterface{
 		return capacityString;
 	}
 
+	public String closeConnection(){
+		if (theReceiptBasis != null) {
+			theReceiptBasis.closeConnection();
+		}
+		return "Connection closed.";
+	}
 
 	/**
 	 * Computes the sum, and uses the printer to print out the result, and clears the receiptbasis.
@@ -123,9 +113,11 @@ public class DepositItemReceiver implements DepositItemReceiverInterface{
 		printer.print(str);
 	    result = str;
 	    }
+	    theReceiptBasis.closeConnection();
 		theReceiptBasis = null;
 	    return result;
 	}
+
 	public String emptySlot(int slot) throws IOException {
 		Item item = null;
 		if( slot == 1 ) {
@@ -138,6 +130,10 @@ public class DepositItemReceiver implements DepositItemReceiverInterface{
 			theReceiptBasis.emptySlot("Carton");
 		}
 		return "Slot" + slot + "emptied.";
+	}
+
+	public void changeItemValue(String name, int value){
+		theReceiptBasis.changeItemValue(name, value);
 	}
 
 }

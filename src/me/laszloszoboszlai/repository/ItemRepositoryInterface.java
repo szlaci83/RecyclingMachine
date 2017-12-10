@@ -13,4 +13,6 @@ public interface ItemRepositoryInterface {
     public void saveItems(Map items, String name) throws IOException;
     public HashMap loadItems();
     public HashMap loadCapacity();
+    public void saveCapacity(HashMap<String, Long> capacity);
+    public void changeValue(String name, int newValue);
 }

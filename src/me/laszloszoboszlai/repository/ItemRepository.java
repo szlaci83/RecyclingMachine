@@ -12,12 +12,13 @@ import java.util.Map;
 
 public class ItemRepository implements ItemRepositoryInterface {
 
-    //private static final String DEPOSITED_PATH = "/home/laszlo/Projects/RecyclingMachine/deposited.json";
-    //private static final String CAPACITY_PATH = "/home/laszlo/Projects/RecyclingMachine/capacity.json";
+    private static final String DEPOSITED_PATH = "/home/laszlo/Projects/RecyclingMachine/deposited.json";
+    private static final String CAPACITY_PATH = "/home/laszlo/Projects/RecyclingMachine/capacity.json";
+    private static final String ITEMS_PATH = "/home/laszlo/Projects/RecyclingMachine/src/me/laszloszoboszlai/model/";
 
     //WIN settings
-    private static final String DEPOSITED_PATH = "";
-    private static final String CAPACITY_PATH = "";
+   // private static final String DEPOSITED_PATH = "";
+   // private static final String CAPACITY_PATH = "";
 
     private static final String MachineID = "1";
 
@@ -66,5 +67,39 @@ public class ItemRepository implements ItemRepositoryInterface {
             System.out.println(fnfe);
         }
         return items;
+    }
+
+    @Override
+    public void saveCapacity(HashMap<String, Long> capacity) {
+        Gson gson = new GsonBuilder().create();
+        try {
+            Writer writer = new FileWriter(CAPACITY_PATH);
+            gson.toJson(capacity, writer);
+            writer.close();
+        }catch (IOException exc) {
+            System.out.println(exc);
+        }
+    }
+
+    public void changeValue(String name, int newValue){
+        String path = ITEMS_PATH + name + ".json";
+        HashMap<String, Integer> item = null;
+        Gson gson = new Gson();
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
+            Type type = new TypeToken<HashMap<String, Integer>>(){}.getType();
+            item = gson.fromJson(bufferedReader, type);
+        }catch (FileNotFoundException fnfe) {
+            System.out.println(fnfe);
+        }
+        item.replace("value", newValue);
+        try {
+            Writer writer = new FileWriter(path);
+            gson.toJson(item, writer);
+            writer.close();
+        }catch (IOException exc) {
+            System.out.println(exc);
+        }
+
     }
 }

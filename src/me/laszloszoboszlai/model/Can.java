@@ -48,4 +48,6 @@ public class Can extends Item {
 		return weight;
 	}
 
+
+
 }

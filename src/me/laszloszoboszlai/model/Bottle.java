@@ -24,17 +24,18 @@ public class Bottle extends Item {
 		try (Reader reader = new InputStreamReader(Bottle.class.getResourceAsStream("Bottle.json"), "UTF-8")) {
 			Gson gson = new GsonBuilder().create();
 			bottle =  gson.fromJson(reader, Bottle.class);
+
 		} catch (IOException e) {
 			System.out.print(e);
 		}
-		return new Bottle();
+		return bottle;
 	}
 
 	/**
 	 * Bottle a cartoon with value 18
 	 */
-	public Bottle() { 
-		value = 18; 
+	public Bottle() {
+		value = 18;
 	}
 
 	public Bottle(int value) {
@@ -48,6 +49,7 @@ public class Bottle extends Item {
     public static int getWeight(){
         return weight;
     }
+
 
 
 }

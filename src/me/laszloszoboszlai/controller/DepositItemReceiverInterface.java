@@ -8,4 +8,5 @@ public interface DepositItemReceiverInterface {
     String printCapacity();
     String printReceipt() throws IOException;
     String emptySlot(int slot)throws IOException;
+    String closeConnection();
 }

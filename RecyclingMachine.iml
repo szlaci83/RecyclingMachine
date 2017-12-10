@@ -16,5 +16,7 @@
     <orderEntry type="library" name="mongodb-driver-core-3.6.0" level="project" />
     <orderEntry type="library" name="gson-2.6.2" level="project" />
     <orderEntry type="library" name="mysql-connector-java-5.1.44-bin" level="project" />
+    <orderEntry type="library" name="jcommon-1.0.23" level="project" />
+    <orderEntry type="library" name="jfreechart-1.0.19" level="project" />
   </component>
 </module>

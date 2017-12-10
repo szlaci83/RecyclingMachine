@@ -6,6 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 /**
@@ -26,10 +28,21 @@ import java.io.IOException;
     private Image bottleImg = new ImageIcon(this.getClass().getResource(PATH + "bottle.jpg")).getImage();
     private Image cartonImg = new ImageIcon(this.getClass().getResource(PATH + "carton.png")).getImage();
     private Image crateImg = new ImageIcon(this.getClass().getResource(PATH + "crate.png")).getImage();
+    private CustomerPanel myCustomerPanel;
 
-        CustomerPanel myCustomerPanel;
 
-        public void actionPerformed(ActionEvent e) {
+
+    JButton bottle = new JButton("Bottle");
+    JButton can = new JButton("Can");
+
+    JButton crate = new JButton("Crate");
+    JButton carton = new JButton("Carton");
+
+    JButton status = new JButton("Status");
+    JButton receipt = new JButton("Receipt");
+
+
+    public void actionPerformed(ActionEvent e) {
             String buttonName = e.getActionCommand();
             switch (buttonName){
                 case "Bottle" :
@@ -57,20 +70,9 @@ import java.io.IOException;
             }
         }
 
-
-        JButton bottle = new JButton("Bottle");
-        JButton can = new JButton("Can");
-
-        JButton crate = new JButton("Crate");
-        JButton carton = new JButton("Carton");
-
-        JButton status = new JButton("Status");
-        JButton receipt = new JButton("Receipt");
-
-
         private Image scaleDown(Image img){
-            return img.getScaledInstance(50, 80, Image.SCALE_SMOOTH);
-        }
+        return img.getScaledInstance(50, 80, Image.SCALE_SMOOTH);
+    }
 
         public RecyclingGUI() {
             this.pack();
@@ -127,10 +129,11 @@ import java.io.IOException;
 
             status.addActionListener(ae -> {
                 this.hide();
-                JFrame login = new LoginGUI();
+                JFrame login = new LoginGUI(this);
                 login.setVisible(true);
 
             });
+
 
             getContentPane().add(panel);
             panel.repaint();
@@ -138,9 +141,20 @@ import java.io.IOException;
             myCustomerPanel
                     = new CustomerPanel(new Display());
 
+            this.addWindowListener(new WindowAdapter()
+            {
+                public void windowClosing(WindowEvent e)
+                {
+                    myCustomerPanel.closeConnection();
+                }
+            });
         }
+    public CustomerPanel getPanel(){
+        return this.myCustomerPanel;
+    }
 
-        public static void main(String [] args ) {
+
+    public static void main(String [] args ) {
             RecyclingGUI myGUI = new RecyclingGUI();
             myGUI.setVisible(true);
         }

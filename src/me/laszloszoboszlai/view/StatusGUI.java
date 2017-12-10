@@ -31,46 +31,8 @@ public class StatusGUI extends JFrame implements ActionListener{
 
         public void actionPerformed(ActionEvent e) {
             String buttonName = e.getActionCommand();
-            switch (buttonName){
-                case "Bottle" :
-                    try {
-                        myCustomerPanel.emptySlot(2);
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
-                    break;
-                case "Can" :
-                    try {
-                        myCustomerPanel.emptySlot(1);
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
-                    break;
-                case "Crate" :
-                    try {
-                        myCustomerPanel.emptySlot(3);
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
-                    break;
-                case "Carton" :
-                    try {
-                        myCustomerPanel.emptySlot(4);
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
-                    break;
-                case "Status" :
-                    myCustomerPanel.printStatus();
-                    break;
-                case "Receipt":
-                    try {
-                        myCustomerPanel.printReceipt();
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
-
-            }
+            ItemPropertiesGUI propertiesGUI = new ItemPropertiesGUI(myCustomerPanel, buttonName);
+            propertiesGUI.setVisible(true);
         }
 
 
@@ -80,15 +42,15 @@ public class StatusGUI extends JFrame implements ActionListener{
         JButton crate = new JButton("Crate");
         JButton carton = new JButton("Carton");
 
-        JButton status = new JButton("Status");
-        JButton receipt = new JButton("Receipt");
+        //JButton status = new JButton("Status");
+        //JButton receipt = new JButton("Receipt");
 
 
         private Image scaleDown(Image img){
             return img.getScaledInstance(50, 80, Image.SCALE_SMOOTH);
         }
 
-        public StatusGUI() {
+        public StatusGUI(RecyclingGUI caller) {
             this.pack();
             this.setSize(640,800);
             this.setLocationRelativeTo(null);
@@ -125,32 +87,35 @@ public class StatusGUI extends JFrame implements ActionListener{
             carton.setIcon(new ImageIcon(scaleDown(cartonImg)));
             panel.add(carton);
 
-            receipt.setBounds(430, 500, 150, 100);
-            receipt.setIcon(new ImageIcon(scaleDown(receiptImg)));
-            panel.add(receipt);
+          //  receipt.setBounds(430, 500, 150, 100);
+          //  receipt.setIcon(new ImageIcon(scaleDown(receiptImg)));
+          //  panel.add(receipt);
 
 
-            status.setBounds(430, 615, 150, 100);
-            status.setIcon(new ImageIcon(scaleDown(statusImg)));
-            panel.add(status);
+         //   status.setBounds(430, 615, 150, 100);
+         //   status.setIcon(new ImageIcon(scaleDown(statusImg)));
+         //   panel.add(status);
 
             can.addActionListener(this);
             bottle.addActionListener(this);
             crate.addActionListener(this);
             carton.addActionListener(this);
-            status.addActionListener(this);
-            receipt.addActionListener(this);
+      //      status.addActionListener(this);
+//            receipt.addActionListener(this);
 
             getContentPane().add(panel);
             panel.repaint();
 
-            myCustomerPanel
-                    = new CustomerPanel(new Display());
+            if (myCustomerPanel != null) {
+                myCustomerPanel
+                        = caller.getPanel();
+            }
+            else { myCustomerPanel = new CustomerPanel(new Display());
 
-        }
+        }}
 
         public static void main(String [] args ) {
-            me.laszloszoboszlai.view.StatusGUI myGUI = new me.laszloszoboszlai.view.StatusGUI();
+            me.laszloszoboszlai.view.StatusGUI myGUI = new me.laszloszoboszlai.view.StatusGUI(null);
             myGUI.setVisible(true);
         }
 }

@@ -19,28 +19,25 @@ public class UserRepository implements UserRepositoryInterface {
      * @return the password of the user
      */
     public String getUserByName(String userName) {
-        String pass = null;
-        Properties prop = new Properties();
-        InputStream input = null;
+        String password = null;
+        Properties users = new Properties();
+        InputStream inputFile = null;
         try {
-
-            input = new FileInputStream("config.properties");
-            // load a properties file
-            prop.load(input);
-            pass =  prop.getProperty("password");
+            inputFile = new FileInputStream("password.properties");
+            users.load(inputFile);
+            password = users.getProperty(userName);
 
         } catch (IOException ex) {
             ex.printStackTrace();
         } finally {
-            if (input != null) {
+            if (inputFile != null) {
                 try {
-                    input.close();
+                    inputFile.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         }
-
-    return pass;
+    return password;
     }
 }

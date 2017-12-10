@@ -10,20 +10,24 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
+import java.util.logging.Level;
 
 public class UsageRepository  implements UsageRepositoryInterface{
 
     private static final String MachineID = "1";
-    private MongoClient connectToMongo(){
-        MongoClient mongoClient = new MongoClient("localhost", 27017);
-        return mongoClient;
+    MongoClient client;
+    MongoDatabase database;
+
+    public UsageRepository(){
+        this.client = new MongoClient("localhost", 27017);
+        this.database = client.getDatabase("recyclingMachine");
+        //Ommit logs
+        java.util.logging.Logger.getLogger("org.mongodb.driver").setLevel(Level.SEVERE);
     }
 
-    public Document findAll() throws IOException {
-        MongoClient client = connectToMongo();
-        MongoDatabase database = client.getDatabase("recyclingMachine");
-        MongoCollection<Document> usageCollection = database.getCollection("usage" + MachineID);
 
+    public Document findAll() throws IOException {
+        MongoCollection<Document> usageCollection = database.getCollection("usage" + MachineID);
         //TODO: modify it to correlate
         Document result = usageCollection.find().first();
         client.close();
@@ -34,10 +38,13 @@ public class UsageRepository  implements UsageRepositoryInterface{
     public void insertOne(Map items) throws IOException {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date date = new Date();
-        MongoClient client = connectToMongo();
         MongoDatabase database = client.getDatabase("recyclingMachine");
         MongoCollection<Document> usageCollection = database.getCollection("usage" + MachineID);
         usageCollection.insertOne(new Document().append(date.toString(), items.toString()));
+        client.close();
+    }
+
+    public void closeConnection(){
         client.close();
     }
 }

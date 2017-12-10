@@ -119,6 +119,14 @@ public class ReceiptBasis implements ReceiptBasisInterface {
 		return receipt;
 	}
 
+	public void closeConnection(){
+		usageRepository.closeConnection();
+	}
+
+	@Override
+	public void changeItemValue(String name, int value) {
+		itemRepository.changeValue(name, value);
+	}
 
 
 	@Override
