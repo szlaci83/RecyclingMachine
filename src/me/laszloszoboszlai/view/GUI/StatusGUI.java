@@ -1,14 +1,13 @@
-package me.laszloszoboszlai.view;
+package me.laszloszoboszlai.view.GUI;
 
 import me.laszloszoboszlai.rmi.RecycleRMI;
-import me.laszloszoboszlai.service.CustomerPanel;
+import me.laszloszoboszlai.view.GUI.ItemPropertiesGUI;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.rmi.Naming;
 import java.rmi.RemoteException;
 
 /**

@@ -1,7 +1,6 @@
-package me.laszloszoboszlai.view;
+package me.laszloszoboszlai.view.GUI;
 
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.demo.BarChartDemo1;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

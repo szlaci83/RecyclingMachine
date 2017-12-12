@@ -1,4 +1,4 @@
-package me.laszloszoboszlai.view;
+package me.laszloszoboszlai.view.GUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

@@ -1,8 +1,9 @@
-package me.laszloszoboszlai.view;
+package me.laszloszoboszlai.view.GUI;
 
 import me.laszloszoboszlai.rmi.RecycleRMI;
 import me.laszloszoboszlai.rmi.RecycleRmiImpl;
 import me.laszloszoboszlai.service.CustomerPanel;
+import me.laszloszoboszlai.view.Display;
 
 import javax.swing.*;
 import java.awt.*;
