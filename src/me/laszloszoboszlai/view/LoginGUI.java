@@ -1,5 +1,7 @@
 package me.laszloszoboszlai.view;
 
+import me.laszloszoboszlai.rmi.RecycleRMI;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,6 +9,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.rmi.Naming;
+import java.rmi.RemoteException;
 
 public class LoginGUI extends JFrame {
     private static String PATH = "/me/laszloszoboszlai/img/";
@@ -19,7 +23,7 @@ public class LoginGUI extends JFrame {
     private JPasswordField password = new JPasswordField(30);
     private JButton login = new JButton("Login");
 
-    public LoginGUI(RecyclingGUI caller){
+    public LoginGUI(RecycleRMI caller){
      this.pack();
      this.setSize(420,340);
      this.setLocationRelativeTo(null);
@@ -55,23 +59,47 @@ public class LoginGUI extends JFrame {
      getContentPane().add(panel);
      panel.repaint();
 
-     this.addWindowListener(new WindowAdapter()
-     {
-         public void windowClosing(WindowEvent e)
-         {
-             caller.setVisible(true);
-         }
-     });
+     //this.addWindowListener(new WindowAdapter()
+//     {
+//         public void windowClosing(WindowEvent e)
+//         {
+//             caller.setVisible(true);
+//         }
+//     });
 
         login.addActionListener(ae -> {
             this.hide();
-            JFrame status = new StatusGUI(caller);
+            JFrame status = null;
+            try {
+                System.out.println(userName.getText());
+                System.out.println(new String(this.password.getPassword()));
+                String result = caller.login(userName.getText(), new String(this.password.getPassword()));
+                if (! result.equals("wrong")){
+                    status = new StatusGUI(caller);
+                }
+                else{
+                    System.out.println(result);
+                }
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
             status.setVisible(true);
         });
 
     }
     public static void main(String [] args ) {
-        LoginGUI myGUI = new LoginGUI(null);
-        myGUI.setVisible(true);
+        LoginGUI myGUI;
+
+        try {
+            RecycleRMI rc
+                    = (RecycleRMI) Naming.lookup("rmi://localhost/RecycleService");
+
+            myGUI = new LoginGUI(rc);
+            myGUI.setVisible(true);
+
+        } catch (Exception exception) {
+            System.err.println("JavaClient: " + exception);
+        }
+
     }
 }

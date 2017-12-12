@@ -5,6 +5,8 @@ import me.laszloszoboszlai.controller.DepositItemReceiverInterface;
 import me.laszloszoboszlai.view.PrinterInterface;
 
 import java.io.IOException;
+import java.rmi.RemoteException;
+import java.util.Map;
 
 /**
  * Simple view of the recycling machine
@@ -18,7 +20,7 @@ public class CustomerPanel {
      */
 	DepositItemReceiverInterface receiver = null;
 
-	public CustomerPanel(PrinterInterface printer) {
+	public CustomerPanel(PrinterInterface printer) throws RemoteException {
 		receiver = new DepositItemReceiver(printer);
 	}
 
@@ -37,10 +39,10 @@ public class CustomerPanel {
 	}
 
 	/**
-	 *  Prints the status of the machine (Full/ not full)
+	 *  Prints the status of the machine
 	 */
-	public void printStatus(){
-		receiver.printStatus();
+	public Map<String, Long> getStatus(){
+		return receiver.getStatus();
 	}
 
 	public void printCapacity(){
@@ -54,4 +56,11 @@ public class CustomerPanel {
 	}
 
 
+	public void changeItemValue(String name, int value) {
+		receiver.changeItemValue(name,value);
+	}
+
+	public int getIemValue(String name){
+		return receiver.getItemValue(name);
+	}
 }

@@ -1,5 +1,7 @@
 package me.laszloszoboszlai.view;
 
+import me.laszloszoboszlai.rmi.RecycleRMI;
+import me.laszloszoboszlai.rmi.RecycleRmiImpl;
 import me.laszloszoboszlai.service.CustomerPanel;
 
 import javax.swing.*;
@@ -9,6 +11,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 /**
      * A Simple Graphical User Interface for the Recycling Machine.
@@ -74,7 +79,7 @@ import java.io.IOException;
         return img.getScaledInstance(50, 80, Image.SCALE_SMOOTH);
     }
 
-        public RecyclingGUI() {
+        public RecyclingGUI() throws RemoteException {
             this.pack();
             this.setSize(640,800);
             this.setLocationRelativeTo(null);
@@ -129,8 +134,8 @@ import java.io.IOException;
 
             status.addActionListener(ae -> {
                 this.hide();
-                JFrame login = new LoginGUI(this);
-                login.setVisible(true);
+              //  JFrame login = new LoginGUI(this);
+             //   login.setVisible(true);
 
             });
 
@@ -154,8 +159,20 @@ import java.io.IOException;
     }
 
 
-    public static void main(String [] args ) {
+    public static void main(String [] args ) throws RemoteException {
             RecyclingGUI myGUI = new RecyclingGUI();
             myGUI.setVisible(true);
+
+        // Starting up the RMI service:
+        try {
+            RecycleRmiImpl recycleImpl = new RecycleRmiImpl();
+            recycleImpl.setPanel(myGUI.myCustomerPanel);
+
+            Registry reg = LocateRegistry.createRegistry(1099);
+            reg.rebind("RecycleService", (RecycleRMI) recycleImpl);
+            System.out.println("Starting Recycling Service. Welcome to RMI!");
+        } catch (Exception e) {
+            System.out.println("Trouble: " + e);
+        }
         }
     }

@@ -1,8 +1,9 @@
 package me.laszloszoboszlai.view;
 
-import me.laszloszoboszlai.service.CustomerPanel;
+import me.laszloszoboszlai.rmi.RecycleRMI;
 
 import javax.swing.*;
+import java.io.IOException;
 
 public class ItemPropertiesGUI extends JFrame{
     private JButton empty = new JButton("Empty");
@@ -16,11 +17,14 @@ public class ItemPropertiesGUI extends JFrame{
     private JLabel value = new JLabel();
     private JLabel deposited = new JLabel();
 
-    public ItemPropertiesGUI(CustomerPanel customerPanel, String name){
-        if (customerPanel == null) {
-            customerPanel = new CustomerPanel(new Display());
-        }
+    private Long statues;
 
+    public ItemPropertiesGUI(RecycleRMI rmi, String name) throws IOException {
+//        if (customerPanel == null) {
+//            customerPanel = new CustomerPanel(new Display());
+//        }
+
+        this.statues = rmi.getStatus().get(name);
         this.pack();
         this.setSize(420,340);
         this.setLocationRelativeTo(null);
@@ -32,7 +36,8 @@ public class ItemPropertiesGUI extends JFrame{
         depositedLabel.setBounds(20, 20, 120, 80);
         panel.add(depositedLabel);
 
-        deposited.setText("55");
+        deposited.setText(statues.toString());
+        System.out.println(statues.toString());
         deposited.setBounds(20, 40, 120, 80);
         panel.add(deposited);
         empty.setBounds(20, 120, 120, 80);
@@ -44,7 +49,8 @@ public class ItemPropertiesGUI extends JFrame{
 
         up.setBounds(180, 60, 45,45);
         panel.add(up);
-        value.setText("12");
+        int rs = rmi.getItemValue(name);
+        value.setText(String.valueOf(rs));
         value.setBounds(180, 140, 45,45);
         panel.add(value);
         down.setBounds(180, 220, 45,45);
@@ -59,7 +65,7 @@ public class ItemPropertiesGUI extends JFrame{
         panel.repaint();
     }
     public static void main(String [] args ) {
-        ItemPropertiesGUI myGUI = new ItemPropertiesGUI(null, null);
-        myGUI.setVisible(true);
+      //  ItemPropertiesGUI myGUI = new ItemPropertiesGUI(null, null);
+      //  myGUI.setVisible(true);
     }
 }

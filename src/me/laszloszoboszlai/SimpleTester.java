@@ -18,7 +18,7 @@ public class SimpleTester {
 
 		//PrinterInterface printer = new ReceiptPrinter();
 		CustomerPanel myPanel = new CustomerPanel(new Display());
-		myPanel.printStatus();
+		myPanel.getStatus();
 		myPanel.itemReceived(1);
 		myPanel.itemReceived(4);
 		myPanel.itemReceived(3);
@@ -29,10 +29,10 @@ public class SimpleTester {
 		myPanel.itemReceived(3);
 		myPanel.itemReceived(2);
 		myPanel.itemReceived(2);
-		myPanel.printStatus();
+		myPanel.getStatus();
 		myPanel.printCapacity();
 		myPanel.emptySlot(2);
-		myPanel.printStatus();
+		myPanel.getStatus();
 		//myPanel.printReceipt();
 	}
 }

@@ -21,4 +21,9 @@ public class LoginPanel {
             return "wrong";
         }
     }
+
+    public boolean isLoggedIn(){
+       // return sessioncookie.equals("notset") ? false : true;
+        return false;
+    }
 }

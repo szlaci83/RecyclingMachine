@@ -4,9 +4,11 @@ import me.laszloszoboszlai.controller.DepositItemReceiver;
 import me.laszloszoboszlai.controller.DepositItemReceiverInterface;
 import org.apache.xmlrpc.*;
 
+import java.rmi.RemoteException;
+
 public class Server {
 
-    public static void main (String [] args) {
+    public static void main (String [] args) throws RemoteException {
         DepositItemReceiverInterface depositItemReceiver = new DepositItemReceiver(new ReceiptPrinter());
 
 

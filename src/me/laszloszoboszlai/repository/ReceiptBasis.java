@@ -128,6 +128,11 @@ public class ReceiptBasis implements ReceiptBasisInterface {
 		itemRepository.changeValue(name, value);
 	}
 
+	@Override
+	public int getItemValue(String name) {
+		return ((Item) itemRepository.loadItems().get(name)).getValue();
+	}
+
 
 	@Override
 	public boolean isFull(String itemName) {

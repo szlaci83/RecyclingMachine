@@ -35,4 +35,6 @@ public interface ReceiptBasisInterface {
     public void closeConnection();
 
     void changeItemValue(String name, int value);
+
+    public int getItemValue(String name);
 }

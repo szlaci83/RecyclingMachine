@@ -1,5 +1,6 @@
 package me.laszloszoboszlai.view;
 
+import me.laszloszoboszlai.rmi.RecycleRMI;
 import me.laszloszoboszlai.service.CustomerPanel;
 
 import javax.swing.*;
@@ -7,6 +8,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.rmi.Naming;
+import java.rmi.RemoteException;
 
 /**
  * A Simple Graphical User Interface for the Recycling Machine maintanance.
@@ -27,11 +30,17 @@ public class StatusGUI extends JFrame implements ActionListener{
         private Image cartonImg = new ImageIcon(this.getClass().getResource(PATH + "carton.png")).getImage();
         private Image crateImg = new ImageIcon(this.getClass().getResource(PATH + "crate.png")).getImage();
 
-        CustomerPanel myCustomerPanel;
+        //CustomerPanel myCustomerPanel;
+        RecycleRMI rmi;
 
         public void actionPerformed(ActionEvent e) {
             String buttonName = e.getActionCommand();
-            ItemPropertiesGUI propertiesGUI = new ItemPropertiesGUI(myCustomerPanel, buttonName);
+            ItemPropertiesGUI propertiesGUI = null;
+            try {
+                propertiesGUI = new ItemPropertiesGUI(rmi, buttonName);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
             propertiesGUI.setVisible(true);
         }
 
@@ -50,7 +59,8 @@ public class StatusGUI extends JFrame implements ActionListener{
             return img.getScaledInstance(50, 80, Image.SCALE_SMOOTH);
         }
 
-        public StatusGUI(RecyclingGUI caller) {
+        public StatusGUI(RecycleRMI caller) throws RemoteException {
+            rmi = caller;
             this.pack();
             this.setSize(640,800);
             this.setLocationRelativeTo(null);
@@ -106,16 +116,19 @@ public class StatusGUI extends JFrame implements ActionListener{
             getContentPane().add(panel);
             panel.repaint();
 
-            if (myCustomerPanel != null) {
-                myCustomerPanel
-                        = caller.getPanel();
-            }
-            else { myCustomerPanel = new CustomerPanel(new Display());
+//            if (myCustomerPanel != null) {
+//                myCustomerPanel
+//                        = caller.getPanel();
+//            }
+//            else { myCustomerPanel = new CustomerPanel(new Display());
+//
+//        }
 
-        }}
+        }
 
-        public static void main(String [] args ) {
-            me.laszloszoboszlai.view.StatusGUI myGUI = new me.laszloszoboszlai.view.StatusGUI(null);
-            myGUI.setVisible(true);
+        public static void main(String [] args ) throws RemoteException {
+
+            JFrame myGUI = null;
+
         }
 }

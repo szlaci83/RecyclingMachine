@@ -1,13 +1,14 @@
 package me.laszloszoboszlai.controller;
 
 import me.laszloszoboszlai.model.*;
-import me.laszloszoboszlai.repository.*;
+import me.laszloszoboszlai.repository.ReceiptBasis;
+import me.laszloszoboszlai.repository.ReceiptBasisInterface;
 import me.laszloszoboszlai.view.PrinterInterface;
-import org.bson.Document;
 
 import java.io.IOException;
+import java.rmi.RemoteException;
+import java.util.HashMap;
 import java.util.Map;
-
 /**
  * Class to control the logic of receiving, classifying, and printing items.
  * @author Laszlo Szoboszlai
@@ -21,7 +22,7 @@ public class DepositItemReceiver implements DepositItemReceiverInterface{
 	private ReceiptBasisInterface theReceiptBasis;
 	private PrinterInterface printer = null;
 
-	public DepositItemReceiver(PrinterInterface printer) {
+	public DepositItemReceiver(PrinterInterface printer) throws RemoteException {
 		this.printer = printer;
 		createReceiptBasis();
 	}
@@ -65,17 +66,17 @@ public class DepositItemReceiver implements DepositItemReceiverInterface{
 	 * Prints if the machine full or not.
 	 * @return true is the machine is full false otherwise.
 	 */
-	public String printStatus(){
-		String statusString = "Status: \n";
+	public Map<String, Long> getStatus(){
+		//String statusString = "Status: \n";
 		if (theReceiptBasis == null){
-			return statusString;
+			return new HashMap<String, Long>();
 		}
 		Map<String, Long>  status = theReceiptBasis.getStatus();
-		for (String itemName : status.keySet()){
-			statusString += itemName + ":" + status.get(itemName) + "\n";
-		}
-		printer.print(statusString);
-		return statusString;
+	//	for (String itemName : status.keySet()){
+	//		statusString += itemName + ":" + status.get(itemName) + "\n";
+	//	}
+	//	printer.print(statusString);
+		return status;
 	}
 
 	/**
@@ -132,8 +133,13 @@ public class DepositItemReceiver implements DepositItemReceiverInterface{
 		return "Slot" + slot + "emptied.";
 	}
 
-	public void changeItemValue(String name, int value){
+	public String changeItemValue(String name, int value){
 		theReceiptBasis.changeItemValue(name, value);
+		return "Item's value changed";
+	}
+
+	public int getItemValue(String name){
+		return theReceiptBasis.getItemValue(name);
 	}
 
 }
