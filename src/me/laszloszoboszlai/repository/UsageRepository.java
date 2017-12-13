@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 
-public class UsageRepository  implements UsageRepositoryInterface{
+public class UsageRepository{
 
     private static final String MachineID = "1";
     MongoClient client;
@@ -47,7 +47,6 @@ public class UsageRepository  implements UsageRepositoryInterface{
         return findMany(getQuery);
     }
 
-    @Override
     public void insertOne(Map<String, Item> items) throws IOException {
         MongoDatabase database = client.getDatabase("recyclingMachine");
         MongoCollection<Document> usageCollection = database.getCollection("usage" + MachineID);

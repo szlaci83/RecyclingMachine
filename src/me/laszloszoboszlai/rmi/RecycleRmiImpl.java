@@ -6,6 +6,7 @@ import me.laszloszoboszlai.service.LoginPanel;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
 public class RecycleRmiImpl extends UnicastRemoteObject implements RecycleRMI{
@@ -52,7 +53,7 @@ public class RecycleRmiImpl extends UnicastRemoteObject implements RecycleRMI{
     }
 
     @Override
-    public String login(String userName, String password){
+    public String login(String userName, String password) throws NoSuchAlgorithmException {
        return loginPanel.login(userName, password);
     }
 

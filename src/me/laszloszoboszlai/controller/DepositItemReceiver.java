@@ -18,7 +18,7 @@ public class DepositItemReceiver implements DepositItemReceiverInterface{
 	// session cookie to identify the individual users
 	//String sessioncookie = "notset";
 
-	private ReceiptBasisInterface theReceiptBasis;
+	private ReceiptBasis theReceiptBasis;
 	private PrinterInterface printer = null;
 
 	public DepositItemReceiver(PrinterInterface printer) throws RemoteException {

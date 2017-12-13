@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
+import java.security.NoSuchAlgorithmException;
 
 public class LoginGUI extends JFrame {
     private static String PATH = "/me/laszloszoboszlai/img/";
@@ -76,6 +77,8 @@ public class LoginGUI extends JFrame {
                     System.out.println(result);
                 }
             } catch (RemoteException e) {
+                e.printStackTrace();
+            } catch (NoSuchAlgorithmException e) {
                 e.printStackTrace();
             }
             status.setVisible(true);

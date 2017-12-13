@@ -13,10 +13,10 @@ import java.util.Map;
  * @author Laszlo Szoboszlai
  *
  */
-public class ReceiptBasis implements ReceiptBasisInterface {
+public class ReceiptBasis{
 	private Map<String, Long> capacity;
-	private ItemRepositoryInterface itemRepository = new ItemRepository();
-	private UsageRepositoryInterface usageRepository = new UsageRepository();
+	private ItemRepository itemRepository = new ItemRepository();
+	private UsageRepository usageRepository = new UsageRepository();
 	private HashMap<String, Item> existingItems;
 
 	public ReceiptBasis(){
@@ -123,18 +123,15 @@ public class ReceiptBasis implements ReceiptBasisInterface {
 		usageRepository.closeConnection();
 	}
 
-	@Override
 	public void changeItemValue(String name, int value) {
 		itemRepository.changeValue(name, value);
 	}
 
-	@Override
 	public int getItemValue(String name) {
 		return ((Item) itemRepository.loadItems().get(name)).getValue();
 	}
 
 
-	@Override
 	public boolean isFull(String itemName) {
 		if (!existingItems.keySet().contains(itemName)){
 			return false;
@@ -154,7 +151,7 @@ public class ReceiptBasis implements ReceiptBasisInterface {
 		return capacity;
 	}
 
-	@Override
+
 	public void emptySlot(String slot) throws IOException {
 		Item itemToBeEmptied = existingItems.get(slot);
 		itemToBeEmptied.setCount(0L);

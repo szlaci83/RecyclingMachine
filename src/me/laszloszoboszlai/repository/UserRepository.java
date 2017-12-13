@@ -10,9 +10,8 @@ import java.util.Properties;
  * Simple User repository implementation. Stores a single password in a property file.
  * In a fully working system this should be replaced by a database connection.
  */
-public class UserRepository implements UserRepositoryInterface {
+public class UserRepository {
 
-    @Override
     /**
      * Returns the password for the given user
      * @param userName the name of the user we want the password for

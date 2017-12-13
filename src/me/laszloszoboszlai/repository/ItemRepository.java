@@ -10,7 +10,7 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ItemRepository implements ItemRepositoryInterface {
+public class ItemRepository {
 
     private static final String DEPOSITED_PATH = "/home/laszlo/Projects/RecyclingMachine/deposited.json";
     private static final String CAPACITY_PATH = "/home/laszlo/Projects/RecyclingMachine/capacity.json";
@@ -23,7 +23,6 @@ public class ItemRepository implements ItemRepositoryInterface {
     private static final String MachineID = "1";
 
 
-    @Override
     public void saveItems(Map items, String name) throws IOException {
         Writer writer = null;
         if (name.equals("deposited")){
@@ -37,7 +36,6 @@ public class ItemRepository implements ItemRepositoryInterface {
         writer.close();
     }
 
-    @Override
     public HashMap<String, Item> loadItems() {
         HashMap<String, Item> items = null;
         Gson gson = new Gson();
@@ -52,7 +50,6 @@ public class ItemRepository implements ItemRepositoryInterface {
         return items;
     }
 
-    @Override
     public HashMap<String, Long> loadCapacity() {
         HashMap<String, Long> items = null;
         Gson gson = new Gson();
@@ -69,7 +66,6 @@ public class ItemRepository implements ItemRepositoryInterface {
         return items;
     }
 
-    @Override
     public void saveCapacity(HashMap<String, Long> capacity) {
         Gson gson = new GsonBuilder().create();
         try {
