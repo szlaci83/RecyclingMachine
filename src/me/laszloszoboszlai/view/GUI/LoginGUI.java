@@ -27,12 +27,14 @@ public class LoginGUI extends JFrame {
      this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
      this.setTitle("Login");
 
-     Image scaledBack = img.getScaledInstance(180, 180, Image.SCALE_SMOOTH);
-     lblImageplaceholder.setBounds(120, 0, 300, 200);
-     lblImageplaceholder.setIcon(new ImageIcon(scaledBack));
+
 
      JPanel panel = new JPanel();
      panel.setLayout(null);
+
+     Image scaledBack = img.getScaledInstance(180, 180, Image.SCALE_SMOOTH);
+     lblImageplaceholder.setBounds(120, 0, 300, 200);
+     lblImageplaceholder.setIcon(new ImageIcon(scaledBack));
 
      panel.add(lblImageplaceholder);
 

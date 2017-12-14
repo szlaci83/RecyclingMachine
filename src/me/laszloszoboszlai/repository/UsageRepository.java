@@ -17,7 +17,7 @@ import java.util.logging.Level;
 
 public class UsageRepository{
 
-    private static final String MachineID = "2";
+    private static final String MachineID = "1";
     MongoClient client;
     MongoDatabase database;
 

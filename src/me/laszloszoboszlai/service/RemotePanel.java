@@ -10,8 +10,8 @@ import java.util.Date;
 public class RemotePanel {
     private UsageRepository usageRepository = new UsageRepository();
 
-    public ArrayList<Document> getUsage(Date from, Date to) throws IOException {
-        return usageRepository.findBetweenDates(from.getTime(), to.getTime());
+    public ArrayList<Document> getUsage(long from, long to) throws IOException {
+        return usageRepository.findBetweenDates(from, to);
     }
 
 }

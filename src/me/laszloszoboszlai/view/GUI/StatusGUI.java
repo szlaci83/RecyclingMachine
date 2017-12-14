@@ -65,7 +65,7 @@ public class StatusGUI extends JFrame implements ActionListener{
             this.setLocationRelativeTo(null);
 
             this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            this.setTitle("Maintanance panel");
+            this.setTitle("Maintanance remotePanel");
 
             Image scaledBack = img.getScaledInstance(450, 460, Image.SCALE_SMOOTH);
             lblImageplaceholder.setBounds(100, 0, 500, 530);
@@ -98,12 +98,12 @@ public class StatusGUI extends JFrame implements ActionListener{
 
           //  receipt.setBounds(430, 500, 150, 100);
           //  receipt.setIcon(new ImageIcon(scaleDown(receiptImg)));
-          //  panel.add(receipt);
+          //  remotePanel.add(receipt);
 
 
          //   status.setBounds(430, 615, 150, 100);
          //   status.setIcon(new ImageIcon(scaleDown(statusImg)));
-         //   panel.add(status);
+         //   remotePanel.add(status);
 
             can.addActionListener(this);
             bottle.addActionListener(this);
