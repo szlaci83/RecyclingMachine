@@ -1,14 +1,11 @@
 package me.laszloszoboszlai.utils;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import me.laszloszoboszlai.model.Crate;
 
 import java.io.*;
 import java.lang.reflect.Type;
 import java.util.HashMap;
-import java.util.Map;
 
 /* Helper method to write the Model classes to JSON */
 public class GsonWriter {

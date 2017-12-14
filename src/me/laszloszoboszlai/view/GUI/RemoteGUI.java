@@ -1,5 +1,9 @@
 package me.laszloszoboszlai.view.GUI;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import me.laszloszoboszlai.service.RemotePanel;
+import org.bson.Document;
 import org.knowm.xchart.XChartPanel;
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYChartBuilder;
@@ -10,69 +14,83 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
 
 public class RemoteGUI extends JFrame implements ActionListener {
+
+    RemotePanel panel = new RemotePanel();
+
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
     }
 
-    public RemoteGUI(){
-
-        //https://github.com/timmolter/XChart
-        //https://knowm.org/open-source/xchart/xchart-example-code/
-
-        super();
-        final XYChart chart = new XYChartBuilder().width(600).height(400).title("Usage").xAxisTitle("Date").yAxisTitle("count").build();
-
-        // Customize Chart
+    private XYChart getChart(int x, int y, String title, String xTitle, String yTitle) {
+        final XYChart chart = new XYChartBuilder().width(x).height(y).title(title).xAxisTitle(xTitle).yAxisTitle(yTitle).build();
         chart.getStyler().setLegendPosition(Styler.LegendPosition.InsideNE);
         chart.getStyler().setDefaultSeriesRenderStyle(XYSeries.XYSeriesRenderStyle.Area);
+        return chart;
+    }
 
-        List<Date> dates = new ArrayList<Date>();
+    private XYSeries addSeries(XYChart chart, String name, ArrayList<Document> usage){
+        List<Date> xData = new ArrayList<Date>();
         List<Double> yData = new ArrayList<Double>();
+        Gson gson = new Gson();
 
+        for (Document entry : usage){
+            String item = entry.get("items").toString();
+            String[] array = item.split("}");
+            for (String a : array) {
+                if (!a.equals("")) {
+                    a += "}";
+                    Map<String, String> map = gson.fromJson(a, new TypeToken<Map<String, String>>(){}.getType());
+                    if (map.get("name").equals(name)){
+                        xData.add(new Date(Long.parseLong(entry.get("Timestamp").toString())));
+                        yData.add(Double.valueOf(map.get("count")));
+                    }
+                    else {
+                    }
+                }
+            }
+        }
+        return chart.addSeries(name, xData, yData);
+    }
+
+    public RemoteGUI(){
+        super();
         DateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-        Date date = null;
-        for (int i = 1; i <= 10; i++) {
+        Date dateFrom = null;
+        Date dateTo = null;
+        ArrayList<Document> usage = null;
 
-            try {
-                date = sdf.parse(i + ".10.2017");
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            dates.add(date);
-            yData.add(Math.random() * i);
+        try {
+            dateFrom = sdf.parse("10.10.2017");
+            dateTo = sdf.parse("30.12.2017");
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
 
-
-        chart.addSeries("Bottle", dates, yData) ;
-
-
-        List<Date> dates2 = new ArrayList<Date>();
-        List<Double> yData2 = new ArrayList<Double>();
-
-        for (int i = 1; i <= 10; i++) {
-
-            try {
-                date = sdf.parse(i + ".10.2017");
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            dates2.add(date);
-            yData2.add(Math.random() * i);
+        try {
+            usage = panel.getUsage(dateFrom, dateTo);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
+        XYChart chart = getChart(600, 400, "Usage", "Date", "Count");
 
-        chart.addSeries("Can", dates2, yData2) ;
+        XYSeries CanSeries = addSeries(chart, "Can", usage);
+        XYSeries BottleSeries = addSeries(chart, "Bottle", usage);
+        XYSeries CartonSeries = addSeries(chart, "Carton", usage);
+        XYSeries CrateSeries = addSeries(chart, "Crate", usage);
 
-
-        setSize(400, 100);
+        setSize(400, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // chart
         JPanel chartPanel = new XChartPanel<XYChart>(chart);
@@ -91,4 +109,3 @@ public class RemoteGUI extends JFrame implements ActionListener {
         remoteGUI.setVisible(true);
     }
 }
-

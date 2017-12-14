@@ -16,7 +16,7 @@ public class LoginPanel {
      * @return returns the sessioncookie if the login was success "wrong" otherwise
      */
     public String login(String username, String passwd) throws NoSuchAlgorithmException {
-        if( passwd.equals(userRepository.getUserByName(MD5Hasher.getHash(username)))){
+         if( MD5Hasher.getHash(passwd).equals(userRepository.getUserByName(username).toUpperCase())){
             sessioncookie = "Random"+Math.random();
             return sessioncookie;
         } else {

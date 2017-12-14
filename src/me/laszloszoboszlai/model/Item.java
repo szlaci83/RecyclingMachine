@@ -11,7 +11,7 @@ public class Item extends DepositItem{
     @Override
     public String toString() {
         return  //"name : " + this.getName() +
-                "\"count\" : "+ this.getCount() +
-                ", \"value\" : "+ this.value;
+                "\"count\" = "+ this.getCount() +
+                ", \"value\" = "+ this.value;
     }
 }
