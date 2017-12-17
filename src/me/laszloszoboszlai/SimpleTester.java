@@ -30,9 +30,9 @@ public class SimpleTester {
 		myPanel.itemReceived(2);
 		myPanel.itemReceived(2);
 		myPanel.getStatus();
-		myPanel.printCapacity();
+	//	myPanel.printCapacity();
 		myPanel.emptySlot(2);
 		myPanel.getStatus();
-		//myPanel.printReceipt();
+	//	//myPanel.printReceipt();
 	}
 }

@@ -5,7 +5,6 @@ import org.bson.Document;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class RemotePanel {
     private UsageRepository usageRepository = new UsageRepository();
@@ -13,5 +12,4 @@ public class RemotePanel {
     public ArrayList<Document> getUsage(long from, long to) throws IOException {
         return usageRepository.findBetweenDates(from, to);
     }
-
 }

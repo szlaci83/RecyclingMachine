@@ -52,7 +52,6 @@ public class ChartGUI extends JFrame implements ActionListener {
     }
 
     private void getUsage(long from, long to){
-        System.out.println(from);
         try {
             this.usage = remotePanel.getUsage(from, to);
         } catch (IOException e) {

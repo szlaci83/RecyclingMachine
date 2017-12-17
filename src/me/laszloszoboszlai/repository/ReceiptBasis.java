@@ -68,8 +68,12 @@ public class ReceiptBasis{
 		itemRepository.saveItems(depositItems(), "deposited");
 	}
 
-	public void recordCapacity()throws IOException {
+	public void recordExisting()throws IOException {
 		itemRepository.saveItems(existingItems, "deposited");
+	}
+
+	public void recordCapacity()throws IOException {
+		itemRepository.saveItems(capacity, "capacity");
 	}
 
 	public void recordUsage()throws IOException {
@@ -128,6 +132,7 @@ public class ReceiptBasis{
 	}
 
 	public int getItemValue(String name) {
+		System.out.println(itemRepository.loadItems().get(name));
 		return ((Item) itemRepository.loadItems().get(name)).getValue();
 	}
 
@@ -151,11 +156,17 @@ public class ReceiptBasis{
 		return capacity;
 	}
 
+	public void setCapacity(String name, long value) throws IOException {
+		capacity.put(name, value);
+		System.out.println(capacity);
+		recordCapacity();
+	}
+
 
 	public void emptySlot(String slot) throws IOException {
 		Item itemToBeEmptied = existingItems.get(slot);
 		itemToBeEmptied.setCount(0L);
 		existingItems.put(slot, itemToBeEmptied);
-		recordCapacity();
+		recordExisting();
 	}
 }

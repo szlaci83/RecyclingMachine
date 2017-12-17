@@ -6,7 +6,7 @@ import org.apache.xmlrpc.*;
 /**
  * Simple client for the Recycling machine, using RPC calls to call different methods remotely.
  */
-public class Client {
+public class RPC_Client {
     // The ip of the Recycling machine server
     static String HOST = "http://127.0.0.1/RPC2";
 

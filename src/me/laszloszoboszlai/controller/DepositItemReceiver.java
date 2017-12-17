@@ -77,23 +77,15 @@ public class DepositItemReceiver implements DepositItemReceiverInterface{
 	//	printer.print(statusString);
 		return status;
 	}
+//
+//	@Override
+//	public String printCapacity() {
+//		return null;
+//	}
 
-	/**
-	 * Prints if the machine full or not.
-	 * @return true is the machine is full false otherwise.
-	 */
-	public String printCapacity(){
-		String capacityString = "Capacity: \n";
 
-		if (theReceiptBasis == null){
-			return capacityString;
-		}
-		Map<String, Long>  status = theReceiptBasis.getCapacity();
-		for (String itemName : status.keySet()){
-			capacityString += itemName + ":" + status.get(itemName) + "\n";
-		}
-		printer.print(capacityString);
-		return capacityString;
+	public void setCapacity(String name, long value) throws IOException {
+		theReceiptBasis.setCapacity(name, value);
 	}
 
 	public String closeConnection(){
@@ -139,6 +131,11 @@ public class DepositItemReceiver implements DepositItemReceiverInterface{
 
 	public int getItemValue(String name){
 		return theReceiptBasis.getItemValue(name);
+	}
+
+	@Override
+	public Map<String, Long> getCapacity() {
+		return theReceiptBasis.getCapacity();
 	}
 
 }

@@ -6,6 +6,8 @@ import me.laszloszoboszlai.utils.MD5Hasher;
 import java.security.NoSuchAlgorithmException;
 
 public class LoginPanel {
+
+
     // session cookie to identify the individual users
     private String sessioncookie = "notset";
     UserRepository userRepository = new UserRepository();
@@ -25,7 +27,6 @@ public class LoginPanel {
     }
 
     public boolean isLoggedIn(){
-       // return sessioncookie.equals("notset") ? false : true;
-        return false;
+        return !sessioncookie.equals("notset");
     }
 }

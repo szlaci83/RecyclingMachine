@@ -66,4 +66,24 @@ public class RecycleRmiImpl extends UnicastRemoteObject implements RecycleRMI{
     public int getItemValue(String name) throws RemoteException {
         return customerPanel.getIemValue(name);
     }
+
+    @Override
+    public Map<String, Long> getCapacity() throws RemoteException{
+       return customerPanel.getCapacity();
+    }
+
+    @Override
+    public void setCapacity(String name, long capaity) throws IOException {
+        customerPanel.setCapacity(name, capaity);
+    }
+
+    @Override
+    public void classifyItem(int slot) {
+        customerPanel.classifyItem(slot);
+    }
+
+    @Override
+    public void printReceipt() throws IOException {
+        customerPanel.printReceipt();
+    }
 }

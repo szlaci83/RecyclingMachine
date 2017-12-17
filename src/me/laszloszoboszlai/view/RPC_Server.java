@@ -6,14 +6,14 @@ import org.apache.xmlrpc.*;
 
 import java.rmi.RemoteException;
 
-public class Server {
+public class RPC_Server {
 
     public static void main (String [] args) throws RemoteException {
         DepositItemReceiverInterface depositItemReceiver = new DepositItemReceiver(new ReceiptPrinter());
 
 
         try {
-            System.out.println("Starting the Recycling Server...");
+            System.out.println("Starting the Recycling RPC_Server...");
             WebServer server = new WebServer(80);
             server.addHandler("RecyclingServer", depositItemReceiver);
             server.start();

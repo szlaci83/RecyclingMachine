@@ -13,4 +13,8 @@ public interface RecycleRMI extends Remote {
     public String login(String userName, String password) throws RemoteException, NoSuchAlgorithmException;
     public boolean isLoggedIn() throws RemoteException;
     public int getItemValue(String name) throws RemoteException;
+    Map<String, Long> getCapacity()throws IOException;
+    void setCapacity(String name, long capacity) throws IOException;
+    void classifyItem(int itemNumber)throws RemoteException;
+    void printReceipt() throws IOException;
 }

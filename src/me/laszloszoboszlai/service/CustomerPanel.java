@@ -45,10 +45,18 @@ public class CustomerPanel {
 		return receiver.getStatus();
 	}
 
-	public void printCapacity(){
-		receiver.printCapacity();
+//	public void printCapacity(){
+//		receiver.printCapacity();
+//	}
+//
+
+	public Map<String, Long> getCapacity(){
+	 return receiver.getCapacity();
 	}
 
+	public void setCapacity(String name, long value) throws IOException {
+		receiver.setCapacity(name, value);
+	}
 	public void emptySlot(int slot) throws IOException { receiver.emptySlot(slot);}
 
 	public void closeConnection(){
@@ -63,4 +71,11 @@ public class CustomerPanel {
 	public int getIemValue(String name){
 		return receiver.getItemValue(name);
 	}
+
+	public void classifyItem(int slot){
+		receiver.classifyItem(slot);
+	}
+
+
+
 }

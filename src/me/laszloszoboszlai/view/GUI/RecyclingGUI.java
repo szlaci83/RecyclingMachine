@@ -63,9 +63,9 @@ import java.rmi.registry.Registry;
                 case "Carton" :
                     myCustomerPanel.itemReceived(4);
                     break;
-                //case "Status" :
-                    //myCustomerPanel.printStatus();
-                  //  break;
+                case "Status" :
+                    this.setVisible(false);
+
                 case "Receipt":
                     try {
                         myCustomerPanel.printReceipt();
