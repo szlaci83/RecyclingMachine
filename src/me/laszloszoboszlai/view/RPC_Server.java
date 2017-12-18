@@ -1,7 +1,7 @@
 package me.laszloszoboszlai.view;
 
-import me.laszloszoboszlai.controller.DepositItemReceiver;
-import me.laszloszoboszlai.controller.DepositItemReceiverInterface;
+import me.laszloszoboszlai.service.DepositItemReceiver;
+import me.laszloszoboszlai.service.DepositItemReceiverInterface;
 import org.apache.xmlrpc.*;
 
 import java.rmi.RemoteException;

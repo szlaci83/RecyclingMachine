@@ -1,18 +1,23 @@
 package me.laszloszoboszlai.rmi;
 
-import me.laszloszoboszlai.service.CustomerPanel;
-import me.laszloszoboszlai.service.LoginPanel;
+import me.laszloszoboszlai.controller.CustomerPanel;
+import me.laszloszoboszlai.controller.LoginPanel;
+import me.laszloszoboszlai.controller.MaintanancePanel;
+import me.laszloszoboszlai.view.Display;
+import org.bson.Document;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class RecycleRmiImpl extends UnicastRemoteObject implements RecycleRMI{
 
     private static final long serialVersionUID = 1L;
-    private CustomerPanel customerPanel;
+    private MaintanancePanel maintanancePanel;
+    private CustomerPanel customerPanel = new CustomerPanel(new Display());
     private LoginPanel loginPanel = new LoginPanel();
 
 
@@ -33,23 +38,23 @@ public class RecycleRmiImpl extends UnicastRemoteObject implements RecycleRMI{
      * gets to know about the recylcing machine.
      * @param thePanel
      */
-    public void setPanel( CustomerPanel thePanel ) {
-        customerPanel = thePanel;
+    public void setPanel( MaintanancePanel thePanel ) {
+        maintanancePanel = thePanel;
     }
 
     @Override
     public Map<String, Long> getStatus() throws IOException {
-        return customerPanel.getStatus();
+        return maintanancePanel.getStatus();
     }
 
     @Override
     public void emptySlot(int slot) throws IOException {
-        customerPanel.emptySlot(slot);
+        maintanancePanel.emptySlot(slot);
     }
 
     @Override
     public void changeItemValue(String name, int value) {
-        customerPanel.changeItemValue(name, value);
+        maintanancePanel.changeItemValue(name, value);
     }
 
     @Override
@@ -64,17 +69,17 @@ public class RecycleRmiImpl extends UnicastRemoteObject implements RecycleRMI{
 
     @Override
     public int getItemValue(String name) throws RemoteException {
-        return customerPanel.getIemValue(name);
+        return maintanancePanel.getItemValue(name);
     }
 
     @Override
     public Map<String, Long> getCapacity() throws RemoteException{
-       return customerPanel.getCapacity();
+       return maintanancePanel.getCapacity();
     }
 
     @Override
     public void setCapacity(String name, long capaity) throws IOException {
-        customerPanel.setCapacity(name, capaity);
+        maintanancePanel.setCapacity(name, capaity);
     }
 
     @Override
@@ -85,5 +90,15 @@ public class RecycleRmiImpl extends UnicastRemoteObject implements RecycleRMI{
     @Override
     public void printReceipt() throws IOException {
         customerPanel.printReceipt();
+    }
+
+    @Override
+    public void closeConnection() {
+        maintanancePanel.closeConnection();
+    }
+
+    @Override
+    public ArrayList<Document> getUsage(long from, long to) throws IOException {
+        return maintanancePanel.getUsage(from, to);
     }
 }

@@ -25,7 +25,7 @@ public class UsageRepository{
         this.client = new MongoClient("localhost", 27017);
         this.database = client.getDatabase("recyclingMachine");
         //Omit logs
-        java.util.logging.Logger.getLogger("org.mongodb.driver").setLevel(Level.SEVERE);
+        //java.util.logging.Logger.getLogger("org.mongodb.driver").setLevel(Level.SEVERE);
     }
 
 
@@ -63,8 +63,8 @@ public class UsageRepository{
             json += gson.toJson(entry);
         }
         record.append("items", json);
+        System.out.println(record.toString());
         usageCollection.insertOne(record);
-        client.close();
     }
 
     public void closeConnection(){

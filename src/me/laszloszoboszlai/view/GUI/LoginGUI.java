@@ -11,6 +11,7 @@ import java.security.NoSuchAlgorithmException;
 public class LoginGUI extends JFrame {
     private static String PATH = "/me/laszloszoboszlai/img/";
 
+    private RecycleRMI rmi;
     private JLabel lblImageplaceholder = new JLabel("");
     private Image img = new ImageIcon(this.getClass().getResource(PATH + "anon.png")).getImage();
     private JLabel nameLabel = new JLabel("Name:");
@@ -19,15 +20,15 @@ public class LoginGUI extends JFrame {
     private JPasswordField password = new JPasswordField(30);
     private JButton login = new JButton("Login");
 
-    public LoginGUI(RecycleRMI caller){
-     this.pack();
+
+    public LoginGUI(RecycleRMI rmi){
+        this.rmi = rmi;
+        this.pack();
      this.setSize(420,340);
      this.setLocationRelativeTo(null);
 
      this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
      this.setTitle("Login");
-
-
 
      JPanel panel = new JPanel();
      panel.setLayout(null);
@@ -67,23 +68,19 @@ public class LoginGUI extends JFrame {
 
         login.addActionListener(ae -> {
             this.hide();
-            JFrame status = null;
             try {
                 System.out.println(userName.getText());
                 System.out.println(new String(this.password.getPassword()));
-                String result = caller.login(userName.getText(), new String(this.password.getPassword()));
-                if (! result.equals("wrong")){
-                    status = new StatusGUI(caller);
-                }
-                else{
-                    System.out.println(result);
+                String result = this.rmi.login(userName.getText(), new String(this.password.getPassword()));
+                if (result.equals("wrong")) {
+                    JOptionPane.showMessageDialog(this, "Wrong pass.");
+                    this.setVisible(false);
                 }
             } catch (RemoteException e) {
                 e.printStackTrace();
             } catch (NoSuchAlgorithmException e) {
                 e.printStackTrace();
             }
-            status.setVisible(true);
         });
 
     }

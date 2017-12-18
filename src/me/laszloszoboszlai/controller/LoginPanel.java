@@ -1,4 +1,4 @@
-package me.laszloszoboszlai.service;
+package me.laszloszoboszlai.controller;
 
 import me.laszloszoboszlai.repository.UserRepository;
 import me.laszloszoboszlai.utils.MD5Hasher;
@@ -18,7 +18,11 @@ public class LoginPanel {
      * @return returns the sessioncookie if the login was success "wrong" otherwise
      */
     public String login(String username, String passwd) throws NoSuchAlgorithmException {
-         if( MD5Hasher.getHash(passwd).equals(userRepository.getUserByName(username).toUpperCase())){
+        String password = userRepository.getUserByName(username);
+        if (password == null){
+            return "wrong";
+        }
+         if( MD5Hasher.getHash(passwd).equals(password.toUpperCase())){
             sessioncookie = "Random"+Math.random();
             return sessioncookie;
         } else {

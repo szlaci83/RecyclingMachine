@@ -1,8 +1,15 @@
 package me.laszloszoboszlai.view.GUI;
 
 
+import me.laszloszoboszlai.rmi.RecycleRMI;
+
 import javax.swing.*;
 import java.awt.*;
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.security.NoSuchAlgorithmException;
 
 public class AdminLoginGUI extends JFrame {
     private static String PATH = "/me/laszloszoboszlai/img/";
@@ -16,6 +23,7 @@ public class AdminLoginGUI extends JFrame {
     private JButton login = new JButton("Login");
     private JLabel machineNoLabel = new JLabel("Machine:");
     private JTextField machineNo = new JTextField(30);
+    private RecycleRMI rmi;
 
     public AdminLoginGUI() {
         this.pack();
@@ -56,14 +64,48 @@ public class AdminLoginGUI extends JFrame {
         login.setBounds(300, 220, 80, 40);
         panel.add(login);
 
+        login.addActionListener(ae -> {
+            this.hide();
+            try {
+                this.rmi = connectToRemoteHost(machineNo.getText());
+                System.out.println(userName.getText());
+                System.out.println(new String(this.password.getPassword()));
+                String result = this.rmi.login(userName.getText(), new String(this.password.getPassword()));
+                if (result.equals("wrong")) {
+                    JOptionPane.showMessageDialog(this, "Wrong pass.");
+                    this.setVisible(false);
+                }
+                else{
+                    this.setVisible(false);
+                    ChartGUI chartGUI = new ChartGUI(this.rmi);
+                    chartGUI.setVisible(true);
+                    StatusGUI statusGUI = new StatusGUI(this.rmi);
+                    statusGUI.setVisible(true);
+
+                }
+            } catch (RemoteException e) {
+                JOptionPane.showMessageDialog(this, "Couldn't connect to server");
+            } catch (NoSuchAlgorithmException e) {
+                JOptionPane.showMessageDialog(this, "Couldn't connect to server");
+            } catch (NotBoundException e) {
+                JOptionPane.showMessageDialog(this, "Couldn't connect to server");
+            } catch (MalformedURLException e) {
+                JOptionPane.showMessageDialog(this, "Couldn't connect to server");
+            }
+        });
+
         getContentPane().add(panel);
         panel.repaint();
 
     }
 
-    public static void main(String[] args) {
-        AdminLoginGUI algui = new AdminLoginGUI();
-        algui.setVisible(true);
+    private RecycleRMI connectToRemoteHost(String host) throws RemoteException, NotBoundException, MalformedURLException {
+       return (RecycleRMI) Naming.lookup("rmi://"+ host +"/RecycleService");
     }
 
+
+    public static void main(String[] args) {
+        AdminLoginGUI adminLoginGUI = new AdminLoginGUI();
+        adminLoginGUI.setVisible(true);
+    }
 }

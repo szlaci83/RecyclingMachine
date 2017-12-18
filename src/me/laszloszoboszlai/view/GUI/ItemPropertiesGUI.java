@@ -45,10 +45,8 @@ public class ItemPropertiesGUI extends JFrame implements ActionListener{
 
     public void actionPerformed(ActionEvent e) {
         int value = Integer.valueOf(this.value.getText());
-        try {
+        if (!capacityText.getText().isEmpty()) {
             capacity = Long.parseLong(capacityText.getText());
-        }catch (Exception exc){
-            exc.printStackTrace();
         }
         String buttonName = e.getActionCommand();
 
@@ -95,8 +93,8 @@ public class ItemPropertiesGUI extends JFrame implements ActionListener{
         this.name = name;
         this.rmi = rmi;
 
-        this.status = rmi.getStatus().get(name);
-        this.capacity = rmi.getCapacity().get(name);
+        this.status = this.rmi.getStatus().get(name);
+        this.capacity = this.rmi.getCapacity().get(name);
         this.pack();
         this.setSize(420,340);
         this.setLocationRelativeTo(null);
@@ -135,7 +133,7 @@ public class ItemPropertiesGUI extends JFrame implements ActionListener{
         up.setBounds(180, 60, 45,45);
         up.addActionListener(this);
         panel.add(up);
-        int rs = rmi.getItemValue(name);
+        int rs = this.rmi.getItemValue(name);
         System.out.println(rs);
         value.setText(String.valueOf(rs));
         value.setBounds(180, 140, 45,45);

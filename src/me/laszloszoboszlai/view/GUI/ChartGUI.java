@@ -2,7 +2,8 @@ package me.laszloszoboszlai.view.GUI;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import me.laszloszoboszlai.service.RemotePanel;
+import me.laszloszoboszlai.controller.MaintanancePanel;
+import me.laszloszoboszlai.rmi.RecycleRMI;
 import me.laszloszoboszlai.utils.DateLabelFormatter;
 import org.bson.Document;
 import org.jdatepicker.impl.JDatePanelImpl;
@@ -29,14 +30,14 @@ import static javax.swing.JOptionPane.showMessageDialog;
 
 public class ChartGUI extends JFrame implements ActionListener {
 
-    RemotePanel remotePanel = new RemotePanel();
+    //MaintanancePanel remotePanel = new MaintanancePanel();
     ArrayList<Document> usage = null;
     XYChart chart = null;
     JDatePickerImpl fromPicker = null;
     JDatePickerImpl toPicker = null;
     DateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
     private JButton login = new JButton("Get usage!");
-
+    RecycleRMI rmi;
 
 
     @Override
@@ -51,12 +52,9 @@ public class ChartGUI extends JFrame implements ActionListener {
         chart.getStyler().setDefaultSeriesRenderStyle(XYSeries.XYSeriesRenderStyle.Line);
     }
 
-    private void getUsage(long from, long to){
-        try {
-            this.usage = remotePanel.getUsage(from, to);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private void getUsage(long from, long to) throws IOException {
+            this.usage = this.rmi.getUsage(from, to);
+
     }
 
     private XYSeries addSeriesToChart(String name){
@@ -83,7 +81,8 @@ public class ChartGUI extends JFrame implements ActionListener {
         return chart.addSeries(name, xData, yData);
     }
 
-    public ChartGUI(String machineNo){
+    public ChartGUI(RecycleRMI rmi){
+        this.rmi = rmi;
         login.addActionListener(ae -> {
             Date toDate = null;
             Date fromDate = null;
@@ -99,7 +98,11 @@ public class ChartGUI extends JFrame implements ActionListener {
                 this.chart.removeSeries("Carton");
                 fromDate = (Date) fromPicker.getModel().getValue();
                 toDate = (Date) toPicker.getModel().getValue();
-                getUsage(fromDate.getTime(), toDate.getTime());
+                try {
+                    getUsage(fromDate.getTime(), toDate.getTime());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 addSeriesToChart("Can");
                 addSeriesToChart("Bottle");
                 addSeriesToChart("Crate");
@@ -137,12 +140,12 @@ public class ChartGUI extends JFrame implements ActionListener {
         getChart(400, 400, "Usage", "Date", "Count");
         JPanel chartPanel = new XChartPanel<XYChart>(chart);
         this.add(chartPanel, BorderLayout.NORTH);
-        JLabel label = new JLabel("Machine " + machineNo + " usage by date", SwingConstants.CENTER);
+        JLabel label = new JLabel("Machine " + null + " usage by date", SwingConstants.CENTER);
         this.add(label, BorderLayout.SOUTH);
         this.pack();
     }
     public static void main(String [] args ) {
-        ChartGUI chartGUI = new ChartGUI("3245");
-        chartGUI.setVisible(true);
+        //ChartGUI chartGUI = new ChartGUI();
+       // chartGUI.setVisible(true);
     }
 }

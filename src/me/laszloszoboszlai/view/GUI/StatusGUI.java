@@ -30,13 +30,13 @@ public class StatusGUI extends JFrame implements ActionListener{
         private Image crateImg = new ImageIcon(this.getClass().getResource(PATH + "crate.png")).getImage();
 
         //CustomerPanel myCustomerPanel;
-        RecycleRMI rmi;
+        private RecycleRMI rmi;
 
         public void actionPerformed(ActionEvent e) {
             String buttonName = e.getActionCommand();
             ItemPropertiesGUI propertiesGUI = null;
             try {
-                propertiesGUI = new ItemPropertiesGUI(rmi, buttonName);
+                propertiesGUI = new ItemPropertiesGUI(this.rmi, buttonName);
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
@@ -59,7 +59,7 @@ public class StatusGUI extends JFrame implements ActionListener{
         }
 
         public StatusGUI(RecycleRMI caller) throws RemoteException {
-            rmi = caller;
+            this.rmi = caller;
             this.pack();
             this.setSize(640,800);
             this.setLocationRelativeTo(null);
@@ -126,8 +126,6 @@ public class StatusGUI extends JFrame implements ActionListener{
         }
 
         public static void main(String [] args ) throws RemoteException {
-
             JFrame myGUI = null;
-
         }
 }

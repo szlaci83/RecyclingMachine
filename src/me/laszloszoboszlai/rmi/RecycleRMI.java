@@ -1,9 +1,12 @@
 package me.laszloszoboszlai.rmi;
 
+import org.bson.Document;
+
 import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Map;
 
 public interface RecycleRMI extends Remote {
@@ -17,4 +20,6 @@ public interface RecycleRMI extends Remote {
     void setCapacity(String name, long capacity) throws IOException;
     void classifyItem(int itemNumber)throws RemoteException;
     void printReceipt() throws IOException;
+    void closeConnection()throws RemoteException;
+    ArrayList<Document> getUsage(long from, long to) throws IOException;
 }
