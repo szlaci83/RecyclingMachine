@@ -1,9 +1,9 @@
 package me.laszloszoboszlai.view.GUI;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
-import me.laszloszoboszlai.controller.MaintanancePanel;
-import me.laszloszoboszlai.rmi.RecycleRMI;
+import me.laszloszoboszlai.remote.RecycleRemoteConnection;
 import me.laszloszoboszlai.utils.DateLabelFormatter;
 import org.bson.Document;
 import org.jdatepicker.impl.JDatePanelImpl;
@@ -37,7 +37,7 @@ public class ChartGUI extends JFrame implements ActionListener {
     JDatePickerImpl toPicker = null;
     DateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
     private JButton login = new JButton("Get usage!");
-    RecycleRMI rmi;
+    RecycleRemoteConnection rmi;
 
 
     @Override
@@ -52,9 +52,15 @@ public class ChartGUI extends JFrame implements ActionListener {
         chart.getStyler().setDefaultSeriesRenderStyle(XYSeries.XYSeriesRenderStyle.Line);
     }
 
-    private void getUsage(long from, long to) throws IOException {
-            this.usage = this.rmi.getUsage(from, to);
-
+    private ArrayList<Document> deserialiseDocuments(Vector<String> vector) {
+        ArrayList<Document> documents = new ArrayList<>();
+        for (String line : vector) {
+            documents.add(Document.parse(line));
+        }
+        return documents;
+    }
+    private void getUsage(String from, String to) throws IOException {
+        this.usage = deserialiseDocuments(this.rmi.getUsage(from, to));
     }
 
     private XYSeries addSeriesToChart(String name){
@@ -81,7 +87,7 @@ public class ChartGUI extends JFrame implements ActionListener {
         return chart.addSeries(name, xData, yData);
     }
 
-    public ChartGUI(RecycleRMI rmi){
+    public ChartGUI(RecycleRemoteConnection rmi){
         this.rmi = rmi;
         login.addActionListener(ae -> {
             Date toDate = null;
@@ -99,7 +105,7 @@ public class ChartGUI extends JFrame implements ActionListener {
                 fromDate = (Date) fromPicker.getModel().getValue();
                 toDate = (Date) toPicker.getModel().getValue();
                 try {
-                    getUsage(fromDate.getTime(), toDate.getTime());
+                    getUsage(String.valueOf(fromDate.getTime()), String.valueOf(toDate.getTime()));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

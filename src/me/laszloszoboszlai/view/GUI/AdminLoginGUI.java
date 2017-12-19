@@ -1,7 +1,7 @@
 package me.laszloszoboszlai.view.GUI;
 
 
-import me.laszloszoboszlai.rmi.RecycleRMI;
+import me.laszloszoboszlai.remote.RecycleRemoteConnection;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,8 +22,12 @@ public class AdminLoginGUI extends JFrame {
     private JPasswordField password = new JPasswordField(30);
     private JButton login = new JButton("Login");
     private JLabel machineNoLabel = new JLabel("Machine:");
-    private JTextField machineNo = new JTextField(30);
-    private RecycleRMI rmi;
+    //private JTextField machineNo = new JTextField(30);
+    private RecycleRemoteConnection rmi;
+    String[]machines = new String[] {"localhost", "127.0.0.1",
+            "192.168.0.1", "Java for Dummies"};
+
+    JComboBox<String> machineNo = new JComboBox<>(machines);
 
     public AdminLoginGUI() {
         this.pack();
@@ -67,7 +71,7 @@ public class AdminLoginGUI extends JFrame {
         login.addActionListener(ae -> {
             this.hide();
             try {
-                this.rmi = connectToRemoteHost(machineNo.getText());
+                this.rmi = connectToRemoteHost((String) machineNo.getSelectedItem());
                 System.out.println(userName.getText());
                 System.out.println(new String(this.password.getPassword()));
                 String result = this.rmi.login(userName.getText(), new String(this.password.getPassword()));
@@ -84,13 +88,17 @@ public class AdminLoginGUI extends JFrame {
 
                 }
             } catch (RemoteException e) {
-                JOptionPane.showMessageDialog(this, "Couldn't connect to server");
+               // JOptionPane.showMessageDialog(this, "Couldn't connect to server");`
+                e.printStackTrace();
             } catch (NoSuchAlgorithmException e) {
-                JOptionPane.showMessageDialog(this, "Couldn't connect to server");
+                //JOptionPane.showMessageDialog(this, "Couldn't connect to server");
+                e.printStackTrace();
             } catch (NotBoundException e) {
-                JOptionPane.showMessageDialog(this, "Couldn't connect to server");
+                //JOptionPane.showMessageDialog(this, "Couldn't connect to server");
+                e.printStackTrace();
             } catch (MalformedURLException e) {
-                JOptionPane.showMessageDialog(this, "Couldn't connect to server");
+                //JOptionPane.showMessageDialog(this, "Couldn't connect to server");
+                e.printStackTrace();
             }
         });
 
@@ -99,8 +107,8 @@ public class AdminLoginGUI extends JFrame {
 
     }
 
-    private RecycleRMI connectToRemoteHost(String host) throws RemoteException, NotBoundException, MalformedURLException {
-       return (RecycleRMI) Naming.lookup("rmi://"+ host +"/RecycleService");
+    private RecycleRemoteConnection connectToRemoteHost(String host) throws RemoteException, NotBoundException, MalformedURLException {
+       return (RecycleRemoteConnection) Naming.lookup("rmi://"+ host +"/RecycleService");
     }
 
 

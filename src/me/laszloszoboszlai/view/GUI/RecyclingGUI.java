@@ -1,8 +1,8 @@
 package me.laszloszoboszlai.view.GUI;
 
-import me.laszloszoboszlai.rmi.RecycleRMI;
+import me.laszloszoboszlai.remote.RecycleRemoteConnection;
 import me.laszloszoboszlai.controller.CustomerPanel;
-import sun.rmi.runtime.Log;
+import me.laszloszoboszlai.remote.RecycleRemoteConnectionRPC;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,7 +23,7 @@ import java.rmi.RemoteException;
 
     private static String PATH = "/me/laszloszoboszlai/img/";
 
-    RecycleRMI rmi;
+    RecycleRemoteConnection remoteConnection;
 
     private JLabel lblImageplaceholder = new JLabel("");
     private Image img = new ImageIcon(this.getClass().getResource(PATH + "recycle.png")).getImage();
@@ -48,11 +48,11 @@ import java.rmi.RemoteException;
     JButton receipt = new JButton("Receipt");
 
     private void classifyItem(int slot) throws RemoteException {
-        rmi.classifyItem(slot);
+        remoteConnection.classifyItem(slot);
     }
 
     private void closeConnection() throws RemoteException {
-        rmi.closeConnection();
+        remoteConnection.closeConnection();
     }
 
 
@@ -61,7 +61,7 @@ import java.rmi.RemoteException;
             switch (buttonName){
                 case "Bottle" :
                     try {
-                        this.rmi.classifyItem(2);
+                        this.remoteConnection.classifyItem(2);
                     } catch (RemoteException e1) {
                         e1.printStackTrace();
                     }
@@ -75,7 +75,7 @@ import java.rmi.RemoteException;
                     break;
                 case "Crate" :
                     try {
-                        this.rmi.classifyItem(3);
+                        this.remoteConnection.classifyItem(3);
                     } catch (RemoteException e1) {
                         e1.printStackTrace();
                     }
@@ -91,13 +91,13 @@ import java.rmi.RemoteException;
                    // System.out.println("Status pressed");
                     try {
                         LoginGUI loginGUI = null;
-                        if (! this.rmi.isLoggedIn()){
-                            loginGUI = new LoginGUI(this.rmi);
+                        if (! this.remoteConnection.isLoggedIn()){
+                            loginGUI = new LoginGUI(this.remoteConnection);
                             loginGUI.setVisible(true);
                             //this.setVisible(false);
                         }
                         else {
-                            StatusGUI statusGUI = new StatusGUI(this.rmi);
+                            StatusGUI statusGUI = new StatusGUI(this.remoteConnection);
                             statusGUI.setVisible(true);
                             this.setVisible(false);
                         }
@@ -110,7 +110,7 @@ import java.rmi.RemoteException;
 
                 case "Receipt":
                     try {
-                        this.rmi.printReceipt();
+                        this.remoteConnection.printReceipt();
                     } catch (IOException e1) {
                         e1.printStackTrace();
                     }
@@ -122,8 +122,8 @@ import java.rmi.RemoteException;
         return img.getScaledInstance(50, 80, Image.SCALE_SMOOTH);
     }
 
-        public RecyclingGUI(RecycleRMI rmi) throws RemoteException {
-            this.rmi = rmi;
+        public RecyclingGUI(RecycleRemoteConnection connection) throws RemoteException {
+            this.remoteConnection = connection;
             this.pack();
             this.setSize(640,800);
             this.setLocationRelativeTo(null);
@@ -177,19 +177,8 @@ import java.rmi.RemoteException;
 
             receipt.addActionListener(this);
 
-//            status.addActionListener(ae -> {
-//                this.hide();
-              //  JFrame login = new LoginGUI(this);
-             //   login.setVisible(true);
-
-//            });
-//
-//
             getContentPane().add(panel);
             panel.repaint();
-
-//            myCustomerPanel
-//                    = new CustomerPanel(new Display());
 
 
             this.addWindowListener(new WindowAdapter()
@@ -204,37 +193,4 @@ import java.rmi.RemoteException;
                     }
             });
         }
-//    public CustomerPanel getPanel(){
-//        return this.myCustomerPanel;
-//    }
-//
-
-    public static void main(String [] args ) throws RemoteException {
-            RecyclingGUI myGUI;
-        //System.out.println("rec gui started");
-//            myGUI.setVisible(true);
-
-        try {
-            RecycleRMI rc
-                    = (RecycleRMI) Naming.lookup("rmi://localhost/RecycleService");
-
-            myGUI = new RecyclingGUI(rc);
-            myGUI.setVisible(true);
-
-        } catch (Exception exception) {
-            System.err.println("JavaClient: " + exception);
-        }
-
-        // Starting up the RMI service:
-//        try {
-//            RecycleRmiImpl recycleImpl = new RecycleRmiImpl();
-//            recycleImpl.setPanel(myGUI.myCustomerPanel);
-//
-//            Registry reg = LocateRegistry.createRegistry(1099);
-//            reg.rebind("RecycleService", (RecycleRMI) recycleImpl);
-//            System.out.println("Starting Recycling Service. Welcome to RMI!");
-//        } catch (Exception e) {
-//            System.out.println("Trouble: " + e);
-//        }
-        }
-    }
+}

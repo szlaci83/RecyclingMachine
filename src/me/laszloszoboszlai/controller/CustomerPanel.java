@@ -36,11 +36,13 @@ public class CustomerPanel {
 	/**
 	 * Prints the receipt for the deposited items.
 	 */
-	public void printReceipt() throws IOException {
+	public boolean printReceipt() throws IOException {
 		receiver.printReceipt();
+		return true;
 	}
 
-	public void classifyItem(int slot){
+	public boolean classifyItem(int slot){
 		receiver.classifyItem(slot);
+		return true;
 	}
 }

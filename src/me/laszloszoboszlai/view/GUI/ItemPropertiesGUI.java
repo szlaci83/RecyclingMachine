@@ -1,13 +1,12 @@
 package me.laszloszoboszlai.view.GUI;
 
-import me.laszloszoboszlai.rmi.RecycleRMI;
+import me.laszloszoboszlai.remote.RecycleRemoteConnection;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.rmi.RemoteException;
-import java.text.ParseException;
 
 public class ItemPropertiesGUI extends JFrame implements ActionListener{
     private JButton empty = new JButton("Empty");
@@ -25,7 +24,7 @@ public class ItemPropertiesGUI extends JFrame implements ActionListener{
 
     private Long status;
     private Long capacity;
-    private RecycleRMI rmi;
+    private RecycleRemoteConnection rmi;
     private String name;
     private JTextField capacityText = new JTextField(6);
 
@@ -85,7 +84,7 @@ public class ItemPropertiesGUI extends JFrame implements ActionListener{
         this.repaint();
     }
 
-    public ItemPropertiesGUI(RecycleRMI rmi, String name) throws IOException {
+    public ItemPropertiesGUI(RecycleRemoteConnection rmi, String name) throws IOException {
 //        if (customerPanel == null) {
 //            customerPanel = new CustomerPanel(new Display());
 //        }
@@ -93,8 +92,8 @@ public class ItemPropertiesGUI extends JFrame implements ActionListener{
         this.name = name;
         this.rmi = rmi;
 
-        this.status = this.rmi.getStatus().get(name);
-        this.capacity = this.rmi.getCapacity().get(name);
+        this.status = Long.parseLong((String) this.rmi.getStatus().get(name));
+        this.capacity = Long.parseLong((String) this.rmi.getCapacity().get(name));
         this.pack();
         this.setSize(420,340);
         this.setLocationRelativeTo(null);

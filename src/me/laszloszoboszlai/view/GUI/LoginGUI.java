@@ -1,6 +1,6 @@
 package me.laszloszoboszlai.view.GUI;
 
-import me.laszloszoboszlai.rmi.RecycleRMI;
+import me.laszloszoboszlai.remote.RecycleRemoteConnection;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +11,7 @@ import java.security.NoSuchAlgorithmException;
 public class LoginGUI extends JFrame {
     private static String PATH = "/me/laszloszoboszlai/img/";
 
-    private RecycleRMI rmi;
+    private RecycleRemoteConnection rmi;
     private JLabel lblImageplaceholder = new JLabel("");
     private Image img = new ImageIcon(this.getClass().getResource(PATH + "anon.png")).getImage();
     private JLabel nameLabel = new JLabel("Name:");
@@ -21,7 +21,7 @@ public class LoginGUI extends JFrame {
     private JButton login = new JButton("Login");
 
 
-    public LoginGUI(RecycleRMI rmi){
+    public LoginGUI(RecycleRemoteConnection rmi){
         this.rmi = rmi;
         this.pack();
      this.setSize(420,340);
@@ -88,8 +88,8 @@ public class LoginGUI extends JFrame {
         LoginGUI myGUI;
 
         try {
-            RecycleRMI rc
-                    = (RecycleRMI) Naming.lookup("rmi://localhost/RecycleService");
+            RecycleRemoteConnection rc
+                    = (RecycleRemoteConnection) Naming.lookup("remote://localhost/RecycleService");
 
             myGUI = new LoginGUI(rc);
             myGUI.setVisible(true);

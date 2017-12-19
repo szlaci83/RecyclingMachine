@@ -1,7 +1,6 @@
 package me.laszloszoboszlai.view.GUI;
 
-import me.laszloszoboszlai.rmi.RecycleRMI;
-import me.laszloszoboszlai.view.GUI.ItemPropertiesGUI;
+import me.laszloszoboszlai.remote.RecycleRemoteConnection;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,7 +29,7 @@ public class StatusGUI extends JFrame implements ActionListener{
         private Image crateImg = new ImageIcon(this.getClass().getResource(PATH + "crate.png")).getImage();
 
         //CustomerPanel myCustomerPanel;
-        private RecycleRMI rmi;
+        private RecycleRemoteConnection rmi;
 
         public void actionPerformed(ActionEvent e) {
             String buttonName = e.getActionCommand();
@@ -58,7 +57,7 @@ public class StatusGUI extends JFrame implements ActionListener{
             return img.getScaledInstance(50, 80, Image.SCALE_SMOOTH);
         }
 
-        public StatusGUI(RecycleRMI caller) throws RemoteException {
+        public StatusGUI(RecycleRemoteConnection caller) throws RemoteException {
             this.rmi = caller;
             this.pack();
             this.setSize(640,800);

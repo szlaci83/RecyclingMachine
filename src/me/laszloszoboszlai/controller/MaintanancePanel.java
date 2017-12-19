@@ -6,19 +6,31 @@ import me.laszloszoboszlai.service.ItemServiceImpl;
 import org.bson.Document;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Map;
+import java.util.*;
 
 public class MaintanancePanel {
     private ItemService itemService = new ItemServiceImpl();
 
+    private Hashtable<String, String> MapToTable(Map<String, Long> map){
+		Hashtable table = new Hashtable();
+		for (String item : map.keySet()){
+			table.put(item, map.get(item).toString());
+		}
+		return table;
+	}
 
-
+	private Vector<String> ListToVector(List<Document> list){
+    	Vector<String> vector = new Vector<>();
+    	for (Document doc : list){
+    		vector.add(doc.toJson());
+		}
+		return vector;
+	}
     /**
      *  Prints the status of the machine
      */
-	public Map<String, Long> getStatus(){
-		return itemService.getStatus();
+	public Hashtable<String, String> getStatus(){
+		return MapToTable(itemService.getStatus());
 	}
 //
 //	public void printCapacity(){
@@ -26,28 +38,32 @@ public class MaintanancePanel {
 //	}
 
 
-    public Map<String, Long> getCapacity(){
-	 return itemService.getCapacity();
+    public Hashtable<String, String> getCapacity(){
+	 return MapToTable(itemService.getCapacity());
 	}
 
-	public void setCapacity(String name, long value) throws IOException {
+	public boolean setCapacity(String name, long value) throws IOException {
         itemService.setCapacity(name, value);
+        return true;
 	}
-	public void emptySlot(int slot) throws IOException { itemService.emptySlot(slot);}
+	public boolean emptySlot(int slot) throws IOException { itemService.emptySlot(slot);
+    return true;}
 
-	public void closeConnection(){
+	public boolean closeConnection(){
         itemService.closeConnection();
+        return true;
 	}
 
-	public void changeItemValue(String name, int value) {
+	public boolean changeItemValue(String name, int value) {
         itemService.changeItemValue(name,value);
+        return true;
 	}
 
 	public int getItemValue(String name){
 		return itemService.getItemValue(name);
 	}
 
-    public ArrayList<Document> getUsage(long from, long to) throws IOException {
-	    return itemService.getUsage(from, to);
+    public Vector<String> getUsage(String from, String to) throws IOException {
+	    return ListToVector(itemService.getUsage(Long.parseLong(from), Long.parseLong(to)));
     }
 }

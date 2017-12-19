@@ -1,4 +1,4 @@
-package me.laszloszoboszlai.rmi;
+package me.laszloszoboszlai.remote;
 
 import me.laszloszoboszlai.controller.CustomerPanel;
 import me.laszloszoboszlai.controller.LoginPanel;
@@ -12,8 +12,9 @@ import java.rmi.server.UnicastRemoteObject;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Vector;
 
-public class RecycleRmiImpl extends UnicastRemoteObject implements RecycleRMI{
+public class RecycleRemoteConnectionRMI extends UnicastRemoteObject implements RecycleRemoteConnection {
 
     private static final long serialVersionUID = 1L;
     private MaintanancePanel maintanancePanel;
@@ -21,12 +22,12 @@ public class RecycleRmiImpl extends UnicastRemoteObject implements RecycleRMI{
     private LoginPanel loginPanel = new LoginPanel();
 
 
-    public RecycleRmiImpl() throws RemoteException {
+    public RecycleRemoteConnectionRMI() throws RemoteException {
         super();
 
     }
 
-    public RecycleRmiImpl(int arg0) throws RemoteException {
+    public RecycleRemoteConnectionRMI(int arg0) throws RemoteException {
         super(arg0);
         // TODO Auto-generated constructor stub
     }
@@ -43,18 +44,20 @@ public class RecycleRmiImpl extends UnicastRemoteObject implements RecycleRMI{
     }
 
     @Override
-    public Map<String, Long> getStatus() throws IOException {
+    public Map<String, String> getStatus() throws IOException {
         return maintanancePanel.getStatus();
     }
 
     @Override
-    public void emptySlot(int slot) throws IOException {
+    public boolean emptySlot(int slot) throws IOException {
         maintanancePanel.emptySlot(slot);
+        return true;
     }
 
     @Override
-    public void changeItemValue(String name, int value) {
+    public boolean changeItemValue(String name, int value) {
         maintanancePanel.changeItemValue(name, value);
+        return true;
     }
 
     @Override
@@ -73,32 +76,36 @@ public class RecycleRmiImpl extends UnicastRemoteObject implements RecycleRMI{
     }
 
     @Override
-    public Map<String, Long> getCapacity() throws RemoteException{
+    public Map<String, String> getCapacity() throws RemoteException{
        return maintanancePanel.getCapacity();
     }
 
     @Override
-    public void setCapacity(String name, long capaity) throws IOException {
+    public boolean setCapacity(String name, long capaity) throws IOException {
         maintanancePanel.setCapacity(name, capaity);
+        return true;
     }
 
     @Override
-    public void classifyItem(int slot) {
+    public boolean classifyItem(int slot) {
         customerPanel.classifyItem(slot);
+        return true;
     }
 
     @Override
-    public void printReceipt() throws IOException {
+    public boolean printReceipt() throws IOException {
         customerPanel.printReceipt();
+        return true;
     }
 
     @Override
-    public void closeConnection() {
+    public boolean closeConnection() {
         maintanancePanel.closeConnection();
+        return true;
     }
 
     @Override
-    public ArrayList<Document> getUsage(long from, long to) throws IOException {
+    public Vector<String> getUsage(String from, String to) throws IOException {
         return maintanancePanel.getUsage(from, to);
     }
 }
