@@ -21,6 +21,7 @@ public class ItemServiceImpl implements ItemService {
     public ItemServiceImpl(){
         this.capacity = itemRepository.loadCapacity();
         this.existingItems = itemRepository.loadItems();
+        System.out.println(existingItems);
     }
 
 
@@ -95,6 +96,7 @@ public class ItemServiceImpl implements ItemService {
 
     public void emptySlot(String slot) throws IOException {
         Item itemToBeEmptied = existingItems.get(slot);
+
         itemToBeEmptied.setCount(0L);
         existingItems.put(slot, itemToBeEmptied);
         recordExisting();
@@ -129,7 +131,8 @@ public class ItemServiceImpl implements ItemService {
 
     public int getItemValue(String name) {
         //System.out.println(itemRepository.loadItems().get(name));
-        return ((Item) itemRepository.loadItems().get(name)).getValue();
+        //return ((Item) itemRepository.loadItems().get(name)).getValue();
+        return itemRepository.getValue(name);
     }
 
     public Map<String, Long> getCapacity(){

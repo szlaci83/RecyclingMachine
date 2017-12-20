@@ -11,7 +11,8 @@ import java.security.NoSuchAlgorithmException;
 public class LoginGUI extends JFrame {
     private static String PATH = "/me/laszloszoboszlai/img/";
 
-    private RecycleRemoteConnection rmi;
+    //private String sessionCookie;
+    private RecycleRemoteConnection connection;
     private JLabel lblImageplaceholder = new JLabel("");
     private Image img = new ImageIcon(this.getClass().getResource(PATH + "anon.png")).getImage();
     private JLabel nameLabel = new JLabel("Name:");
@@ -21,8 +22,9 @@ public class LoginGUI extends JFrame {
     private JButton login = new JButton("Login");
 
 
-    public LoginGUI(RecycleRemoteConnection rmi){
-        this.rmi = rmi;
+    public LoginGUI(RecyclingGUI recyclingGUI, String cookie){
+       // this.sessionCookie = cookie;
+        this.connection = recyclingGUI.getRemoteConnection();
         this.pack();
      this.setSize(420,340);
      this.setLocationRelativeTo(null);
@@ -58,45 +60,28 @@ public class LoginGUI extends JFrame {
      getContentPane().add(panel);
      panel.repaint();
 
-     //this.addWindowListener(new WindowAdapter()
-//     {
-//         public void windowClosing(WindowEvent e)
-//         {
-//             caller.setVisible(true);
-//         }
-//     });
-
         login.addActionListener(ae -> {
-            this.hide();
+            this.setVisible(false);
             try {
                 System.out.println(userName.getText());
                 System.out.println(new String(this.password.getPassword()));
-                String result = this.rmi.login(userName.getText(), new String(this.password.getPassword()));
+                String result = this.connection.login(userName.getText(), new String(this.password.getPassword()));
                 if (result.equals("wrong")) {
                     JOptionPane.showMessageDialog(this, "Wrong pass.");
-                    this.setVisible(false);
+                    this.setVisible(true);
+                } else {
+                    //cookie = result;
+                    StatusGUI statusGUI = new StatusGUI(this.connection);
+                    recyclingGUI.setStatusGUI(statusGUI);
+                    recyclingGUI.setStatusGUIVisibility(true);
                 }
+
             } catch (RemoteException e) {
                 e.printStackTrace();
             } catch (NoSuchAlgorithmException e) {
                 e.printStackTrace();
             }
         });
-
-    }
-    public static void main(String [] args ) {
-        LoginGUI myGUI;
-
-        try {
-            RecycleRemoteConnection rc
-                    = (RecycleRemoteConnection) Naming.lookup("remote://localhost/RecycleService");
-
-            myGUI = new LoginGUI(rc);
-            myGUI.setVisible(true);
-
-        } catch (Exception exception) {
-            System.err.println("JavaClient: " + exception);
-        }
 
     }
 }

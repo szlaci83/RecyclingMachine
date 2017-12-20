@@ -23,14 +23,19 @@ public class LoginPanel {
             return "wrong";
         }
          if( MD5Hasher.getHash(passwd).equals(password.toUpperCase())){
-            sessioncookie = "Random"+Math.random();
+            sessioncookie = username + Math.random();
             return sessioncookie;
         } else {
             return "wrong";
         }
     }
 
-    public boolean isLoggedIn(){
-        return !sessioncookie.equals("notset");
+    public boolean isLoggedIn(String username){
+        return sessioncookie.contains(username);
+    }
+
+    public boolean logout() {
+        this.sessioncookie = "notset";
+        return true;
     }
 }

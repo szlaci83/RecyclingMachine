@@ -15,7 +15,7 @@ public interface RecycleRemoteConnection extends Remote {
     boolean emptySlot(int slot)throws IOException, RemoteException;
     boolean changeItemValue(String name, int value) throws RemoteException;
     String login(String userName, String password) throws RemoteException, NoSuchAlgorithmException;
-    boolean isLoggedIn() throws RemoteException;
+    boolean isLoggedIn(String username) throws RemoteException;
     int getItemValue(String name) throws RemoteException;
     Map getCapacity()throws IOException;
     boolean setCapacity(String name, long capacity) throws IOException;
@@ -23,4 +23,5 @@ public interface RecycleRemoteConnection extends Remote {
     boolean printReceipt() throws IOException;
     boolean closeConnection()throws RemoteException;
     Vector<String> getUsage(String from, String to) throws IOException;
+    boolean logout()throws RemoteException;
 }

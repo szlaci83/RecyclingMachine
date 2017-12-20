@@ -1,7 +1,6 @@
 package me.laszloszoboszlai.view.GUI;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import me.laszloszoboszlai.remote.RecycleRemoteConnection;
 import me.laszloszoboszlai.utils.DateLabelFormatter;
@@ -36,15 +35,13 @@ public class ChartGUI extends JFrame implements ActionListener {
     JDatePickerImpl fromPicker = null;
     JDatePickerImpl toPicker = null;
     DateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-    private JButton login = new JButton("Get usage!");
+    private JButton chartBtn = new JButton("Draw chart");
     RecycleRemoteConnection rmi;
-
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
 
     }
-
 
     private void getChart(int x, int y, String title, String xTitle, String yTitle) {
         chart = new XYChartBuilder().width(x).height(y).title(title).xAxisTitle(xTitle).yAxisTitle(yTitle).build();
@@ -59,6 +56,7 @@ public class ChartGUI extends JFrame implements ActionListener {
         }
         return documents;
     }
+
     private void getUsage(String from, String to) throws IOException {
         this.usage = deserialiseDocuments(this.rmi.getUsage(from, to));
     }
@@ -89,37 +87,12 @@ public class ChartGUI extends JFrame implements ActionListener {
 
     public ChartGUI(RecycleRemoteConnection rmi){
         this.rmi = rmi;
-        login.addActionListener(ae -> {
-            Date toDate = null;
-            Date fromDate = null;
-
-            if ((fromPicker.getModel().getValue() == null) || (fromPicker.getModel().getValue() == null)){
-                showMessageDialog(this, "Please select the from and to dates!");
-            }
-            else {
-
-                this.chart.removeSeries("Can");
-                this.chart.removeSeries("Bottle");
-                this.chart.removeSeries("Crate");
-                this.chart.removeSeries("Carton");
-                fromDate = (Date) fromPicker.getModel().getValue();
-                toDate = (Date) toPicker.getModel().getValue();
-                try {
-                    getUsage(String.valueOf(fromDate.getTime()), String.valueOf(toDate.getTime()));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                addSeriesToChart("Can");
-                addSeriesToChart("Bottle");
-                addSeriesToChart("Crate");
-                addSeriesToChart("Carton");
-                this.repaint();
-            }
-        });
 
         this.pack();
         this.setSize(620,640);
-        this.setLocationRelativeTo(null);
+        this.setTitle("Admin Dashboard");
+        //this.setLocationRelativeTo(null);
+        this.setLocation(125, 150);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         UtilDateModel model = new UtilDateModel();
@@ -139,7 +112,35 @@ public class ChartGUI extends JFrame implements ActionListener {
         buttonsPanel.setSize(100,200);
         buttonsPanel.add(fromPicker);
         buttonsPanel.add(toPicker);
-        buttonsPanel.add(login);
+
+        chartBtn.addActionListener(ae -> {
+            Date toDate = null;
+            Date fromDate = null;
+
+            if ((fromPicker.getModel().getValue() == null) || (fromPicker.getModel().getValue() == null)){
+                showMessageDialog(this, "Please select the from and to dates!");
+            }
+
+            else {
+                this.chart.removeSeries("Can");
+                this.chart.removeSeries("Bottle");
+                this.chart.removeSeries("Crate");
+                this.chart.removeSeries("Carton");
+                fromDate = (Date) fromPicker.getModel().getValue();
+                toDate = (Date) toPicker.getModel().getValue();
+                try {
+                    getUsage(String.valueOf(fromDate.getTime()), String.valueOf(toDate.getTime()));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                addSeriesToChart("Can");
+                addSeriesToChart("Bottle");
+                addSeriesToChart("Crate");
+                addSeriesToChart("Carton");
+                this.repaint();
+            }
+        });
+        buttonsPanel.add(chartBtn);
 
         this.add(buttonsPanel, BorderLayout.EAST);
 

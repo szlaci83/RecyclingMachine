@@ -96,6 +96,21 @@ public class ItemRepository {
         }catch (IOException exc) {
             System.out.println(exc);
         }
-
     }
+
+    public int getValue(String name) {
+        String path = ITEMS_PATH + name + ".json";
+        HashMap<String, Integer> item = null;
+        Gson gson = new Gson();
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
+            Type type = new TypeToken<HashMap<String, Integer>>(){}.getType();
+            item = gson.fromJson(bufferedReader, type);
+        }catch (FileNotFoundException fnfe) {
+            System.out.println(fnfe);
+        }
+        //System.out.println(item);
+        return item.get("value");
+    }
+
 }

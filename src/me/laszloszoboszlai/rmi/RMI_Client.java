@@ -18,7 +18,8 @@ public class RMI_Client {
             myGUI.setVisible(true);
 
         } catch (Exception exception) {
-            System.err.println("JavaClient: " + exception);
+           // System.err.println("JavaClient: " + exception);
+            exception.printStackTrace();
         }
     }
 }

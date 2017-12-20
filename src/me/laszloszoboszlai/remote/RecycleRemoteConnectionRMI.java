@@ -66,8 +66,8 @@ public class RecycleRemoteConnectionRMI extends UnicastRemoteObject implements R
     }
 
     @Override
-    public boolean isLoggedIn() throws RemoteException {
-        return loginPanel.isLoggedIn();
+    public boolean isLoggedIn(String username) throws RemoteException {
+        return loginPanel.isLoggedIn(username);
     }
 
     @Override
@@ -107,5 +107,11 @@ public class RecycleRemoteConnectionRMI extends UnicastRemoteObject implements R
     @Override
     public Vector<String> getUsage(String from, String to) throws IOException {
         return maintanancePanel.getUsage(from, to);
+    }
+
+    @Override
+    public boolean logout() {
+        loginPanel.logout();
+        return true;
     }
 }

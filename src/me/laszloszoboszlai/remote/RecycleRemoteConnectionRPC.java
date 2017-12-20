@@ -64,7 +64,7 @@ public class RecycleRemoteConnectionRPC implements RecycleRemoteConnection{
     }
 
     @Override
-    public boolean isLoggedIn() throws RemoteException {
+    public boolean isLoggedIn(String username) throws RemoteException {
         return true;
     }
 
@@ -117,6 +117,11 @@ public class RecycleRemoteConnectionRPC implements RecycleRemoteConnection{
         params.add(from);
         params.add(to);
         return (Vector<String>) executeRemotely(HOST, "RecyclingMaintanance.getUsage", params);
+    }
+
+    @Override
+    public boolean logout() {
+return true;
     }
 
     public static void main(String[] args) {

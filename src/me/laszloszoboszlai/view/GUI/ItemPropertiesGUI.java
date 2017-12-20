@@ -91,8 +91,12 @@ public class ItemPropertiesGUI extends JFrame implements ActionListener{
 
         this.name = name;
         this.rmi = rmi;
-
-        this.status = Long.parseLong((String) this.rmi.getStatus().get(name));
+        Object ItemStatus =  this.rmi.getStatus().get(name);
+        if (ItemStatus != null) {
+            this.status = Long.parseLong((String) this.rmi.getStatus().get(name));
+        } else {
+            this.status = 0L;
+        }
         this.capacity = Long.parseLong((String) this.rmi.getCapacity().get(name));
         this.pack();
         this.setSize(420,340);
