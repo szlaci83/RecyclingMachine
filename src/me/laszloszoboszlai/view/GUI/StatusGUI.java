@@ -28,6 +28,7 @@ public class StatusGUI extends JFrame implements ActionListener{
 
         public void actionPerformed(ActionEvent e) {
             String buttonName = e.getActionCommand();
+            System.out.println(buttonName);
             if (buttonName.equals("Logout")){
                 try {
                     this.connection.logout();

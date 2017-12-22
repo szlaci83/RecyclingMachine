@@ -11,13 +11,19 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.Vector;
 
+/**
+ * XML-RPC implementation of the RecycleRemoteConnection. Can be injected to the system to handle XLM-RPC connections
+ * between the server and the clients. Calls the relevant methods with the received parameters.
+ *
+ * @author Laszlo Szoboszlai
+ */
 public class RecycleRemoteConnectionRPC implements RecycleRemoteConnection{
 
     // The ip of the Recycling machine server
     static String HOST = "http://127.0.0.1/RPC2";
 
     /**
-     * Method to call methods remotely using RPC
+     * Helper method to call methods remotely using RPC
      * @param url the server's URL
      * @param methodName the name of the method to call
      * @param params the parameters for the method
@@ -37,12 +43,12 @@ public class RecycleRemoteConnectionRPC implements RecycleRemoteConnection{
 
 
     @Override
-    public Map<String, Long> getStatus() throws IOException, RemoteException {
+    public Map<String, Long> getStatus() throws IOException {
         return (Map<String, Long>) executeRemotely(HOST, "RecyclingMaintanance.getStatus", new Vector());
     }
 
     @Override
-    public boolean emptySlot(int slot) throws IOException, RemoteException {
+    public boolean emptySlot(int slot) throws IOException {
         Vector params = new Vector();
         params.add(slot);
         executeRemotely(HOST, "RecyclingMaintanance.emptySlot", params);

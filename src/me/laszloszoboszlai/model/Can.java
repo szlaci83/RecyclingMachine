@@ -47,7 +47,4 @@ public class Can extends Item {
 	public static int getWeight(){
 		return weight;
 	}
-
-
-
 }

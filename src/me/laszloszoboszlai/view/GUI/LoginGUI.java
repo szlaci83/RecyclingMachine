@@ -1,6 +1,7 @@
 package me.laszloszoboszlai.view.GUI;
 
 import me.laszloszoboszlai.remote.RecycleRemoteConnection;
+import me.laszloszoboszlai.utils.MD5Hasher;
 
 import javax.swing.*;
 import java.awt.*;
@@ -65,7 +66,7 @@ public class LoginGUI extends JFrame {
             try {
                 System.out.println(userName.getText());
                 System.out.println(new String(this.password.getPassword()));
-                String result = this.connection.login(userName.getText(), new String(this.password.getPassword()));
+                String result = this.connection.login(userName.getText(), MD5Hasher.getHash(new String(this.password.getPassword())));
                 if (result.equals("wrong")) {
                     JOptionPane.showMessageDialog(this, "Wrong pass.");
                     this.setVisible(true);

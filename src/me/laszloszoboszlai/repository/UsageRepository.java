@@ -15,6 +15,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 
+/**
+ * Repository handling the usage recording and retrieving of the recycling machine.
+ * The usage information is stored in MongoDB (a NoSQL document storage database)
+ *
+ * @author Laszlo Szoboszlai
+ */
 public class UsageRepository{
 
     private static final String MachineID = "1";
@@ -24,11 +30,16 @@ public class UsageRepository{
     public UsageRepository(){
         this.client = new MongoClient("localhost", 27017);
         this.database = client.getDatabase("recyclingMachine");
-        //Omit logs
+        //Display logs from MongoDB
         //java.util.logging.Logger.getLogger("org.mongodb.driver").setLevel(Level.SEVERE);
     }
 
-
+    /**
+     * Method to retreive many matching records to the query.
+     * @param query a MongoDB query.
+     * @return an ArrayList of MongoDb Documents matching the given query.
+     * @throws IOException if there is an exception during retrieval from the database.
+     */
     public ArrayList<Document> findMany(BasicDBObject query) throws IOException {
         MongoCollection<Document> usageCollection = database.getCollection("usage" + MachineID);
         ArrayList<Document> result = new ArrayList<>();
@@ -37,6 +48,13 @@ public class UsageRepository{
         return result;
     }
 
+    /**
+     * Method to retrieve records from the database between two dates.
+     * @param from the from data in unix epoch time.
+     * @param to the to date in unix epoch time.
+     * @return an ArrayList of MongoDb Documents between the given dates.
+     * @throws IOException if there is an exception during retrieval from the database.
+     */
     public ArrayList<Document> findBetweenDates(Long from, Long to) throws IOException {
         BasicDBObject getQuery = new BasicDBObject();
         BasicDBObject gte = new BasicDBObject("$gte", from);
@@ -47,6 +65,11 @@ public class UsageRepository{
         return findMany(getQuery);
     }
 
+    /**
+     * Method to insert a single record (Document) into the database.
+     * @param items Map of items to be inserted. (ItemName -> Item)
+     * @throws IOException if there is an exception during retrieval from the database.
+     */
     public void insertOne(Map<String, Item> items) throws IOException {
         MongoDatabase database = client.getDatabase("recyclingMachine");
         MongoCollection<Document> usageCollection = database.getCollection("usage" + MachineID);
@@ -63,10 +86,12 @@ public class UsageRepository{
             json += gson.toJson(entry);
         }
         record.append("items", json);
-        System.out.println(record.toString());
         usageCollection.insertOne(record);
     }
 
+    /**
+     * Method to close the connection to the database.
+     */
     public void closeConnection(){
         client.close();
     }

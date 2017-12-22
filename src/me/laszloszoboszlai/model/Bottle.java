@@ -32,21 +32,33 @@ public class Bottle extends Item {
 	}
 
 	/**
-	 * Bottle a cartoon with value 18
+	 * Bottle with value 18
 	 */
 	public Bottle() {
 		value = 18;
 	}
 
+	/**
+	 * Constructor to create a bottle object with a given value.
+	 * @param value the value to be given to the object
+	 */
 	public Bottle(int value) {
 		this.value = value;
 	}
 
+	/**
+	 * Getter method for size
+	 * @return the size of the bottle
+	 */
     public static int getSize() {
         return size;
     }
 
-    public static int getWeight(){
+	/**
+	 * Getter method for weight.
+	 * @return the weight of the object.
+	 */
+	public static int getWeight(){
         return weight;
     }
 

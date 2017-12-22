@@ -14,6 +14,13 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Vector;
 
+/**
+ * RMI implementation of the RecycleRemoteConnection. Can be injected to the system to handle RMI connections
+ * between the server and the clients. Has instances of the Maintenance, Login and customer panels, and passes
+ * the method calls to the relevant panel.
+ *
+ * @author Laszlo Szoboszlai
+ */
 public class RecycleRemoteConnectionRMI extends UnicastRemoteObject implements RecycleRemoteConnection {
 
     private static final long serialVersionUID = 1L;
@@ -29,15 +36,12 @@ public class RecycleRemoteConnectionRMI extends UnicastRemoteObject implements R
 
     public RecycleRemoteConnectionRMI(int arg0) throws RemoteException {
         super(arg0);
-        // TODO Auto-generated constructor stub
     }
 
-
     /**
-     * initialise implementation with the customer panel of the
-     * recycling machine. Here is where the service actually
-     * gets to know about the recylcing machine.
-     * @param thePanel
+     * Sets the maintenance panel of the
+     * recycling machine, because this part is machine dependent this is set after initialisation.
+     * @param thePanel the maintenance panel of the system.
      */
     public void setPanel( MaintanancePanel thePanel ) {
         maintanancePanel = thePanel;

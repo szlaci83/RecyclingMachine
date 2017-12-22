@@ -11,15 +11,12 @@ public interface ItemService {
     Map<String, Long> getStatus();
     String emptySlot(int slot)throws IOException;
     String changeItemValue(String name, int value);
-
     String closeConnection();
-
-    public void recordUsage(Map<String, Item> items)throws IOException;
-    public void recordDeposit(Map<String, Item> items) throws IOException;
+    void recordUsage(Map<String, Item> items)throws IOException;
+    void recordDeposit(Map<String, Item> items) throws IOException;
     boolean isFull(String itemName);
-    public int getItemValue(String name);
+    int getItemValue(String name);
     Map<String, Long> getCapacity();
     void setCapacity(String name, long value) throws IOException;
-
     ArrayList<Document> getUsage(long from, long to) throws IOException;
 }

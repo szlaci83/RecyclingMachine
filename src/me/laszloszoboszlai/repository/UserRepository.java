@@ -12,6 +12,9 @@ import java.util.Properties;
  */
 public class UserRepository {
 
+    private static final String PASSWORD_PATH = "D:\\github.com\\RecyclingMachine\\password.properties";
+
+
     /**
      * Returns the password for the given user
      * @param userName the name of the user we want the password for
@@ -22,7 +25,7 @@ public class UserRepository {
         Properties users = new Properties();
         InputStream inputFile = null;
         try {
-            inputFile = new FileInputStream("password.properties");
+            inputFile = new FileInputStream(PASSWORD_PATH);
             users.load(inputFile);
             password = users.getProperty(userName);
 

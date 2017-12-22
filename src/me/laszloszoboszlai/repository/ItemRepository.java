@@ -10,19 +10,30 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Repository class to store the information about each item's properties. (value, capacity of storage etc..)
+ * The implementation is a simple .json format file storage.
+ */
 public class ItemRepository {
 
-    private static final String DEPOSITED_PATH = "/home/laszlo/Projects/RecyclingMachine/deposited.json";
-    private static final String CAPACITY_PATH = "/home/laszlo/Projects/RecyclingMachine/capacity.json";
-    private static final String ITEMS_PATH = "/home/laszlo/Projects/RecyclingMachine/src/me/laszloszoboszlai/model/";
+   // private static final String DEPOSITED_PATH = "/home/laszlo/Projects/RecyclingMachine/deposited.json";
+   // private static final String CAPACITY_PATH = "/home/laszlo/Projects/RecyclingMachine/capacity.json";
+   // private static final String ITEMS_PATH = "/home/laszlo/Projects/RecyclingMachine/src/me/laszloszoboszlai/model/";
 
     //WIN settings
-   // private static final String DEPOSITED_PATH = "";
-   // private static final String CAPACITY_PATH = "";
+    private static final String DEPOSITED_PATH = "D:\\github.com\\RecyclingMachine\\deposited.json";
+    private static final String CAPACITY_PATH = "D:\\github.com\\RecyclingMachine\\capacity.json";
+    private static final String ITEMS_PATH = "D:\\github.com\\RecyclingMachine\\src\\me\\laszloszoboszlai\\model\\";
 
     private static final String MachineID = "1";
 
 
+    /**
+     * Saves the items' Map representation into the relevant file as a .json object.
+     * @param items the items' Map representation.
+     * @param name name of the file to store it.
+     * @throws IOException if there is a file I/O error.
+     */
     public void saveItems(Map items, String name) throws IOException {
         Writer writer = null;
         if (name.equals("deposited")){
@@ -36,6 +47,10 @@ public class ItemRepository {
         writer.close();
     }
 
+    /**
+     * Loads the number of deposited items from a file into a HashMap.
+     * @return the Hashmap containing the names -> items.
+     */
     public HashMap<String, Item> loadItems() {
         HashMap<String, Item> items = null;
         Gson gson = new Gson();
@@ -50,6 +65,10 @@ public class ItemRepository {
         return items;
     }
 
+    /**
+     * Loads the capacity for each item from a file to a HashMap.
+     * @return the HashMap containing the names -> Capacity (piece).
+     */
     public HashMap<String, Long> loadCapacity() {
         HashMap<String, Long> items = null;
         Gson gson = new Gson();
@@ -66,6 +85,10 @@ public class ItemRepository {
         return items;
     }
 
+    /**
+     * Saves the capacity for each item to a file from a HashMap.
+     * @param capacity Hashmap containing itemName -> capacity (piece).
+     */
     public void saveCapacity(HashMap<String, Long> capacity) {
         Gson gson = new GsonBuilder().create();
         try {
@@ -77,6 +100,11 @@ public class ItemRepository {
         }
     }
 
+    /**
+     * Changes the value of a given item.
+     * @param name the item's value to be changed.
+     * @param newValue the new value of the item.
+     */
     public void changeValue(String name, int newValue){
         String path = ITEMS_PATH + name + ".json";
         HashMap<String, Integer> item = null;
@@ -98,7 +126,13 @@ public class ItemRepository {
         }
     }
 
+    /**
+     * Gets the value of a given item.
+     * @param name the name of the item.
+     * @return the value of the item.
+     */
     public int getValue(String name) {
+        System.out.println(name);
         String path = ITEMS_PATH + name + ".json";
         HashMap<String, Integer> item = null;
         Gson gson = new Gson();
@@ -109,8 +143,6 @@ public class ItemRepository {
         }catch (FileNotFoundException fnfe) {
             System.out.println(fnfe);
         }
-        //System.out.println(item);
         return item.get("value");
     }
-
 }

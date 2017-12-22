@@ -8,10 +8,20 @@ import org.bson.Document;
 import java.io.IOException;
 import java.util.*;
 
-public class MaintanancePanel {
+/**
+ * Panel to access the admin and maintenance functionalities of the machine.
+ * @author  Laszlo Szoboszlai
+ */
+public class MaintanancePanel
+{
     private ItemService itemService = new ItemServiceImpl();
 
-    private Hashtable<String, String> MapToTable(Map<String, Long> map){
+	/**
+	 *
+	 * @param map
+	 * @return
+	 */
+	private Hashtable<String, String> MapToTable(Map<String, Long> map){
 		Hashtable table = new Hashtable();
 		for (String item : map.keySet()){
 			table.put(item, map.get(item).toString());

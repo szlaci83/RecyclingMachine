@@ -8,7 +8,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 
 /**
- * Domain class representing a recyclable cartoon
+ * Domain class representing a recyclable carton
  * @author Laszlo Szoboszlai
  */
 public class Carton extends Item {

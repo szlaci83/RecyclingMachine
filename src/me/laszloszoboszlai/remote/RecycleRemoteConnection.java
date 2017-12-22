@@ -1,15 +1,19 @@
 package me.laszloszoboszlai.remote;
 
-import org.bson.Document;
-
 import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.Vector;
 
+/**
+ * Interface to be implemented by the different implementations of
+ * (XML-RPC and RMI) connection classes to handle remote calls for the Recycle Machine.
+ * The different implementations implement this common interface, so they can be injected on demand.
+ *
+ * @author Laszlo Szoboszlai
+ */
 public interface RecycleRemoteConnection extends Remote {
     Map getStatus() throws IOException, RemoteException;
     boolean emptySlot(int slot)throws IOException, RemoteException;

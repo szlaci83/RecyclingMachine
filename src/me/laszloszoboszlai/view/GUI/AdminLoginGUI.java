@@ -2,6 +2,7 @@ package me.laszloszoboszlai.view.GUI;
 
 
 import me.laszloszoboszlai.remote.RecycleRemoteConnection;
+import me.laszloszoboszlai.utils.MD5Hasher;
 
 import javax.swing.*;
 import java.awt.*;
@@ -74,7 +75,7 @@ public class AdminLoginGUI extends JFrame {
                 this.rmi = connectToRemoteHost((String) machineNo.getSelectedItem());
                 System.out.println(userName.getText());
                 System.out.println(new String(this.password.getPassword()));
-                String result = this.rmi.login(userName.getText(), new String(this.password.getPassword()));
+                String result = this.rmi.login(userName.getText(), MD5Hasher.getHash(new String(this.password.getPassword())));
                 if (result.equals("wrong")) {
                     JOptionPane.showMessageDialog(this, "Wrong pass.");
                     this.setVisible(false);
