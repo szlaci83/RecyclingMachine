@@ -27,5 +27,5 @@ public interface RecycleRemoteConnection extends Remote {
     boolean printReceipt() throws IOException;
     boolean closeConnection()throws RemoteException;
     Vector<String> getUsage(String from, String to) throws IOException;
-    boolean logout()throws RemoteException;
+    boolean logout(String username)throws RemoteException;
 }

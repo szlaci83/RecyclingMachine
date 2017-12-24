@@ -25,13 +25,14 @@ public class StatusGUI extends JFrame implements ActionListener{
         private Image cartonImg = new ImageIcon(this.getClass().getResource(PATH + "carton.png")).getImage();
         private Image crateImg = new ImageIcon(this.getClass().getResource(PATH + "crate.png")).getImage();
         private RecycleRemoteConnection connection;
+        private String username;
 
         public void actionPerformed(ActionEvent e) {
             String buttonName = e.getActionCommand();
             System.out.println(buttonName);
             if (buttonName.equals("Logout")){
                 try {
-                    this.connection.logout();
+                    this.connection.logout(this.username);
                     this.dispose();
 
                 } catch (RemoteException e1) {
@@ -60,7 +61,8 @@ public class StatusGUI extends JFrame implements ActionListener{
             return img.getScaledInstance(50, 80, Image.SCALE_SMOOTH);
         }
 
-        public StatusGUI(RecycleRemoteConnection caller) throws RemoteException {
+        public StatusGUI(RecycleRemoteConnection caller, String username) throws RemoteException {
+            this.username = username;
             this.connection = caller;
             this.pack();
             this.setSize(640,800);

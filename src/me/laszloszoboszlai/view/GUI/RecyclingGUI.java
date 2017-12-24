@@ -89,7 +89,7 @@ import java.rmi.RemoteException;
                 case "Status" : {
                         LoginGUI loginGUI = null;
                     System.out.println(sessionCookie);
-                        if ( sessionCookie == null){
+                        if ( sessionCookie == null) {
                             loginGUI = new LoginGUI(this, sessionCookie);
                             loginGUI.setVisible(true);
                         }

@@ -4,6 +4,8 @@ import me.laszloszoboszlai.repository.UserRepository;
 import me.laszloszoboszlai.utils.MD5Hasher;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Login controller of the recycling machine.
@@ -13,7 +15,8 @@ import java.security.NoSuchAlgorithmException;
 public class LoginPanel {
 
     // session cookie to identify the individual users
-    private String sessioncookie = "notset";
+   // private String sessioncookie = "notset";
+    private static Map<String, String> tokens = new HashMap();
     UserRepository userRepository = new UserRepository();
 
     /**
@@ -28,7 +31,8 @@ public class LoginPanel {
             return "wrong";
         }
          if( password.equals(pass.toUpperCase())){
-            sessioncookie = username + Math.random();
+            String sessioncookie = username + Math.random();
+            tokens.put(username, username +Math.random());
             return sessioncookie;
         } else {
             return "wrong";
@@ -36,20 +40,24 @@ public class LoginPanel {
     }
 
     /**
-     * Checks if the user is loggged in.
+     * Checks if the user is logged in.
      * @param username the name of the user to check.
      * @return true if the user is logged in, false otherwise.
      */
     public boolean isLoggedIn(String username){
-        return sessioncookie.contains(username);
+        return tokens.containsKey(username);
+    }
+
+    public boolean validateToken(String token){
+        return true;
     }
 
     /**
-     * Logs the current user out.
+     * Logs the given user out.
      * @return
      */
-    public boolean logout() {
-        this.sessioncookie = "notset";
+    public boolean logout(String username) {
+        tokens.remove(username);
         return true;
     }
 }

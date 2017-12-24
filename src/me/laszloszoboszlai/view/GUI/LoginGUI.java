@@ -24,7 +24,6 @@ public class LoginGUI extends JFrame {
 
 
     public LoginGUI(RecyclingGUI recyclingGUI, String cookie){
-       // this.sessionCookie = cookie;
         this.connection = recyclingGUI.getRemoteConnection();
         this.pack();
      this.setSize(420,340);
@@ -71,15 +70,16 @@ public class LoginGUI extends JFrame {
                     JOptionPane.showMessageDialog(this, "Wrong pass.");
                     this.setVisible(true);
                 } else {
-                    //cookie = result;
-                    StatusGUI statusGUI = new StatusGUI(this.connection);
+                    StatusGUI statusGUI = new StatusGUI(this.connection, userName.getText());
                     recyclingGUI.setStatusGUI(statusGUI);
                     recyclingGUI.setStatusGUIVisibility(true);
                 }
 
             } catch (RemoteException e) {
+                JOptionPane.showMessageDialog(this, "Couldn't connect to server");
                 e.printStackTrace();
             } catch (NoSuchAlgorithmException e) {
+                JOptionPane.showMessageDialog(this, "Couldn't connect to server");
                 e.printStackTrace();
             }
         });

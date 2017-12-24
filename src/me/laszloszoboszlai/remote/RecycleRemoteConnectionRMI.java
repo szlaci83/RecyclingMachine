@@ -114,8 +114,8 @@ public class RecycleRemoteConnectionRMI extends UnicastRemoteObject implements R
     }
 
     @Override
-    public boolean logout() {
-        loginPanel.logout();
+    public boolean logout(String username) {
+        loginPanel.logout(username);
         return true;
     }
 }

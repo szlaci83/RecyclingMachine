@@ -84,7 +84,7 @@ public class AdminLoginGUI extends JFrame {
                     this.setVisible(false);
                     ChartGUI chartGUI = new ChartGUI(this.connection);
                     chartGUI.setVisible(true);
-                    StatusGUI statusGUI = new StatusGUI(this.connection);
+                    StatusGUI statusGUI = new StatusGUI(this.connection, userName.getText());
                     statusGUI.setVisible(true);
 
                 }
