@@ -22,6 +22,14 @@ public class RecycleRemoteConnectionRPC implements RecycleRemoteConnection{
     // The ip of the Recycling machine server
     static String HOST = "http://127.0.0.1/RPC2";
 
+    public RecycleRemoteConnectionRPC() {
+
+    }
+
+    public RecycleRemoteConnectionRPC(String HostName) {
+      HOST = "http://" + HostName + "/RPC2";
+    }
+
     /**
      * Helper method to call methods remotely using RPC
      * @param url the server's URL
@@ -31,6 +39,7 @@ public class RecycleRemoteConnectionRPC implements RecycleRemoteConnection{
      */
     private static Object executeRemotely(String url, String methodName, Vector params){
         try {
+            System.out.println(url);
             XmlRpcClient server = new XmlRpcClient(url);
             Object result = server.execute(methodName, params);
             return result;
@@ -66,7 +75,10 @@ public class RecycleRemoteConnectionRPC implements RecycleRemoteConnection{
 
     @Override
     public String login(String userName, String password) throws RemoteException, NoSuchAlgorithmException {
-        return null;
+        Vector params = new Vector();
+        params.add(userName);
+        params.add(password);
+        return(String) executeRemotely(HOST, "RecyclingLogin.login", params);
     }
 
     @Override

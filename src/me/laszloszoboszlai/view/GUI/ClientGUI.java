@@ -28,7 +28,8 @@ public class ClientGUI extends JFrame implements ActionListener  {
 		try {
 			md = MessageDigest.getInstance("MD5");
 		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Couldn't connect to server!");
+            e.printStackTrace();
 		}
 		md.update(word.getBytes());
 	   byte[] digest = md.digest();
@@ -42,7 +43,6 @@ public class ClientGUI extends JFrame implements ActionListener  {
         if(e.getSource().equals(items)) {
             try {
                 XmlRpcClient server = new XmlRpcClient("http://localhost/RPC2"); //
-
                 Vector args = new Vector();
                 args.addElement(sessioncookie);
                 Object result = server.execute("RecyclingServer.getNumberOfItems", args );

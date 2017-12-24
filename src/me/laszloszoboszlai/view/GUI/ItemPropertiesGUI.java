@@ -24,7 +24,7 @@ public class ItemPropertiesGUI extends JFrame implements ActionListener{
 
     private Long status;
     private Long capacity;
-    private RecycleRemoteConnection rmi;
+    private RecycleRemoteConnection connection;
     private String name;
     private JTextField capacityText = new JTextField(6);
 
@@ -52,9 +52,10 @@ public class ItemPropertiesGUI extends JFrame implements ActionListener{
         switch (buttonName){
             case "Empty" :
                 try {
-                    this.rmi.emptySlot(nameToSlot(this.name));
+                    this.connection.emptySlot(nameToSlot(this.name));
                 } catch (IOException e1) {
                     e1.printStackTrace();
+                    JOptionPane.showMessageDialog(this, "Error, couldn't connect to server!");
                 }
                 this.deposited.setText("0");
                 break;
@@ -66,17 +67,20 @@ public class ItemPropertiesGUI extends JFrame implements ActionListener{
                 break;
             case "Set" :
                 try {
-                    this.rmi.changeItemValue(this.name, value);
+                    this.connection.changeItemValue(this.name, value);
                 } catch (RemoteException e1) {
                     e1.printStackTrace();
+                    JOptionPane.showMessageDialog(this, "Error, couldn't connect to server!");
                 }
                 break;
             case "Save" :
                 try {
-                    this.rmi.setCapacity(this.name, capacity);
+                    this.connection.setCapacity(this.name, capacity);
                 } catch (RemoteException e1) {
+                    JOptionPane.showMessageDialog(this, "Error, couldn't connect to server!");
                     e1.printStackTrace();
                 } catch (IOException e1) {
+                    JOptionPane.showMessageDialog(this, "Error, couldn't connect to server!");
                     e1.printStackTrace();
                 }
                 this.capacityLabel.setText(capacity.toString());
@@ -85,19 +89,15 @@ public class ItemPropertiesGUI extends JFrame implements ActionListener{
     }
 
     public ItemPropertiesGUI(RecycleRemoteConnection rmi, String name) throws IOException {
-//        if (customerPanel == null) {
-//            customerPanel = new CustomerPanel(new Display());
-//        }
-
         this.name = name;
-        this.rmi = rmi;
-        Object ItemStatus =  this.rmi.getStatus().get(name);
+        this.connection = rmi;
+        Object ItemStatus =  this.connection.getStatus().get(name);
         if (ItemStatus != null) {
-            this.status = Long.parseLong((String) this.rmi.getStatus().get(name));
+            this.status = Long.parseLong((String) this.connection.getStatus().get(name));
         } else {
             this.status = 0L;
         }
-        this.capacity = Long.parseLong((String) this.rmi.getCapacity().get(name));
+        this.capacity = Long.parseLong((String) this.connection.getCapacity().get(name));
         this.pack();
         this.setSize(420,340);
         this.setLocationRelativeTo(null);
@@ -110,7 +110,6 @@ public class ItemPropertiesGUI extends JFrame implements ActionListener{
         panel.add(depositedLabel);
 
         deposited.setText(status.toString());
-        System.out.println(status.toString());
         deposited.setBounds(20, 40, 120, 80);
         panel.add(deposited);
         empty.setBounds(20, 140, 80, 60);
@@ -136,8 +135,7 @@ public class ItemPropertiesGUI extends JFrame implements ActionListener{
         up.setBounds(180, 60, 45,45);
         up.addActionListener(this);
         panel.add(up);
-        int rs = this.rmi.getItemValue(name);
-        System.out.println(rs);
+        int rs = this.connection.getItemValue(name);
         value.setText(String.valueOf(rs));
         value.setBounds(180, 140, 45,45);
         panel.add(value);

@@ -58,6 +58,7 @@ import java.rmi.RemoteException;
                     try {
                         this.remoteConnection.classifyItem(2);
                     } catch (RemoteException e1) {
+                        JOptionPane.showMessageDialog(this, "Error, couldn't connect to server!");
                         e1.printStackTrace();
                     }
                     break;
@@ -65,6 +66,7 @@ import java.rmi.RemoteException;
                     try {
                         this.remoteConnection.classifyItem(1);
                     } catch (RemoteException e1) {
+                        JOptionPane.showMessageDialog(this, "Error, couldn't connect to server!");
                         e1.printStackTrace();
                     }
                     break;
@@ -72,6 +74,7 @@ import java.rmi.RemoteException;
                     try {
                         this.remoteConnection.classifyItem(3);
                     } catch (RemoteException e1) {
+                        JOptionPane.showMessageDialog(this, "Error, couldn't connect to server!");
                         e1.printStackTrace();
                     }
                     break;
@@ -79,6 +82,7 @@ import java.rmi.RemoteException;
                     try {
                         this.remoteConnection.classifyItem(4);
                     } catch (RemoteException e1) {
+                        JOptionPane.showMessageDialog(this, "Error, couldn't connect to server!");
                         e1.printStackTrace();
                     }
                     break;
@@ -99,6 +103,7 @@ import java.rmi.RemoteException;
                         this.remoteConnection.printReceipt();
                     } catch (IOException e1) {
                         e1.printStackTrace();
+                        JOptionPane.showMessageDialog(this, "Error, couldn't connect to server!");
                     }
             }
         }

@@ -28,15 +28,13 @@ import static javax.swing.JOptionPane.showMessageDialog;
 
 
 public class ChartGUI extends JFrame implements ActionListener {
-
-    //MaintanancePanel remotePanel = new MaintanancePanel();
     ArrayList<Document> usage = null;
     XYChart chart = null;
     JDatePickerImpl fromPicker = null;
     JDatePickerImpl toPicker = null;
     DateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
     private JButton chartBtn = new JButton("Draw chart");
-    RecycleRemoteConnection rmi;
+    RecycleRemoteConnection connection;
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
@@ -58,7 +56,7 @@ public class ChartGUI extends JFrame implements ActionListener {
     }
 
     private void getUsage(String from, String to) throws IOException {
-        this.usage = deserialiseDocuments(this.rmi.getUsage(from, to));
+        this.usage = deserialiseDocuments(this.connection.getUsage(from, to));
     }
 
     private XYSeries addSeriesToChart(String name){
@@ -85,8 +83,8 @@ public class ChartGUI extends JFrame implements ActionListener {
         return chart.addSeries(name, xData, yData);
     }
 
-    public ChartGUI(RecycleRemoteConnection rmi){
-        this.rmi = rmi;
+    public ChartGUI(RecycleRemoteConnection connection){
+        this.connection = connection;
 
         this.pack();
         this.setSize(620,640);
@@ -118,7 +116,7 @@ public class ChartGUI extends JFrame implements ActionListener {
             Date fromDate = null;
 
             if ((fromPicker.getModel().getValue() == null) || (fromPicker.getModel().getValue() == null)){
-                showMessageDialog(this, "Please select the from and to dates!");
+               showMessageDialog(this, "Please select the from and to dates!");
             }
 
             else {
@@ -131,12 +129,16 @@ public class ChartGUI extends JFrame implements ActionListener {
                 try {
                     getUsage(String.valueOf(fromDate.getTime()), String.valueOf(toDate.getTime()));
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    showMessageDialog(this, "Error!");
                 }
-                addSeriesToChart("Can");
-                addSeriesToChart("Bottle");
-                addSeriesToChart("Crate");
-                addSeriesToChart("Carton");
+                try {
+                    addSeriesToChart("Can");
+                    addSeriesToChart("Bottle");
+                    addSeriesToChart("Crate");
+                    addSeriesToChart("Carton");
+                } catch (NoSuchElementException exc){
+                    // Just ignore if there is no element deposited yet.
+                }
                 this.repaint();
             }
         });

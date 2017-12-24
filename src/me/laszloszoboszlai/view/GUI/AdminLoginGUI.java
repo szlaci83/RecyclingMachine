@@ -2,6 +2,7 @@ package me.laszloszoboszlai.view.GUI;
 
 
 import me.laszloszoboszlai.remote.RecycleRemoteConnection;
+import me.laszloszoboszlai.remote.RecycleRemoteConnectionRPC;
 import me.laszloszoboszlai.utils.MD5Hasher;
 
 import javax.swing.*;
@@ -23,16 +24,15 @@ public class AdminLoginGUI extends JFrame {
     private JPasswordField password = new JPasswordField(30);
     private JButton login = new JButton("Login");
     private JLabel machineNoLabel = new JLabel("Machine:");
-    //private JTextField machineNo = new JTextField(30);
-    private RecycleRemoteConnection rmi;
+    private RecycleRemoteConnection connection;
     String[]machines = new String[] {"localhost", "127.0.0.1",
-            "192.168.0.1", "Java for Dummies"};
+            "192.168.0.2", "192.168.0.3"};
 
     JComboBox<String> machineNo = new JComboBox<>(machines);
 
-    public AdminLoginGUI() {
+    public AdminLoginGUI(String connectionMode) {
         this.pack();
-        this.setSize(420, 340);
+        this.setSize(420, 440);
         this.setLocationRelativeTo(null);
 
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -70,51 +70,55 @@ public class AdminLoginGUI extends JFrame {
         panel.add(login);
 
         login.addActionListener(ae -> {
-            this.hide();
+            this.setVisible(false);
             try {
-                this.rmi = connectToRemoteHost((String) machineNo.getSelectedItem());
+                this.connection = connectToRemoteHost(connectionMode, (String) machineNo.getSelectedItem());
                 System.out.println(userName.getText());
                 System.out.println(new String(this.password.getPassword()));
-                String result = this.rmi.login(userName.getText(), MD5Hasher.getHash(new String(this.password.getPassword())));
+                String result = this.connection.login(userName.getText(), MD5Hasher.getHash(new String(this.password.getPassword())));
                 if (result.equals("wrong")) {
-                    JOptionPane.showMessageDialog(this, "Wrong pass.");
+                    JOptionPane.showMessageDialog(this, "Wrong password.");
                     this.setVisible(false);
                 }
                 else{
                     this.setVisible(false);
-                    ChartGUI chartGUI = new ChartGUI(this.rmi);
+                    ChartGUI chartGUI = new ChartGUI(this.connection);
                     chartGUI.setVisible(true);
-                    StatusGUI statusGUI = new StatusGUI(this.rmi);
+                    StatusGUI statusGUI = new StatusGUI(this.connection);
                     statusGUI.setVisible(true);
 
                 }
             } catch (RemoteException e) {
-               // JOptionPane.showMessageDialog(this, "Couldn't connect to server");`
+                JOptionPane.showMessageDialog(this, "Couldn't connect to server");
                 e.printStackTrace();
             } catch (NoSuchAlgorithmException e) {
-                //JOptionPane.showMessageDialog(this, "Couldn't connect to server");
+                JOptionPane.showMessageDialog(this, "Couldn't connect to server");
                 e.printStackTrace();
             } catch (NotBoundException e) {
-                //JOptionPane.showMessageDialog(this, "Couldn't connect to server");
+                JOptionPane.showMessageDialog(this, "Couldn't connect to server");
                 e.printStackTrace();
             } catch (MalformedURLException e) {
-                //JOptionPane.showMessageDialog(this, "Couldn't connect to server");
+                JOptionPane.showMessageDialog(this, "Couldn't connect to server");
                 e.printStackTrace();
             }
         });
-
         getContentPane().add(panel);
         panel.repaint();
-
     }
 
-    private RecycleRemoteConnection connectToRemoteHost(String host) throws RemoteException, NotBoundException, MalformedURLException {
-       return (RecycleRemoteConnection) Naming.lookup("rmi://"+ host +"/RecycleService");
+    private RecycleRemoteConnection connectToRemoteHost(String mode, String host) throws RemoteException, NotBoundException, MalformedURLException {
+        RecycleRemoteConnection connection = null;
+        if (mode.equals("RMI")) {
+            connection = (RecycleRemoteConnection) Naming.lookup("rmi://" + host + "/RecycleService");
+        }
+        if (mode.equals("XML-RPC")){
+            connection = new RecycleRemoteConnectionRPC(host);
+        }
+        return connection;
     }
-
 
     public static void main(String[] args) {
-        AdminLoginGUI adminLoginGUI = new AdminLoginGUI();
+        AdminLoginGUI adminLoginGUI = new AdminLoginGUI("RMI");
         adminLoginGUI.setVisible(true);
     }
 }

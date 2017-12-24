@@ -35,6 +35,7 @@ public class StatusGUI extends JFrame implements ActionListener{
                     this.dispose();
 
                 } catch (RemoteException e1) {
+                    JOptionPane.showMessageDialog(this, "Error, couldn't connect to server!");
                     e1.printStackTrace();
                 }
             } else {
@@ -43,6 +44,7 @@ public class StatusGUI extends JFrame implements ActionListener{
                     propertiesGUI = new ItemPropertiesGUI(this.connection, buttonName);
                 } catch (IOException e1) {
                     e1.printStackTrace();
+                    JOptionPane.showMessageDialog(this, "Error, couldn't connect to server!");
                 }
                 propertiesGUI.setVisible(true);
             }
