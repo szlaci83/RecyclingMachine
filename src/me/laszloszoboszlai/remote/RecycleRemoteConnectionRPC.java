@@ -52,21 +52,25 @@ public class RecycleRemoteConnectionRPC implements RecycleRemoteConnection{
 
 
     @Override
-    public Map<String, Long> getStatus() throws IOException {
-        return (Map<String, Long>) executeRemotely(HOST, "RecyclingMaintanance.getStatus", new Vector());
+    public Map<String, Long> getStatus(String token) throws IOException {
+        Vector params = new Vector();
+        params.add(token);
+        return (Map<String, Long>) executeRemotely(HOST, "RecyclingMaintanance.getStatus", params);
     }
 
     @Override
-    public boolean emptySlot(int slot) throws IOException {
+    public boolean emptySlot(String token, int slot) throws IOException {
         Vector params = new Vector();
+        params.add(token);
         params.add(slot);
         executeRemotely(HOST, "RecyclingMaintanance.emptySlot", params);
         return true;
     }
 
     @Override
-    public boolean changeItemValue(String name, int value) throws RemoteException {
+    public boolean changeItemValue(String token, String name, int value) throws RemoteException {
         Vector params = new Vector();
+        params.add(token);
         params.add(name);
         params.add(value);
         executeRemotely(HOST, "RecyclingMaintanance.changeItemValue", params);
@@ -89,20 +93,24 @@ public class RecycleRemoteConnectionRPC implements RecycleRemoteConnection{
     }
 
     @Override
-    public int getItemValue(String name) throws RemoteException {
+    public int getItemValue(String token,String name) throws RemoteException {
         Vector params = new Vector();
+        params.add(token);
         params.add(name);
         return (Integer) executeRemotely(HOST, "RecyclingMaintanance.getItemValue", params);
     }
 
     @Override
-    public Map<String, Long> getCapacity() throws IOException {
-        return (Map<String, Long>) executeRemotely(HOST, "RecyclingMaintanance.getCapacity", new Vector());
+    public Map<String, Long> getCapacity(String token) throws IOException {
+        Vector params = new Vector();
+        params.add(token);
+        return (Map<String, Long>) executeRemotely(HOST, "RecyclingMaintanance.getCapacity", params);
     }
 
     @Override
-    public boolean setCapacity(String name, long capacity) throws IOException {
+    public boolean setCapacity(String token, String name, long capacity) throws IOException {
         Vector params = new Vector();
+        params.add(token);
         params.add(name);
         params.add(String.valueOf(capacity));
         executeRemotely(HOST, "RecyclingMaintanance.setCapacity", params);
@@ -125,15 +133,17 @@ public class RecycleRemoteConnectionRPC implements RecycleRemoteConnection{
     }
 
     @Override
-    public boolean closeConnection() throws RemoteException {
+    public boolean closeConnection(String token) throws RemoteException {
         Vector params = new Vector();
+        params.add(token);
         executeRemotely(HOST, "RecyclingMaintanance.closeConnection", params);
         return true;
     }
 
     @Override
-    public Vector<String> getUsage(String from, String to) throws IOException {
+    public Vector<String> getUsage(String token, String from, String to) throws IOException {
         Vector params = new Vector();
+        params.add(token);
         params.add(from);
         params.add(to);
         return (Vector<String>) executeRemotely(HOST, "RecyclingMaintanance.getUsage", params);
@@ -145,21 +155,21 @@ public class RecycleRemoteConnectionRPC implements RecycleRemoteConnection{
         params.add(username);
         return(boolean) executeRemotely(HOST, "RecyclingLogin.logout", params);
     }
-
-    public static void main(String[] args) {
-        RecycleRemoteConnectionRPC conn = new RecycleRemoteConnectionRPC();
-        try {
-            System.out.println(conn.getStatus());
-            System.out.println(conn.getCapacity());
-            conn.emptySlot(1);
-            System.out.println(conn.getUsage("0","0"));
-            System.out.println(conn.emptySlot(1));
-            System.out.println(conn.changeItemValue("Can", 1));
-            System.out.println(conn.getItemValue("Bottle"));
-            System.out.println(conn.classifyItem(1));
-            System.out.println(conn.printReceipt());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//
+//    public static void main(String[] args) {
+//        RecycleRemoteConnectionRPC conn = new RecycleRemoteConnectionRPC();
+//        try {
+//            System.out.println(conn.getStatus());
+//            System.out.println(conn.getCapacity());
+//            conn.emptySlot(1);
+//            System.out.println(conn.getUsage("0","0"));
+//            System.out.println(conn.emptySlot(1));
+//            System.out.println(conn.changeItemValue("Can", 1));
+//            System.out.println(conn.getItemValue("Bottle"));
+//            System.out.println(conn.classifyItem(1));
+//            System.out.println(conn.printReceipt());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

@@ -70,7 +70,7 @@ public class LoginGUI extends JFrame {
                     JOptionPane.showMessageDialog(this, "Wrong pass.");
                     this.setVisible(true);
                 } else {
-                    StatusGUI statusGUI = new StatusGUI(this.connection, userName.getText());
+                    StatusGUI statusGUI = new StatusGUI(this.connection, result);
                     recyclingGUI.setStatusGUI(statusGUI);
                     recyclingGUI.setStatusGUIVisibility(true);
                 }

@@ -1,5 +1,7 @@
 package me.laszloszoboszlai.remote;
 
+import me.laszloszoboszlai.exception.NotLoggedInException;
+
 import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -15,17 +17,17 @@ import java.util.Vector;
  * @author Laszlo Szoboszlai
  */
 public interface RecycleRemoteConnection extends Remote {
-    Map getStatus() throws IOException, RemoteException;
-    boolean emptySlot(int slot)throws IOException, RemoteException;
-    boolean changeItemValue(String name, int value) throws RemoteException;
+    Map getStatus(String token) throws IOException, RemoteException, NotLoggedInException;
+    boolean emptySlot(String token, int slot)throws IOException, RemoteException, NotLoggedInException;
+    boolean changeItemValue(String token, String name, int value) throws RemoteException, NotLoggedInException;
     String login(String userName, String password) throws RemoteException, NoSuchAlgorithmException;
     boolean isLoggedIn(String username) throws RemoteException;
-    int getItemValue(String name) throws RemoteException;
-    Map getCapacity()throws IOException;
-    boolean setCapacity(String name, long capacity) throws IOException;
+    int getItemValue(String token, String name) throws RemoteException, NotLoggedInException;
+    Map getCapacity(String token)throws IOException, NotLoggedInException;
+    boolean setCapacity(String token, String name, long capacity) throws IOException, NotLoggedInException;
     boolean classifyItem(int itemNumber)throws RemoteException;
     boolean printReceipt() throws IOException;
-    boolean closeConnection()throws RemoteException;
-    Vector<String> getUsage(String from, String to) throws IOException;
-    boolean logout(String username)throws RemoteException;
+    boolean closeConnection(String token)throws RemoteException, NotLoggedInException;
+    Vector<String> getUsage(String token, String from, String to) throws IOException, NotLoggedInException;
+    boolean logout(String username)throws RemoteException,NotLoggedInException;
 }

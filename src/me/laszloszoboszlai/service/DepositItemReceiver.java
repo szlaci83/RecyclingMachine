@@ -6,7 +6,6 @@ import me.laszloszoboszlai.view.PrinterInterface;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
-import java.util.Map;
 
 /**
  * Class to control the logic of receiving, classifying, and printing items.
@@ -18,7 +17,7 @@ public class DepositItemReceiver implements DepositItemReceiverInterface{
 	// session cookie to identify the individual users
 	//String sessioncookie = "notset";
 
-	private ItemService itemService = new ItemServiceImpl();
+	private ItemServiceInterface itemService = new ItemService();
 	private ReceiptBasis theReceiptBasis;
 	private PrinterInterface printer = null;
 

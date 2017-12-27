@@ -6,6 +6,7 @@ import me.laszloszoboszlai.utils.MD5Hasher;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Login controller of the recycling machine.
@@ -49,15 +50,21 @@ public class LoginPanel {
     }
 
     public boolean validateToken(String token){
-        return true;
+        String result = tokens.entrySet().stream()
+                .filter(map -> token.equals(map.getValue()))
+                .map(map -> map.getValue())
+                .collect(Collectors.joining());
+        return result.isEmpty();
     }
 
     /**
      * Logs the given user out.
      * @return
      */
-    public boolean logout(String username) {
-        tokens.remove(username);
+    public boolean logout(String token) {
+        tokens = tokens.entrySet().stream()
+                .filter(map -> !token.equals(map.getValue()))
+                .collect(Collectors.toMap(p -> p.getKey(), p -> p.getValue()));
         return true;
     }
 }

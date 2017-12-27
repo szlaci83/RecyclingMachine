@@ -1,5 +1,6 @@
 package me.laszloszoboszlai.view.GUI;
 
+import me.laszloszoboszlai.exception.NotLoggedInException;
 import me.laszloszoboszlai.remote.RecycleRemoteConnection;
 
 import javax.swing.*;
@@ -25,27 +26,33 @@ public class StatusGUI extends JFrame implements ActionListener{
         private Image cartonImg = new ImageIcon(this.getClass().getResource(PATH + "carton.png")).getImage();
         private Image crateImg = new ImageIcon(this.getClass().getResource(PATH + "crate.png")).getImage();
         private RecycleRemoteConnection connection;
-        private String username;
+        private String token;
 
         public void actionPerformed(ActionEvent e) {
             String buttonName = e.getActionCommand();
             System.out.println(buttonName);
             if (buttonName.equals("Logout")){
                 try {
-                    this.connection.logout(this.username);
+                    this.connection.logout(this.token);
                     this.dispose();
 
                 } catch (RemoteException e1) {
                     JOptionPane.showMessageDialog(this, "Error, couldn't connect to server!");
                     e1.printStackTrace();
+                } catch (NotLoggedInException e1) {
+                    JOptionPane.showMessageDialog(this, "Login needed for this operation!");
+                    e1.printStackTrace();
                 }
             } else {
                 ItemPropertiesGUI propertiesGUI = null;
                 try {
-                    propertiesGUI = new ItemPropertiesGUI(this.connection, buttonName);
+                    propertiesGUI = new ItemPropertiesGUI(this.connection, token, buttonName);
                 } catch (IOException e1) {
                     e1.printStackTrace();
                     JOptionPane.showMessageDialog(this, "Error, couldn't connect to server!");
+                } catch (NotLoggedInException e1) {
+                    JOptionPane.showMessageDialog(this, "Error, login required!");
+                    e1.printStackTrace();
                 }
                 propertiesGUI.setVisible(true);
             }
@@ -61,8 +68,8 @@ public class StatusGUI extends JFrame implements ActionListener{
             return img.getScaledInstance(50, 80, Image.SCALE_SMOOTH);
         }
 
-        public StatusGUI(RecycleRemoteConnection caller, String username) throws RemoteException {
-            this.username = username;
+        public StatusGUI(RecycleRemoteConnection caller, String token) throws RemoteException {
+            this.token = token;
             this.connection = caller;
             this.pack();
             this.setSize(640,800);

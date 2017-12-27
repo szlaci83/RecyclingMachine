@@ -1,5 +1,6 @@
 package me.laszloszoboszlai.view.GUI;
 
+import me.laszloszoboszlai.exception.NotLoggedInException;
 import me.laszloszoboszlai.remote.RecycleRemoteConnection;
 
 import javax.swing.*;
@@ -26,6 +27,7 @@ public class ItemPropertiesGUI extends JFrame implements ActionListener{
     private Long capacity;
     private RecycleRemoteConnection connection;
     private String name;
+    private String token;
     private JTextField capacityText = new JTextField(6);
 
     private int nameToSlot(String name){
@@ -52,10 +54,13 @@ public class ItemPropertiesGUI extends JFrame implements ActionListener{
         switch (buttonName){
             case "Empty" :
                 try {
-                    this.connection.emptySlot(nameToSlot(this.name));
+                    this.connection.emptySlot(this.token, nameToSlot(this.name));
                 } catch (IOException e1) {
-                    e1.printStackTrace();
                     JOptionPane.showMessageDialog(this, "Error, couldn't connect to server!");
+                    e1.printStackTrace();
+                } catch (NotLoggedInException e1) {
+                    JOptionPane.showMessageDialog(this, "Error, login required!");
+                    e1.printStackTrace();
                 }
                 this.deposited.setText("0");
                 break;
@@ -67,20 +72,26 @@ public class ItemPropertiesGUI extends JFrame implements ActionListener{
                 break;
             case "Set" :
                 try {
-                    this.connection.changeItemValue(this.name, value);
+                    this.connection.changeItemValue(this.token, this.name, value);
                 } catch (RemoteException e1) {
-                    e1.printStackTrace();
                     JOptionPane.showMessageDialog(this, "Error, couldn't connect to server!");
+                    e1.printStackTrace();
+                } catch (NotLoggedInException e1) {
+                    JOptionPane.showMessageDialog(this, "Error, login required!");
+                    e1.printStackTrace();
                 }
                 break;
             case "Save" :
                 try {
-                    this.connection.setCapacity(this.name, capacity);
+                    this.connection.setCapacity(this.token, this.name, capacity);
                 } catch (RemoteException e1) {
                     JOptionPane.showMessageDialog(this, "Error, couldn't connect to server!");
                     e1.printStackTrace();
                 } catch (IOException e1) {
                     JOptionPane.showMessageDialog(this, "Error, couldn't connect to server!");
+                    e1.printStackTrace();
+                } catch (NotLoggedInException e1) {
+                    JOptionPane.showMessageDialog(this, "Error, login required!");
                     e1.printStackTrace();
                 }
                 this.capacityLabel.setText(capacity.toString());
@@ -88,16 +99,17 @@ public class ItemPropertiesGUI extends JFrame implements ActionListener{
         this.repaint();
     }
 
-    public ItemPropertiesGUI(RecycleRemoteConnection rmi, String name) throws IOException {
+    public ItemPropertiesGUI(RecycleRemoteConnection rmi, String token, String name) throws IOException, NotLoggedInException {
         this.name = name;
+        this.token = token;
         this.connection = rmi;
-        Object ItemStatus =  this.connection.getStatus().get(name);
+        Object ItemStatus =  this.connection.getStatus(this.token).get(name);
         if (ItemStatus != null) {
-            this.status = Long.parseLong((String) this.connection.getStatus().get(name));
+            this.status = Long.parseLong((String) this.connection.getStatus(this.token).get(name));
         } else {
             this.status = 0L;
         }
-        this.capacity = Long.parseLong((String) this.connection.getCapacity().get(name));
+        this.capacity = Long.parseLong((String) this.connection.getCapacity(this.token).get(name));
         this.pack();
         this.setSize(420,340);
         this.setLocationRelativeTo(null);
@@ -135,7 +147,7 @@ public class ItemPropertiesGUI extends JFrame implements ActionListener{
         up.setBounds(180, 60, 45,45);
         up.addActionListener(this);
         panel.add(up);
-        int rs = this.connection.getItemValue(name);
+        int rs = this.connection.getItemValue(token, name);
         value.setText(String.valueOf(rs));
         value.setBounds(180, 140, 45,45);
         panel.add(value);
@@ -152,7 +164,7 @@ public class ItemPropertiesGUI extends JFrame implements ActionListener{
         panel.repaint();
     }
     public static void main(String [] args ) throws IOException {
-        ItemPropertiesGUI myGUI = new ItemPropertiesGUI(null, null);
-        myGUI.setVisible(true);
+        // ItemPropertiesGUI myGUI = new ItemPropertiesGUI(null, null);
+        // myGUI.setVisible(true);
     }
 }

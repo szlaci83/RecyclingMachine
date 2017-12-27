@@ -25,6 +25,7 @@ public class AdminLoginGUI extends JFrame {
     private JButton login = new JButton("Login");
     private JLabel machineNoLabel = new JLabel("Machine:");
     private RecycleRemoteConnection connection;
+
     String[]machines = new String[] {"localhost", "127.0.0.1",
             "192.168.0.2", "192.168.0.3"};
 
@@ -75,16 +76,16 @@ public class AdminLoginGUI extends JFrame {
                 this.connection = connectToRemoteHost(connectionMode, (String) machineNo.getSelectedItem());
                 System.out.println(userName.getText());
                 System.out.println(new String(this.password.getPassword()));
-                String result = this.connection.login(userName.getText(), MD5Hasher.getHash(new String(this.password.getPassword())));
-                if (result.equals("wrong")) {
+                String token = this.connection.login(userName.getText(), MD5Hasher.getHash(new String(this.password.getPassword())));
+                if (token.equals("wrong")) {
                     JOptionPane.showMessageDialog(this, "Wrong password.");
                     this.setVisible(false);
                 }
                 else{
                     this.setVisible(false);
-                    ChartGUI chartGUI = new ChartGUI(this.connection);
+                    ChartGUI chartGUI = new ChartGUI(this.connection, token);
                     chartGUI.setVisible(true);
-                    StatusGUI statusGUI = new StatusGUI(this.connection, userName.getText());
+                    StatusGUI statusGUI = new StatusGUI(this.connection, token);
                     statusGUI.setVisible(true);
 
                 }

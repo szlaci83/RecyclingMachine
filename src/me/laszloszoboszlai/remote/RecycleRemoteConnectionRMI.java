@@ -2,15 +2,14 @@ package me.laszloszoboszlai.remote;
 
 import me.laszloszoboszlai.controller.CustomerPanel;
 import me.laszloszoboszlai.controller.LoginPanel;
-import me.laszloszoboszlai.controller.MaintanancePanel;
+import me.laszloszoboszlai.controller.MaintenancePanel;
+import me.laszloszoboszlai.exception.NotLoggedInException;
 import me.laszloszoboszlai.view.Display;
-import org.bson.Document;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.Vector;
 
@@ -24,7 +23,7 @@ import java.util.Vector;
 public class RecycleRemoteConnectionRMI extends UnicastRemoteObject implements RecycleRemoteConnection {
 
     private static final long serialVersionUID = 1L;
-    private MaintanancePanel maintanancePanel;
+    private MaintenancePanel maintenancePanel;
     private CustomerPanel customerPanel = new CustomerPanel(new Display());
     private LoginPanel loginPanel = new LoginPanel();
 
@@ -43,24 +42,24 @@ public class RecycleRemoteConnectionRMI extends UnicastRemoteObject implements R
      * recycling machine, because this part is machine dependent this is set after initialisation.
      * @param thePanel the maintenance panel of the system.
      */
-    public void setPanel( MaintanancePanel thePanel ) {
-        maintanancePanel = thePanel;
+    public void setPanel( MaintenancePanel thePanel ) {
+        maintenancePanel = thePanel;
     }
 
     @Override
-    public Map<String, String> getStatus() throws IOException {
-        return maintanancePanel.getStatus();
+    public Map<String, String> getStatus(String token) throws IOException, NotLoggedInException {
+        return maintenancePanel.getStatus(token);
     }
 
     @Override
-    public boolean emptySlot(int slot) throws IOException {
-        maintanancePanel.emptySlot(slot);
+    public boolean emptySlot(String token, int slot) throws IOException, NotLoggedInException {
+        maintenancePanel.emptySlot(token, slot);
         return true;
     }
 
     @Override
-    public boolean changeItemValue(String name, int value) {
-        maintanancePanel.changeItemValue(name, value);
+    public boolean changeItemValue(String token, String name, int value) throws NotLoggedInException {
+        maintenancePanel.changeItemValue(token, name, value);
         return true;
     }
 
@@ -75,18 +74,18 @@ public class RecycleRemoteConnectionRMI extends UnicastRemoteObject implements R
     }
 
     @Override
-    public int getItemValue(String name) throws RemoteException {
-        return maintanancePanel.getItemValue(name);
+    public int getItemValue(String token, String name) throws RemoteException, NotLoggedInException {
+        return maintenancePanel.getItemValue(token, name);
     }
 
     @Override
-    public Map<String, String> getCapacity() throws RemoteException{
-       return maintanancePanel.getCapacity();
+    public Map<String, String> getCapacity(String token) throws RemoteException, NotLoggedInException {
+       return maintenancePanel.getCapacity(token);
     }
 
     @Override
-    public boolean setCapacity(String name, long capaity) throws IOException {
-        maintanancePanel.setCapacity(name, capaity);
+    public boolean setCapacity(String token, String name, long capaity) throws IOException, NotLoggedInException {
+        maintenancePanel.setCapacity(token, name, capaity);
         return true;
     }
 
@@ -103,14 +102,14 @@ public class RecycleRemoteConnectionRMI extends UnicastRemoteObject implements R
     }
 
     @Override
-    public boolean closeConnection() {
-        maintanancePanel.closeConnection();
+    public boolean closeConnection(String token) throws NotLoggedInException {
+        maintenancePanel.closeConnection(token);
         return true;
     }
 
     @Override
-    public Vector<String> getUsage(String from, String to) throws IOException {
-        return maintanancePanel.getUsage(from, to);
+    public Vector<String> getUsage(String token, String from, String to) throws IOException, NotLoggedInException {
+        return maintenancePanel.getUsage(token, from, to);
     }
 
     @Override
