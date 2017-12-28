@@ -11,10 +11,10 @@ import java.rmi.registry.Registry;
 public class RMI_Server {
 
     public static void main(String[] args) throws RemoteException {
-        MaintenancePanel maintenancePanel = new MaintenancePanel();
+       // MaintenancePanel maintenancePanel = new MaintenancePanel();
         try {
             RecycleRemoteConnectionRMI recycleImpl = new RecycleRemoteConnectionRMI();
-            recycleImpl.setPanel(maintenancePanel);
+           // recycleImpl.setPanel(maintenancePanel);
             Registry reg = LocateRegistry.createRegistry(1099);
             reg.rebind("RecycleService", (RecycleRemoteConnection) recycleImpl);
             System.out.println("Starting Recycling Service. Welcome to RMI!");

@@ -107,12 +107,12 @@ public class AdminLoginGUI extends JFrame {
         panel.repaint();
     }
 
-    private RecycleRemoteConnection connectToRemoteHost(String mode, String host) throws RemoteException, NotBoundException, MalformedURLException {
+    private RecycleRemoteConnection connectToRemoteHost(String protocol, String host) throws RemoteException, NotBoundException, MalformedURLException {
         RecycleRemoteConnection connection = null;
-        if (mode.equals("RMI")) {
+        if (protocol.equals("RMI")) {
             connection = (RecycleRemoteConnection) Naming.lookup("rmi://" + host + "/RecycleService");
         }
-        if (mode.equals("XML-RPC")){
+        if (protocol.equals("XML-RPC")){
             connection = new RecycleRemoteConnectionRPC(host);
         }
         return connection;

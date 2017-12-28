@@ -23,7 +23,7 @@ import java.util.Vector;
 public class RecycleRemoteConnectionRMI extends UnicastRemoteObject implements RecycleRemoteConnection {
 
     private static final long serialVersionUID = 1L;
-    private MaintenancePanel maintenancePanel;
+    private MaintenancePanel maintenancePanel= new MaintenancePanel();
     private CustomerPanel customerPanel = new CustomerPanel(new Display());
     private LoginPanel loginPanel = new LoginPanel();
 
@@ -37,14 +37,14 @@ public class RecycleRemoteConnectionRMI extends UnicastRemoteObject implements R
         super(arg0);
     }
 
-    /**
-     * Sets the maintenance panel of the
-     * recycling machine, because this part is machine dependent this is set after initialisation.
-     * @param thePanel the maintenance panel of the system.
-     */
-    public void setPanel( MaintenancePanel thePanel ) {
-        maintenancePanel = thePanel;
-    }
+//    /**
+//     * Sets the maintenance panel of the
+//     * recycling machine, because this part is machine dependent this is set after initialisation.
+//     * @param thePanel the maintenance panel of the system.
+//     */
+//    public void setPanel( MaintenancePanel thePanel ) {
+//        maintenancePanel = thePanel;
+//    }
 
     @Override
     public Map<String, String> getStatus(String token) throws IOException, NotLoggedInException {
@@ -69,11 +69,6 @@ public class RecycleRemoteConnectionRMI extends UnicastRemoteObject implements R
     }
 
     @Override
-    public boolean isLoggedIn(String username) throws RemoteException {
-        return loginPanel.isLoggedIn(username);
-    }
-
-    @Override
     public int getItemValue(String token, String name) throws RemoteException, NotLoggedInException {
         return maintenancePanel.getItemValue(token, name);
     }
@@ -84,8 +79,8 @@ public class RecycleRemoteConnectionRMI extends UnicastRemoteObject implements R
     }
 
     @Override
-    public boolean setCapacity(String token, String name, long capaity) throws IOException, NotLoggedInException {
-        maintenancePanel.setCapacity(token, name, capaity);
+    public boolean setCapacity(String token, String name, long capacity) throws IOException, NotLoggedInException {
+        maintenancePanel.setCapacity(token, name, capacity);
         return true;
     }
 
@@ -98,12 +93,6 @@ public class RecycleRemoteConnectionRMI extends UnicastRemoteObject implements R
     @Override
     public boolean printReceipt() throws IOException {
         customerPanel.printReceipt();
-        return true;
-    }
-
-    @Override
-    public boolean closeConnection(String token) throws NotLoggedInException {
-        maintenancePanel.closeConnection(token);
         return true;
     }
 

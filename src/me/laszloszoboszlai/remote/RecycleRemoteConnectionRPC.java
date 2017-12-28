@@ -4,6 +4,7 @@ import org.apache.xmlrpc.XmlRpcClient;
 import org.bson.Document;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.rmi.RemoteException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -17,30 +18,34 @@ import java.util.Vector;
  *
  * @author Laszlo Szoboszlai
  */
-public class RecycleRemoteConnectionRPC implements RecycleRemoteConnection{
+public class RecycleRemoteConnectionRPC implements RecycleRemoteConnection {
 
     // The ip of the Recycling machine server
     static String HOST = "http://127.0.0.1/RPC2";
+    static XmlRpcClient server;
 
     public RecycleRemoteConnectionRPC() {
 
     }
 
     public RecycleRemoteConnectionRPC(String HostName) {
-      HOST = "http://" + HostName + "/RPC2";
+        HOST = "http://" + HostName + "/RPC2";
+        try {
+            server = new XmlRpcClient(HOST);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
-     * Helper method to call methods remotely using RPC
-     * @param url the server's URL
+     * Helper method to call methods remotely using XML-RPC
+     *
      * @param methodName the name of the method to call
-     * @param params the parameters for the method
+     * @param params     the parameters for the method
      * @return the result of the method call
      */
-    private static Object executeRemotely(String url, String methodName, Vector params){
+    private static Object executeRemotely(String methodName, Vector params) {
         try {
-            System.out.println(url);
-            XmlRpcClient server = new XmlRpcClient(url);
             Object result = server.execute(methodName, params);
             return result;
 
@@ -55,7 +60,7 @@ public class RecycleRemoteConnectionRPC implements RecycleRemoteConnection{
     public Map<String, Long> getStatus(String token) throws IOException {
         Vector params = new Vector();
         params.add(token);
-        return (Map<String, Long>) executeRemotely(HOST, "RecyclingMaintanance.getStatus", params);
+        return (Map<String, Long>) executeRemotely("RecyclingMaintanance.getStatus", params);
     }
 
     @Override
@@ -63,7 +68,7 @@ public class RecycleRemoteConnectionRPC implements RecycleRemoteConnection{
         Vector params = new Vector();
         params.add(token);
         params.add(slot);
-        executeRemotely(HOST, "RecyclingMaintanance.emptySlot", params);
+        executeRemotely( "RecyclingMaintanance.emptySlot", params);
         return true;
     }
 
@@ -73,7 +78,7 @@ public class RecycleRemoteConnectionRPC implements RecycleRemoteConnection{
         params.add(token);
         params.add(name);
         params.add(value);
-        executeRemotely(HOST, "RecyclingMaintanance.changeItemValue", params);
+        executeRemotely("RecyclingMaintanance.changeItemValue", params);
         return true;
     }
 
@@ -82,29 +87,22 @@ public class RecycleRemoteConnectionRPC implements RecycleRemoteConnection{
         Vector params = new Vector();
         params.add(userName);
         params.add(password);
-        return(String) executeRemotely(HOST, "RecyclingLogin.login", params);
+        return (String) executeRemotely("RecyclingLogin.login", params);
     }
 
     @Override
-    public boolean isLoggedIn(String username) throws RemoteException {
-        Vector params = new Vector();
-        params.add(username);
-        return(boolean) executeRemotely(HOST, "RecyclingLogin.isLoggedIn", params);
-    }
-
-    @Override
-    public int getItemValue(String token,String name) throws RemoteException {
+    public int getItemValue(String token, String name) throws RemoteException {
         Vector params = new Vector();
         params.add(token);
         params.add(name);
-        return (Integer) executeRemotely(HOST, "RecyclingMaintanance.getItemValue", params);
+        return (Integer) executeRemotely("RecyclingMaintanance.getItemValue", params);
     }
 
     @Override
     public Map<String, Long> getCapacity(String token) throws IOException {
         Vector params = new Vector();
         params.add(token);
-        return (Map<String, Long>) executeRemotely(HOST, "RecyclingMaintanance.getCapacity", params);
+        return (Map<String, Long>) executeRemotely("RecyclingMaintanance.getCapacity", params);
     }
 
     @Override
@@ -113,7 +111,7 @@ public class RecycleRemoteConnectionRPC implements RecycleRemoteConnection{
         params.add(token);
         params.add(name);
         params.add(String.valueOf(capacity));
-        executeRemotely(HOST, "RecyclingMaintanance.setCapacity", params);
+        executeRemotely("RecyclingMaintanance.setCapacity", params);
         return true;
     }
 
@@ -121,22 +119,14 @@ public class RecycleRemoteConnectionRPC implements RecycleRemoteConnection{
     public boolean classifyItem(int itemNumber) throws RemoteException {
         Vector params = new Vector();
         params.add(itemNumber);
-        executeRemotely(HOST, "RecyclingCustomer.classifyItem", params);
+        executeRemotely("RecyclingCustomer.classifyItem", params);
         return true;
     }
 
     @Override
     public boolean printReceipt() throws IOException {
         Vector params = new Vector();
-        executeRemotely(HOST, "RecyclingCustomer.printReceipt", params);
-        return true;
-    }
-
-    @Override
-    public boolean closeConnection(String token) throws RemoteException {
-        Vector params = new Vector();
-        params.add(token);
-        executeRemotely(HOST, "RecyclingMaintanance.closeConnection", params);
+        executeRemotely("RecyclingCustomer.printReceipt", params);
         return true;
     }
 
@@ -146,30 +136,13 @@ public class RecycleRemoteConnectionRPC implements RecycleRemoteConnection{
         params.add(token);
         params.add(from);
         params.add(to);
-        return (Vector<String>) executeRemotely(HOST, "RecyclingMaintanance.getUsage", params);
+        return (Vector<String>) executeRemotely("RecyclingMaintanance.getUsage", params);
     }
 
     @Override
     public boolean logout(String username) {
         Vector params = new Vector();
         params.add(username);
-        return(boolean) executeRemotely(HOST, "RecyclingLogin.logout", params);
+        return (boolean) executeRemotely("RecyclingLogin.logout", params);
     }
-//
-//    public static void main(String[] args) {
-//        RecycleRemoteConnectionRPC conn = new RecycleRemoteConnectionRPC();
-//        try {
-//            System.out.println(conn.getStatus());
-//            System.out.println(conn.getCapacity());
-//            conn.emptySlot(1);
-//            System.out.println(conn.getUsage("0","0"));
-//            System.out.println(conn.emptySlot(1));
-//            System.out.println(conn.changeItemValue("Can", 1));
-//            System.out.println(conn.getItemValue("Bottle"));
-//            System.out.println(conn.classifyItem(1));
-//            System.out.println(conn.printReceipt());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
 }

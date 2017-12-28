@@ -40,15 +40,6 @@ public class LoginPanel {
         }
     }
 
-    /**
-     * Checks if the user is logged in.
-     * @param username the name of the user to check.
-     * @return true if the user is logged in, false otherwise.
-     */
-    public boolean isLoggedIn(String username){
-        return tokens.containsKey(username);
-    }
-
     public boolean validateToken(String token){
         String result = tokens.entrySet().stream()
                 .filter(map -> token.equals(map.getValue()))

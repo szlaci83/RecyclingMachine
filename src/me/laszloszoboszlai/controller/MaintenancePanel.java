@@ -67,14 +67,6 @@ public class MaintenancePanel
 		itemService.emptySlot(slot);
     return true;}
 
-	public boolean closeConnection(String token) throws NotLoggedInException {
-		if (! loginPanel.validateToken(token) ) {
-			throw new NotLoggedInException("Login required for this operation!");
-		}
-        itemService.closeConnection();
-        return true;
-	}
-
 	public boolean changeItemValue(String token, String name, int value) throws NotLoggedInException {
 		if (! loginPanel.validateToken(token) ) {
 			throw new NotLoggedInException("Login required for this operation!");

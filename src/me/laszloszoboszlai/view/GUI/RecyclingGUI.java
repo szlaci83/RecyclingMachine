@@ -1,12 +1,16 @@
 package me.laszloszoboszlai.view.GUI;
 
 import me.laszloszoboszlai.remote.RecycleRemoteConnection;
+import me.laszloszoboszlai.remote.RecycleRemoteConnectionRPC;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
 /**
@@ -108,8 +112,16 @@ import java.rmi.RemoteException;
             }
         }
 
-        public RecyclingGUI(RecycleRemoteConnection connection) throws RemoteException {
-            this.remoteConnection = connection;
+        public RecyclingGUI(String protocol) throws RemoteException {
+            try {
+                this.remoteConnection = connectToRemoteHost(protocol);
+            } catch (NotBoundException e) {
+                JOptionPane.showMessageDialog(this, "Couldn't connect to server");
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                JOptionPane.showMessageDialog(this, "Couldn't connect to server");
+                e.printStackTrace();
+            }
             this.pack();
             this.setSize(640,800);
             this.setLocationRelativeTo(null);
@@ -160,6 +172,17 @@ import java.rmi.RemoteException;
             getContentPane().add(panel);
             panel.repaint();
         }
+
+    private RecycleRemoteConnection connectToRemoteHost(String protocol) throws RemoteException, NotBoundException, MalformedURLException {
+        RecycleRemoteConnection connection = null;
+        if (protocol.equals("RMI")) {
+            connection = (RecycleRemoteConnection) Naming.lookup("rmi://localhost/RecycleService");
+        }
+        if (protocol.equals("XML-RPC")){
+            connection = new RecycleRemoteConnectionRPC("localhost");
+        }
+        return connection;
+    }
 
     public RecycleRemoteConnection getRemoteConnection() {
         return remoteConnection;
