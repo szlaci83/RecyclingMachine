@@ -13,6 +13,12 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * This is the login GUI for admins, the chosen machine can be selected to connect from a
+ * dropdown list. If login is successful the StatusGUI and ChartGUI will open up.
+ *
+ * @author Laszlo Szoboszlai
+ */
 public class AdminLoginGUI extends JFrame {
     private static String PATH = "/me/laszloszoboszlai/img/";
 
@@ -104,6 +110,15 @@ public class AdminLoginGUI extends JFrame {
         panel.repaint();
     }
 
+    /**
+     * Sets the required type (XML-RPC/RMI) connection to the given remote server.
+     * @param protocol the type of the protocol (XML-RPC/RMI)
+     * @param host the remote host's IP address.
+     * @return the right RecycleRemoteConnection implementation.
+     * @throws RemoteException
+     * @throws NotBoundException
+     * @throws MalformedURLException
+     */
     private RecycleRemoteConnection connectToRemoteHost(String protocol, String host) throws RemoteException, NotBoundException, MalformedURLException {
         RecycleRemoteConnection connection = null;
         if (protocol.equals("RMI")) {

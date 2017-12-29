@@ -29,9 +29,9 @@ public class LoginPanel {
         if (pass == null){
             return "wrong";
         }
-         if( password.equals(pass.toUpperCase())){
+         if( password.equals(pass)){
             String sessioncookie = username + Math.random();
-            tokens.put(username, username +Math.random());
+            tokens.put(username, username + Math.random());
             return sessioncookie;
         } else {
             return "wrong";

@@ -5,6 +5,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+/**
+ * Helper class to create formatted dates for the ChartGUI's date pickers
+ */
 public class DateLabelFormatter extends JFormattedTextField.AbstractFormatter {
 
     private String datePattern = "dd.MM.yyyy";
@@ -21,8 +24,6 @@ public class DateLabelFormatter extends JFormattedTextField.AbstractFormatter {
             Calendar cal = (Calendar) value;
             return dateFormatter.format(cal.getTime());
         }
-
         return "";
     }
-
 }

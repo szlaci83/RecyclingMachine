@@ -171,6 +171,14 @@ import java.rmi.RemoteException;
             panel.repaint();
         }
 
+    /**
+     * Sets the required type (XML-RPC/RMI) connection to the given remote server.
+     * @param protocol the type of the protocol (XML-RPC/RMI)
+     * @return the right RecycleRemoteConnection implementation.
+     * @throws RemoteException
+     * @throws NotBoundException
+     * @throws MalformedURLException
+     */
     private RecycleRemoteConnection connectToRemoteHost(String protocol) throws RemoteException, NotBoundException, MalformedURLException {
         RecycleRemoteConnection connection = null;
         if (protocol.equals("RMI")) {

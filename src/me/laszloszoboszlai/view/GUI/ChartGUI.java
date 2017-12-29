@@ -26,28 +26,38 @@ import java.util.List;
 
 import static javax.swing.JOptionPane.showMessageDialog;
 
-
-public class ChartGUI extends JFrame implements ActionListener {
-    ArrayList<Document> usage = null;
-    XYChart chart = null;
-    JDatePickerImpl fromPicker = null;
-    JDatePickerImpl toPicker = null;
-    DateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+/**
+ * GUI to display charts for admins to visualise machine usage
+ */
+public class ChartGUI extends JFrame {
+    private ArrayList<Document> usage = null;
+    private XYChart chart = null;
+    private JDatePickerImpl fromPicker = null;
+    private JDatePickerImpl toPicker = null;
+   // DateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
     private JButton chartBtn = new JButton("Draw chart");
     RecycleRemoteConnection connection;
     private String token;
 
-    @Override
-    public void actionPerformed(ActionEvent actionEvent) {
-
-    }
-
+    /**
+     * Builds a chart for given data.
+     * @param x values for x axis
+     * @param y values for y axis
+     * @param title the title of the chart
+     * @param xTitle the x axis's title
+     * @param yTitle the y axis's title
+     */
     private void getChart(int x, int y, String title, String xTitle, String yTitle) {
         chart = new XYChartBuilder().width(x).height(y).title(title).xAxisTitle(xTitle).yAxisTitle(yTitle).build();
         chart.getStyler().setLegendPosition(Styler.LegendPosition.InsideNE);
         chart.getStyler().setDefaultSeriesRenderStyle(XYSeries.XYSeriesRenderStyle.Line);
     }
 
+    /**
+     * Helper method to create an Arraylist of MongoDB Documents from Vector of Strings received from the server
+     * @param vector the Vector to be converted
+     * @return the converted Arraylist with MongoDB Documents
+     */
     private ArrayList<Document> deserialiseDocuments(Vector<String> vector) {
         ArrayList<Document> documents = new ArrayList<>();
         for (String line : vector) {
@@ -56,6 +66,13 @@ public class ChartGUI extends JFrame implements ActionListener {
         return documents;
     }
 
+    /**
+     * Sets the usage to the received values from the server. (Initialises the data to be charted.)
+     * @param token the user-token
+     * @param from the date from the usage data is required
+     * @param to the date until the usage data is required
+     * @throws IOException
+     */
     private void setUsage(String token, String from, String to) throws IOException{
         this.usage = deserialiseDocuments(this.connection.getUsage(token, from, to));
         if (this.usage == null) {
@@ -63,6 +80,11 @@ public class ChartGUI extends JFrame implements ActionListener {
         }
     }
 
+    /**
+     * Creates a series (line) to the chart
+     * @param name the name of the series.
+     * @return the created series.
+     */
     private XYSeries addSeriesToChart(String name){
         List<Date> xData = new ArrayList<Date>();
         List<Double> yData = new ArrayList<Double>();
@@ -93,7 +115,6 @@ public class ChartGUI extends JFrame implements ActionListener {
         this.pack();
         this.setSize(620,640);
         this.setTitle("Admin Dashboard");
-        //this.setLocationRelativeTo(null);
         this.setLocation(125, 150);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -147,9 +168,7 @@ public class ChartGUI extends JFrame implements ActionListener {
             }
         });
         buttonsPanel.add(chartBtn);
-
         this.add(buttonsPanel, BorderLayout.EAST);
-
         getChart(400, 400, "Usage", "Date", "Count");
         JPanel chartPanel = new XChartPanel<XYChart>(chart);
         this.add(chartPanel, BorderLayout.NORTH);

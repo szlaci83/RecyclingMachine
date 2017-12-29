@@ -63,9 +63,9 @@ public class StatusGUI extends JFrame implements ActionListener{
             return img.getScaledInstance(50, 80, Image.SCALE_SMOOTH);
         }
 
-        public StatusGUI(RecycleRemoteConnection caller, String token) throws RemoteException {
+        public StatusGUI(RecycleRemoteConnection connection, String token) throws RemoteException {
             this.token = token;
-            this.connection = caller;
+            this.connection = connection;
             this.pack();
             this.setSize(640,800);
             this.setLocationRelativeTo(null);
