@@ -36,7 +36,7 @@ public class AdminLoginGUI extends JFrame {
         this.setSize(420, 440);
         this.setLocationRelativeTo(null);
 
-        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Admin Login");
 
         Image scaledBack = img.getScaledInstance(180, 180, Image.SCALE_SMOOTH);
@@ -77,7 +77,7 @@ public class AdminLoginGUI extends JFrame {
                 String token = this.connection.login(userName.getText(), MD5Hasher.getHash(new String(this.password.getPassword())));
                 if (token.equals("wrong")) {
                     JOptionPane.showMessageDialog(this, "Wrong password.");
-                    this.setVisible(false);
+                    this.setVisible(true);
                 }
                 else{
                     this.setVisible(false);
@@ -85,7 +85,6 @@ public class AdminLoginGUI extends JFrame {
                     chartGUI.setVisible(true);
                     StatusGUI statusGUI = new StatusGUI(this.connection, token);
                     statusGUI.setVisible(true);
-
                 }
             } catch (RemoteException e) {
                 JOptionPane.showMessageDialog(this, "Couldn't connect to server");

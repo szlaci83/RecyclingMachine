@@ -62,7 +62,7 @@ public class LoginGUI extends JFrame {
             try {
                 String result = this.connection.login(userName.getText(), MD5Hasher.getHash(new String(this.password.getPassword())));
                 if (result.equals("wrong")) {
-                    JOptionPane.showMessageDialog(this, "Wrong pass.");
+                    JOptionPane.showMessageDialog(this, "Wrong password!");
                     this.setVisible(true);
                 } else {
                     StatusGUI statusGUI = new StatusGUI(this.connection, result);

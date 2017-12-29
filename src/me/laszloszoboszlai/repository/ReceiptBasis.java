@@ -50,12 +50,12 @@ public class ReceiptBasis{
 		long sum = 0;
 		for (String item : Items.keySet() ){
 			Item i = Items.get(item);
-			long summa = i.value * i.getCount();
-			receipt += i.getCount() +": £"+ summa +" ("+i.getName()+")";
+			long subtotal = i.value * i.getCount();
+			receipt += i.getCount() +" * " + i.getName() + " = "+ subtotal +" p";
 			receipt += System.getProperty("line.separator");
-			sum = sum + summa;
+			sum = sum + subtotal;
 		}
-		receipt = receipt + "Total: £"+sum;
+		receipt = receipt + "Total: " + sum + " p";
 		return receipt;
 	}
 }

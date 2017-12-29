@@ -36,7 +36,6 @@ public class Carton extends Item {
 		return carton;
 	}
 
-
 	public Carton(int value) {
 		this.value = value;
 	}

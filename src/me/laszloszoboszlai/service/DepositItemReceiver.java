@@ -50,7 +50,7 @@ public class DepositItemReceiver implements DepositItemReceiverInterface{
 		}
 		if (!itemService.isFull(item.getName())) {
 			theReceiptBasis.addItem(item);
-			printer.print(item.getName() + " Received.");
+			printer.print(item.getName() + " received." + "(" + item.value + " p)");
 
 			return item.getName() + " received";
 		}

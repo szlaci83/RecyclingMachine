@@ -38,6 +38,11 @@ public class LoginPanel {
         }
     }
 
+    /**
+     * Validates a given user-token
+     * @param token the token to be validated
+     * @return true if the token is valid, false otherwise
+     */
     public boolean validateToken(String token){
         String result = tokens.entrySet().stream()
                 .filter(map -> token.equals(map.getValue()))
@@ -48,7 +53,7 @@ public class LoginPanel {
 
     /**
      * Logs the given user out.
-     * @return
+     * @return true
      */
     public boolean logout(String token) {
         tokens = tokens.entrySet().stream()

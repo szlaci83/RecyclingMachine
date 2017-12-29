@@ -20,9 +20,9 @@ public class MaintenancePanel
     private LoginPanel loginPanel = new LoginPanel();
 
 	/**
-	 *
-	 * @param map
-	 * @return
+	 * Helper method to convert a Map<String, Long> to a Hashtable<String, String>
+	 * @param map the map to be converted
+	 * @return the converted Hashtable
 	 */
 	private Hashtable<String, String> MapToTable(Map<String, Long> map){
 		Hashtable table = new Hashtable();
@@ -32,6 +32,11 @@ public class MaintenancePanel
 		return table;
 	}
 
+	/**
+	 * Helper method to convert a List<Document> (of MongoDB documents) to a Vector of Strings
+	 * @param list the list to be converted
+	 * @return the converted Vector
+	 */
 	private Vector<String> ListToVector(List<Document> list){
     	Vector<String> vector = new Vector<>();
     	for (Document doc : list){
@@ -39,9 +44,12 @@ public class MaintenancePanel
 		}
 		return vector;
 	}
-    /**
-     *  Prints the status of the machine
-     */
+
+	/**
+	 * Returns the status of the machine
+	 * @param token the user-token
+	 * @return Hashtable of the status of the machine
+	 */
 	public Hashtable<String, String> getStatus(String token){
 		if (! loginPanel.validateToken(token) ) {
 			return null;
@@ -49,6 +57,11 @@ public class MaintenancePanel
 		return MapToTable(itemService.getStatus());
 	}
 
+	/**
+	 *  Returns the capacity of the machine
+	 * @param token the user-token
+	 * @return Hashtable of the capacity of the machine
+	 */
     public Hashtable<String, String> getCapacity(String token){
 		if (! loginPanel.validateToken(token) ) {
 			return null;
@@ -56,6 +69,14 @@ public class MaintenancePanel
 	 return MapToTable(itemService.getCapacity());
 	}
 
+	/**
+	 * Sets the capacity of the machine
+	 * @param token the user-token
+	 * @param name the name of the item, which capacity required to be changed
+	 * @param value the new value in pence
+	 * @return true if the operation was successful, false otherwise
+	 * @throws IOException
+	 */
 	public boolean setCapacity(String token, String name, long value) throws IOException{
 		if (! loginPanel.validateToken(token) ) {
 			return false;
@@ -63,6 +84,14 @@ public class MaintenancePanel
 		itemService.setCapacity(name, value);
         return true;
 	}
+
+	/**
+	 * Empties an item's slot
+	 * @param token the user-token
+	 * @param slot the number of the slot to be emptied
+	 * @return true if the operation was successful, false otherwise
+	 * @throws IOException
+	 */
 	public boolean emptySlot(String token, int slot) throws IOException{
 		if (! loginPanel.validateToken(token) ) {
 			return false;
@@ -70,6 +99,13 @@ public class MaintenancePanel
 		itemService.emptySlot(slot);
     return true;}
 
+	/**
+	 * Changes the value of an item
+	 * @param token the user-token
+	 * @param name the name of the item, which value required to be changed
+	 * @param value the new value in pence
+	 * @return true if the operation was successful, false otherwise
+	 */
 	public boolean changeItemValue(String token, String name, int value){
 		if (! loginPanel.validateToken(token) ) {
 			return false;
@@ -78,6 +114,12 @@ public class MaintenancePanel
         return true;
 	}
 
+	/**
+	 * Returns the value of an item
+	 * @param token the user-token
+	 * @param name the name of the item, which value required to be changed
+	 * @return  the value of a given item
+	 */
 	public int getItemValue(String token, String name){
 		if (! loginPanel.validateToken(token) ) {
 			return -1;
@@ -85,6 +127,14 @@ public class MaintenancePanel
 		return itemService.getItemValue(name);
 	}
 
+	/**
+	 * Returns the usage of the machine between two given dates.
+	 * @param token the user-token
+	 * @param from the date from the usage data is required.
+	 * @param to the date until the usage data is required.
+	 * @return Vector of usage data as Strings
+	 * @throws IOException
+	 */
     public Vector<String> getUsage(String token, String from, String to) throws IOException{
 		if (! loginPanel.validateToken(token) ) {
 			return null;

@@ -28,7 +28,6 @@ public class ItemRepository {
 
     private static final String MachineID = "1";
 
-
     /**
      * Saves the items' Map representation into the relevant file as a .json object.
      * @param items the items' Map representation.

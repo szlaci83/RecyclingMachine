@@ -20,7 +20,7 @@ public class StatusGUI extends JFrame implements ActionListener{
         private JLabel lblImageplaceholder = new JLabel("");
         private Image img = new ImageIcon(this.getClass().getResource(PATH + "maintanance.png")).getImage();
         private Image canImg = new ImageIcon(this.getClass().getResource(PATH + "can.png")).getImage();
-        private Image receiptImg = new ImageIcon(this.getClass().getResource(PATH + "receipt.png")).getImage();
+        private Image receiptImg = new ImageIcon(this.getClass().getResource(PATH + "logout.png")).getImage();
         private Image bottleImg = new ImageIcon(this.getClass().getResource(PATH + "bottle.jpg")).getImage();
         private Image cartonImg = new ImageIcon(this.getClass().getResource(PATH + "carton.png")).getImage();
         private Image crateImg = new ImageIcon(this.getClass().getResource(PATH + "crate.png")).getImage();
@@ -29,13 +29,14 @@ public class StatusGUI extends JFrame implements ActionListener{
 
         public void actionPerformed(ActionEvent e) {
             String buttonName = e.getActionCommand();
-            System.out.println(buttonName);
             if (buttonName.equals("Logout")){
                 try {
                     if (!this.connection.logout(this.token)){
                         JOptionPane.showMessageDialog(this, "Login needed for this operation!");
                     }
-                    this.dispose();
+                    else {
+                        this.dispose();
+                    }
                 } catch (RemoteException e1) {
                     JOptionPane.showMessageDialog(this, "Error, couldn't connect to server!");
                     e1.printStackTrace();

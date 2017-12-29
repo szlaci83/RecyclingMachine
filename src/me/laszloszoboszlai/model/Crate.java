@@ -36,13 +36,10 @@ public class Crate extends Item {
 	public Crate() {
 		this.value = 42;
 	}
-
 	public static int getSize() {
 		return size;
 	}
-
 	public static int getWeight(){
 		return weight;
 	}
-
 }
