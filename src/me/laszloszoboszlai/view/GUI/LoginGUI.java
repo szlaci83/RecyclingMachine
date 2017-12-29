@@ -5,14 +5,11 @@ import me.laszloszoboszlai.utils.MD5Hasher;
 
 import javax.swing.*;
 import java.awt.*;
-import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.security.NoSuchAlgorithmException;
 
 public class LoginGUI extends JFrame {
     private static String PATH = "/me/laszloszoboszlai/img/";
-
-    //private String sessionCookie;
     private RecycleRemoteConnection connection;
     private JLabel lblImageplaceholder = new JLabel("");
     private Image img = new ImageIcon(this.getClass().getResource(PATH + "anon.png")).getImage();
@@ -63,8 +60,6 @@ public class LoginGUI extends JFrame {
         login.addActionListener(ae -> {
             this.setVisible(false);
             try {
-                System.out.println(userName.getText());
-                System.out.println(new String(this.password.getPassword()));
                 String result = this.connection.login(userName.getText(), MD5Hasher.getHash(new String(this.password.getPassword())));
                 if (result.equals("wrong")) {
                     JOptionPane.showMessageDialog(this, "Wrong pass.");
@@ -83,6 +78,5 @@ public class LoginGUI extends JFrame {
                 e.printStackTrace();
             }
         });
-
     }
 }

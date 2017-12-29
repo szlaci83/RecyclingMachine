@@ -16,6 +16,7 @@ import java.util.Map;
  */
 public class ItemRepository {
 
+    //Linux settings
    // private static final String DEPOSITED_PATH = "/home/laszlo/Projects/RecyclingMachine/deposited.json";
    // private static final String CAPACITY_PATH = "/home/laszlo/Projects/RecyclingMachine/capacity.json";
    // private static final String ITEMS_PATH = "/home/laszlo/Projects/RecyclingMachine/src/me/laszloszoboszlai/model/";
@@ -42,7 +43,6 @@ public class ItemRepository {
             writer = new FileWriter(CAPACITY_PATH);
         }
         Gson gson = new GsonBuilder().create();
-
         gson.toJson(items, writer);
         writer.close();
     }
@@ -58,7 +58,6 @@ public class ItemRepository {
             BufferedReader br = new BufferedReader(new FileReader(DEPOSITED_PATH));
             Type type = new TypeToken<HashMap<String, Item>>(){}.getType();
             items = gson.fromJson(br, type);
-
         }catch (FileNotFoundException fnfe) {
             System.out.println(fnfe);
         }
@@ -76,9 +75,6 @@ public class ItemRepository {
             BufferedReader br = new BufferedReader(new FileReader(CAPACITY_PATH));
             Type type = new TypeToken<HashMap<String, Long>>(){}.getType();
             items = gson.fromJson(br, type);
-
-            //System.out.println(items);
-
         }catch (FileNotFoundException fnfe) {
             System.out.println(fnfe);
         }
@@ -132,7 +128,6 @@ public class ItemRepository {
      * @return the value of the item.
      */
     public int getValue(String name) {
-        System.out.println(name);
         String path = ITEMS_PATH + name + ".json";
         HashMap<String, Integer> item = null;
         Gson gson = new Gson();

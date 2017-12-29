@@ -1,6 +1,5 @@
 package me.laszloszoboszlai.view.GUI;
 
-import me.laszloszoboszlai.exception.NotLoggedInException;
 import me.laszloszoboszlai.remote.RecycleRemoteConnection;
 
 import javax.swing.*;
@@ -33,14 +32,12 @@ public class StatusGUI extends JFrame implements ActionListener{
             System.out.println(buttonName);
             if (buttonName.equals("Logout")){
                 try {
-                    this.connection.logout(this.token);
+                    if (!this.connection.logout(this.token)){
+                        JOptionPane.showMessageDialog(this, "Login needed for this operation!");
+                    }
                     this.dispose();
-
                 } catch (RemoteException e1) {
                     JOptionPane.showMessageDialog(this, "Error, couldn't connect to server!");
-                    e1.printStackTrace();
-                } catch (NotLoggedInException e1) {
-                    JOptionPane.showMessageDialog(this, "Login needed for this operation!");
                     e1.printStackTrace();
                 }
             } else {
@@ -50,9 +47,6 @@ public class StatusGUI extends JFrame implements ActionListener{
                 } catch (IOException e1) {
                     e1.printStackTrace();
                     JOptionPane.showMessageDialog(this, "Error, couldn't connect to server!");
-                } catch (NotLoggedInException e1) {
-                    JOptionPane.showMessageDialog(this, "Error, login required!");
-                    e1.printStackTrace();
                 }
                 propertiesGUI.setVisible(true);
             }
@@ -75,7 +69,7 @@ public class StatusGUI extends JFrame implements ActionListener{
             this.setSize(640,800);
             this.setLocationRelativeTo(null);
             this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-            this.setTitle("Maintanance remotePanel");
+            this.setTitle("Maintenance remotePanel");
 
             Image scaledBack = img.getScaledInstance(450, 460, Image.SCALE_SMOOTH);
             lblImageplaceholder.setBounds(100, 0, 500, 530);

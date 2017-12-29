@@ -24,26 +24,17 @@ public class ReceiptBasis{
 	 * @param item an item that has been inserted into the machine (such as can, bottle, crate).
 	 */
 	public void addItem(Item item) {
-		if (item instanceof Bottle){
+		if (Items.containsKey(item.getName())){
+			Item i = Items.get(item.getName());
+			long temp = i.getCount();
+			i.setCount(++ temp);
+			Items.put(item.getName(), i);
 		}
-		if (item instanceof Can){
+		else {
+			item.setCount(1L);
+			Items.put(item.getName(), item);
 		}
-		if (item instanceof Crate){
-		}
-		if (item instanceof Carton){
-		}
-
-			if (Items.containsKey(item.getName())){
-				Item i = Items.get(item.getName());
-				long temp = i.getCount();
-				i.setCount(++ temp);
-				Items.put(item.getName(), i);
-			}
-			else {
-				item.setCount(1L);
-				Items.put(item.getName(), item);
-			}
-			item.number = Items.size();
+		item.number = Items.size();
 	}
 
 	public Map<String, Item> getItems() {
@@ -61,7 +52,7 @@ public class ReceiptBasis{
 			Item i = Items.get(item);
 			long summa = i.value * i.getCount();
 			receipt += i.getCount() +": £"+ summa +" ("+i.getName()+")";
-    		receipt += System.getProperty("line.separator");
+			receipt += System.getProperty("line.separator");
 			sum = sum + summa;
 		}
 		receipt = receipt + "Total: £"+sum;

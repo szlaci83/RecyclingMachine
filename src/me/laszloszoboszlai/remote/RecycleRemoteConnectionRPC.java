@@ -1,15 +1,12 @@
 package me.laszloszoboszlai.remote;
 
 import org.apache.xmlrpc.XmlRpcClient;
-import org.bson.Document;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.RemoteException;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.Map;
-import java.util.SortedMap;
 import java.util.Vector;
 
 /**

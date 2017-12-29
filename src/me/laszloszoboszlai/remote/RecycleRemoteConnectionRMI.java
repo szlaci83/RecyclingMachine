@@ -3,7 +3,6 @@ package me.laszloszoboszlai.remote;
 import me.laszloszoboszlai.controller.CustomerPanel;
 import me.laszloszoboszlai.controller.LoginPanel;
 import me.laszloszoboszlai.controller.MaintenancePanel;
-import me.laszloszoboszlai.exception.NotLoggedInException;
 import me.laszloszoboszlai.view.Display;
 
 import java.io.IOException;
@@ -47,18 +46,18 @@ public class RecycleRemoteConnectionRMI extends UnicastRemoteObject implements R
 //    }
 
     @Override
-    public Map<String, String> getStatus(String token) throws IOException, NotLoggedInException {
+    public Map<String, String> getStatus(String token) throws IOException{
         return maintenancePanel.getStatus(token);
     }
 
     @Override
-    public boolean emptySlot(String token, int slot) throws IOException, NotLoggedInException {
+    public boolean emptySlot(String token, int slot) throws IOException{
         maintenancePanel.emptySlot(token, slot);
         return true;
     }
 
     @Override
-    public boolean changeItemValue(String token, String name, int value) throws NotLoggedInException {
+    public boolean changeItemValue(String token, String name, int value){
         maintenancePanel.changeItemValue(token, name, value);
         return true;
     }
@@ -69,17 +68,17 @@ public class RecycleRemoteConnectionRMI extends UnicastRemoteObject implements R
     }
 
     @Override
-    public int getItemValue(String token, String name) throws RemoteException, NotLoggedInException {
+    public int getItemValue(String token, String name) throws RemoteException{
         return maintenancePanel.getItemValue(token, name);
     }
 
     @Override
-    public Map<String, String> getCapacity(String token) throws RemoteException, NotLoggedInException {
+    public Map<String, String> getCapacity(String token) throws RemoteException{
        return maintenancePanel.getCapacity(token);
     }
 
     @Override
-    public boolean setCapacity(String token, String name, long capacity) throws IOException, NotLoggedInException {
+    public boolean setCapacity(String token, String name, long capacity) throws IOException{
         maintenancePanel.setCapacity(token, name, capacity);
         return true;
     }
@@ -97,7 +96,7 @@ public class RecycleRemoteConnectionRMI extends UnicastRemoteObject implements R
     }
 
     @Override
-    public Vector<String> getUsage(String token, String from, String to) throws IOException, NotLoggedInException {
+    public Vector<String> getUsage(String token, String from, String to) throws IOException{
         return maintenancePanel.getUsage(token, from, to);
     }
 

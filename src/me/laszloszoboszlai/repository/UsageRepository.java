@@ -95,12 +95,4 @@ public class UsageRepository{
     public void closeConnection(){
         client.close();
     }
-
-    public static void main(String[] args) throws IOException {
-        UsageRepository usageRepository = new UsageRepository();
-        ArrayList<Document> documents = usageRepository.findBetweenDates(Long.parseLong("1513036391402"), Long.parseLong("1513037372940"));
-        for (Document document : documents){
-            System.out.println(document.toJson().toString());
-        }
-    }
 }

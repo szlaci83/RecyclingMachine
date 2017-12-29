@@ -25,14 +25,12 @@ import java.rmi.RemoteException;
     public void setStatusGUI(StatusGUI statusGUI) {
         this.statusGUI = statusGUI;
     }
-
     public void setStatusGUIVisibility(boolean visibility){
         this.statusGUI.setVisible(visibility);
     }
 
     private StatusGUI statusGUI;
     RecycleRemoteConnection remoteConnection;
-
     private JLabel lblImageplaceholder = new JLabel("");
     private Image img = new ImageIcon(this.getClass().getResource(PATH + "recycle.png")).getImage();
     private Image canImg = new ImageIcon(this.getClass().getResource(PATH + "can.png")).getImage();

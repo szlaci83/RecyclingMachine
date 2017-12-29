@@ -2,7 +2,6 @@ package me.laszloszoboszlai.view.GUI;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import me.laszloszoboszlai.exception.NotLoggedInException;
 import me.laszloszoboszlai.remote.RecycleRemoteConnection;
 import me.laszloszoboszlai.utils.DateLabelFormatter;
 import org.bson.Document;
@@ -57,8 +56,11 @@ public class ChartGUI extends JFrame implements ActionListener {
         return documents;
     }
 
-    private void getUsage(String token, String from, String to) throws IOException, NotLoggedInException {
+    private void setUsage(String token, String from, String to) throws IOException{
         this.usage = deserialiseDocuments(this.connection.getUsage(token, from, to));
+        if (this.usage == null) {
+            JOptionPane.showMessageDialog(this, "Error, login required!");
+        }
     }
 
     private XYSeries addSeriesToChart(String name){
@@ -129,12 +131,9 @@ public class ChartGUI extends JFrame implements ActionListener {
                 fromDate = (Date) fromPicker.getModel().getValue();
                 toDate = (Date) toPicker.getModel().getValue();
                 try {
-                    getUsage(this.token, String.valueOf(fromDate.getTime()), String.valueOf(toDate.getTime()));
+                    setUsage(this.token, String.valueOf(fromDate.getTime()), String.valueOf(toDate.getTime()));
                 } catch (IOException e) {
                     showMessageDialog(this, "Error!");
-                } catch (NotLoggedInException e) {
-                    JOptionPane.showMessageDialog(this, "Error, login required!");
-                    e.printStackTrace();
                 }
                 try {
                     addSeriesToChart("Can");
@@ -157,9 +156,5 @@ public class ChartGUI extends JFrame implements ActionListener {
         JLabel label = new JLabel("Machine " + null + " usage by date", SwingConstants.CENTER);
         this.add(label, BorderLayout.SOUTH);
         this.pack();
-    }
-    public static void main(String [] args ) {
-        //ChartGUI chartGUI = new ChartGUI();
-       // chartGUI.setVisible(true);
     }
 }

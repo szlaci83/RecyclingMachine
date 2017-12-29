@@ -1,12 +1,14 @@
 package me.laszloszoboszlai.controller;
 
-import me.laszloszoboszlai.exception.NotLoggedInException;
-import me.laszloszoboszlai.service.ItemServiceInterface;
 import me.laszloszoboszlai.service.ItemService;
+import me.laszloszoboszlai.service.ItemServiceInterface;
 import org.bson.Document;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
+import java.util.Vector;
 
 /**
  * Panel to access the admin and maintenance functionalities of the machine.
@@ -40,51 +42,52 @@ public class MaintenancePanel
     /**
      *  Prints the status of the machine
      */
-	public Hashtable<String, String> getStatus(String token) throws NotLoggedInException {
+	public Hashtable<String, String> getStatus(String token){
 		if (! loginPanel.validateToken(token) ) {
-			throw new NotLoggedInException("Login required for this operation!");
+			return null;
 		}
 		return MapToTable(itemService.getStatus());
 	}
 
-    public Hashtable<String, String> getCapacity(String token) throws NotLoggedInException {	if (! loginPanel.validateToken(token) ) {
-		throw new NotLoggedInException("Login required for this operation!");
-	}
+    public Hashtable<String, String> getCapacity(String token){
+		if (! loginPanel.validateToken(token) ) {
+			return null;
+		}
 	 return MapToTable(itemService.getCapacity());
 	}
 
-	public boolean setCapacity(String token, String name, long value) throws IOException, NotLoggedInException {
+	public boolean setCapacity(String token, String name, long value) throws IOException{
 		if (! loginPanel.validateToken(token) ) {
-			throw new NotLoggedInException("Login required for this operation!");
+			return false;
 		}
 		itemService.setCapacity(name, value);
         return true;
 	}
-	public boolean emptySlot(String token, int slot) throws IOException, NotLoggedInException {
+	public boolean emptySlot(String token, int slot) throws IOException{
 		if (! loginPanel.validateToken(token) ) {
-			throw new NotLoggedInException("Login required for this operation!");
+			return false;
 		}
 		itemService.emptySlot(slot);
     return true;}
 
-	public boolean changeItemValue(String token, String name, int value) throws NotLoggedInException {
+	public boolean changeItemValue(String token, String name, int value){
 		if (! loginPanel.validateToken(token) ) {
-			throw new NotLoggedInException("Login required for this operation!");
+			return false;
 		}
         itemService.changeItemValue(name,value);
         return true;
 	}
 
-	public int getItemValue(String token, String name) throws NotLoggedInException {
+	public int getItemValue(String token, String name){
 		if (! loginPanel.validateToken(token) ) {
-		throw new NotLoggedInException("Login required for this operation!");
+			return -1;
 	}
 		return itemService.getItemValue(name);
 	}
 
-    public Vector<String> getUsage(String token, String from, String to) throws IOException, NotLoggedInException {
+    public Vector<String> getUsage(String token, String from, String to) throws IOException{
 		if (! loginPanel.validateToken(token) ) {
-			throw new NotLoggedInException("Login required for this operation!");
+			return null;
 		}
 	    return ListToVector(itemService.getUsage(Long.parseLong(from), Long.parseLong(to)));
     }

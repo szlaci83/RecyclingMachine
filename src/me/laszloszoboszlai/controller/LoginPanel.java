@@ -15,8 +15,6 @@ import java.util.stream.Collectors;
  */
 public class LoginPanel {
 
-    // session cookie to identify the individual users
-   // private String sessioncookie = "notset";
     private static Map<String, String> tokens = new HashMap();
     UserRepository userRepository = new UserRepository();
 

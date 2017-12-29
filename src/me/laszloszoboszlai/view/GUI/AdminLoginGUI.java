@@ -74,8 +74,6 @@ public class AdminLoginGUI extends JFrame {
             this.setVisible(false);
             try {
                 this.connection = connectToRemoteHost(connectionMode, (String) machineNo.getSelectedItem());
-                System.out.println(userName.getText());
-                System.out.println(new String(this.password.getPassword()));
                 String token = this.connection.login(userName.getText(), MD5Hasher.getHash(new String(this.password.getPassword())));
                 if (token.equals("wrong")) {
                     JOptionPane.showMessageDialog(this, "Wrong password.");
@@ -116,10 +114,5 @@ public class AdminLoginGUI extends JFrame {
             connection = new RecycleRemoteConnectionRPC(host);
         }
         return connection;
-    }
-
-    public static void main(String[] args) {
-        AdminLoginGUI adminLoginGUI = new AdminLoginGUI("RMI");
-        adminLoginGUI.setVisible(true);
     }
 }

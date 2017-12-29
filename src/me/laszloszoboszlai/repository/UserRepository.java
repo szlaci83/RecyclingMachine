@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-
 /**
  * Simple User repository implementation. Stores a single password in a property file.
  * In a fully working system this should be replaced by a database connection.
@@ -13,7 +12,6 @@ import java.util.Properties;
 public class UserRepository {
 
     private static final String PASSWORD_PATH = "D:\\github.com\\RecyclingMachine\\password.properties";
-
 
     /**
      * Returns the password for the given user

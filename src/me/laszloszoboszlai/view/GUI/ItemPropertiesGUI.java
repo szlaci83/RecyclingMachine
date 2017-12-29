@@ -1,6 +1,5 @@
 package me.laszloszoboszlai.view.GUI;
 
-import me.laszloszoboszlai.exception.NotLoggedInException;
 import me.laszloszoboszlai.remote.RecycleRemoteConnection;
 
 import javax.swing.*;
@@ -54,12 +53,11 @@ public class ItemPropertiesGUI extends JFrame implements ActionListener{
         switch (buttonName){
             case "Empty" :
                 try {
-                    this.connection.emptySlot(this.token, nameToSlot(this.name));
+                    if (!this.connection.emptySlot(this.token, nameToSlot(this.name))){
+                        JOptionPane.showMessageDialog(this, "Error, login required!");
+                    }
                 } catch (IOException e1) {
                     JOptionPane.showMessageDialog(this, "Error, couldn't connect to server!");
-                    e1.printStackTrace();
-                } catch (NotLoggedInException e1) {
-                    JOptionPane.showMessageDialog(this, "Error, login required!");
                     e1.printStackTrace();
                 }
                 this.deposited.setText("0");
@@ -72,26 +70,24 @@ public class ItemPropertiesGUI extends JFrame implements ActionListener{
                 break;
             case "Set" :
                 try {
-                    this.connection.changeItemValue(this.token, this.name, value);
+                    if (!this.connection.changeItemValue(this.token, this.name, value)){
+                        JOptionPane.showMessageDialog(this, "Error, login required!");
+                    }
                 } catch (RemoteException e1) {
                     JOptionPane.showMessageDialog(this, "Error, couldn't connect to server!");
-                    e1.printStackTrace();
-                } catch (NotLoggedInException e1) {
-                    JOptionPane.showMessageDialog(this, "Error, login required!");
                     e1.printStackTrace();
                 }
                 break;
             case "Save" :
                 try {
-                    this.connection.setCapacity(this.token, this.name, capacity);
+                    if (!this.connection.setCapacity(this.token, this.name, capacity)){
+                        JOptionPane.showMessageDialog(this, "Error, login required!");
+                    }
                 } catch (RemoteException e1) {
                     JOptionPane.showMessageDialog(this, "Error, couldn't connect to server!");
                     e1.printStackTrace();
                 } catch (IOException e1) {
                     JOptionPane.showMessageDialog(this, "Error, couldn't connect to server!");
-                    e1.printStackTrace();
-                } catch (NotLoggedInException e1) {
-                    JOptionPane.showMessageDialog(this, "Error, login required!");
                     e1.printStackTrace();
                 }
                 this.capacityLabel.setText(capacity.toString());
@@ -99,7 +95,7 @@ public class ItemPropertiesGUI extends JFrame implements ActionListener{
         this.repaint();
     }
 
-    public ItemPropertiesGUI(RecycleRemoteConnection rmi, String token, String name) throws IOException, NotLoggedInException {
+    public ItemPropertiesGUI(RecycleRemoteConnection rmi, String token, String name) throws IOException{
         this.name = name;
         this.token = token;
         this.connection = rmi;
@@ -162,9 +158,5 @@ public class ItemPropertiesGUI extends JFrame implements ActionListener{
 
         getContentPane().add(panel);
         panel.repaint();
-    }
-    public static void main(String [] args ) throws IOException {
-        // ItemPropertiesGUI myGUI = new ItemPropertiesGUI(null, null);
-        // myGUI.setVisible(true);
     }
 }
