@@ -60,7 +60,7 @@ public class LoginGUI extends JFrame {
         login.addActionListener(ae -> {
             this.setVisible(false);
             try {
-                String result = this.connection.login(userName.getText(), MD5Hasher.getHash(new String(this.password.getPassword())));
+                String result = this.connection.login(userName.getText(), MD5Hasher.getHash(new String(this.password.getPassword())).toUpperCase());
                 if (result.equals("wrong")) {
                     JOptionPane.showMessageDialog(this, "Wrong password!");
                     this.setVisible(true);

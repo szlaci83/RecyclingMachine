@@ -26,12 +26,13 @@ public class LoginPanel {
      */
     public String login(String username, String password) {
         String pass = userRepository.getUserByName(username);
+
         if (pass == null){
             return "wrong";
         }
-         if( password.equals(pass)){
+         if( password.equals(pass.toUpperCase())){
             String sessioncookie = username + Math.random();
-            tokens.put(username, username + Math.random());
+            tokens.put(username, sessioncookie);
             return sessioncookie;
         } else {
             return "wrong";
@@ -48,7 +49,7 @@ public class LoginPanel {
                 .filter(map -> token.equals(map.getValue()))
                 .map(map -> map.getValue())
                 .collect(Collectors.joining());
-        return result.isEmpty();
+        return !result.isEmpty();
     }
 
     /**

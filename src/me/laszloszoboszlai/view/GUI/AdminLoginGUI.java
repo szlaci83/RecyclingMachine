@@ -3,6 +3,7 @@ package me.laszloszoboszlai.view.GUI;
 
 import me.laszloszoboszlai.remote.RecycleRemoteConnection;
 import me.laszloszoboszlai.remote.RecycleRemoteConnectionRPC;
+import me.laszloszoboszlai.utils.ConnectionType;
 import me.laszloszoboszlai.utils.MD5Hasher;
 
 import javax.swing.*;
@@ -37,7 +38,7 @@ public class AdminLoginGUI extends JFrame {
 
     JComboBox<String> machineNo = new JComboBox<>(machines);
 
-    public AdminLoginGUI(String connectionMode) {
+    public AdminLoginGUI(ConnectionType connectionType) {
         this.pack();
         this.setSize(420, 440);
         this.setLocationRelativeTo(null);
@@ -79,7 +80,7 @@ public class AdminLoginGUI extends JFrame {
         login.addActionListener(ae -> {
             this.setVisible(false);
             try {
-                this.connection = connectToRemoteHost(connectionMode, (String) machineNo.getSelectedItem());
+                this.connection = connectToRemoteHost(connectionType, (String) machineNo.getSelectedItem());
                 String token = this.connection.login(userName.getText(), MD5Hasher.getHash(new String(this.password.getPassword())));
                 if (token.equals("wrong")) {
                     JOptionPane.showMessageDialog(this, "Wrong password.");
@@ -119,13 +120,15 @@ public class AdminLoginGUI extends JFrame {
      * @throws NotBoundException
      * @throws MalformedURLException
      */
-    private RecycleRemoteConnection connectToRemoteHost(String protocol, String host) throws RemoteException, NotBoundException, MalformedURLException {
+    private RecycleRemoteConnection connectToRemoteHost(ConnectionType protocol, String host) throws RemoteException, NotBoundException, MalformedURLException {
         RecycleRemoteConnection connection = null;
-        if (protocol.equals("RMI")) {
-            connection = (RecycleRemoteConnection) Naming.lookup("rmi://" + host + "/RecycleService");
-        }
-        if (protocol.equals("XML-RPC")){
-            connection = new RecycleRemoteConnectionRPC(host);
+        switch (protocol) {
+            case RMI:
+                connection = (RecycleRemoteConnection) Naming.lookup("rmi://" + host + "/RecycleService");
+                break;
+            case XML_RPC:
+                connection = new RecycleRemoteConnectionRPC(host);
+                break;
         }
         return connection;
     }

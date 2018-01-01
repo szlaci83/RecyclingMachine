@@ -22,8 +22,8 @@ public class ItemRepository {
    // private static final String ITEMS_PATH = "/home/laszlo/Projects/RecyclingMachine/src/me/laszloszoboszlai/model/";
 
     //WIN settings
-    private static final String DEPOSITED_PATH = "D:\\github.com\\RecyclingMachine\\deposited.json";
-    private static final String CAPACITY_PATH = "D:\\github.com\\RecyclingMachine\\capacity.json";
+    private static final String DEPOSITED_PATH = "D:\\github.com\\RecyclingMachine\\src\\me\\laszloszoboszlai\\db\\deposited.json";
+    private static final String CAPACITY_PATH = "D:\\github.com\\RecyclingMachine\\src\\me\\laszloszoboszlai\\db\\capacity.json";
     private static final String ITEMS_PATH = "D:\\github.com\\RecyclingMachine\\src\\me\\laszloszoboszlai\\model\\";
 
     private static final String MachineID = "1";
@@ -78,21 +78,6 @@ public class ItemRepository {
             System.out.println(fnfe);
         }
         return items;
-    }
-
-    /**
-     * Saves the capacity for each item to a file from a HashMap.
-     * @param capacity Hashmap containing itemName -> capacity (piece).
-     */
-    public void saveCapacity(HashMap<String, Long> capacity) {
-        Gson gson = new GsonBuilder().create();
-        try {
-            Writer writer = new FileWriter(CAPACITY_PATH);
-            gson.toJson(capacity, writer);
-            writer.close();
-        }catch (IOException exc) {
-            System.out.println(exc);
-        }
     }
 
     /**

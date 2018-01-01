@@ -8,6 +8,13 @@ import org.apache.xmlrpc.WebServer;
 
 import java.rmi.RemoteException;
 
+/**
+ * Main class to start the server for the XML-RPC connection
+ * The main method creates the server with XML-RPC protocol on port 80 and adds the
+ * MaintenancePanel, CustomerPanel and LoginPanel as handlers and starts it.
+ *
+ * @author Laszlo Szoboszlai
+ */
 public class RPC_Server {
     public static void main(String[] args) throws RemoteException {
         MaintenancePanel maintenancePanel = new MaintenancePanel();
@@ -22,7 +29,7 @@ public class RPC_Server {
             server.addHandler("RecyclingLogin", loginPanel);
             server.start();
         } catch (Exception exception) {
-            System.err.println("JavaServer: " + exception);
+            System.err.println("XML-RPC Server: " + exception);
         }
     }
 }

@@ -81,7 +81,7 @@ public class ChartGUI extends JFrame {
     }
 
     /**
-     * Creates a series (line) to the chart
+     * Creates a series (line) and adds it to the chart
      * @param name the name of the series.
      * @return the created series.
      */
@@ -93,13 +93,13 @@ public class ChartGUI extends JFrame {
         for (Document entry : usage){
             String item = entry.get("items").toString();
             String[] array = item.split("}");
-            for (String a : array) {
-                if (!a.equals("")) {
-                    a += "}";
-                    Map<String, String> map = gson.fromJson(a, new TypeToken<Map<String, String>>(){}.getType());
-                    if (map.get("name").equals(name)){
+            for (String line : array) {
+                if (!line.equals("")) {
+                    line += "}";
+                    Map<String, String> itemMap = gson.fromJson(line, new TypeToken<Map<String, String>>(){}.getType());
+                    if (itemMap.get("name").equals(name)){
                         xData.add(new Date(Long.parseLong(entry.get("Timestamp").toString())));
-                        yData.add(Double.valueOf(map.get("count")));
+                        yData.add(Double.valueOf(itemMap.get("count")));
                     }
                     else {
                     }
@@ -109,6 +109,11 @@ public class ChartGUI extends JFrame {
         return chart.addSeries(name, xData, yData);
     }
 
+    /**
+     * Constructor to create the ChartGUI with the given remote connection and user-token.
+     * @param connection the connection to be used by the ChartGUI
+     * @param token the user-token to be used for the user authentication for each method call
+     */
     public ChartGUI(RecycleRemoteConnection connection, String token){
         this.connection = connection;
         this.token = token;
@@ -170,7 +175,7 @@ public class ChartGUI extends JFrame {
         buttonsPanel.add(chartBtn);
         this.add(buttonsPanel, BorderLayout.EAST);
         getChart(400, 400, "Usage", "Date", "Count");
-        JPanel chartPanel = new XChartPanel<XYChart>(chart);
+        JPanel chartPanel = new XChartPanel<>(chart);
         this.add(chartPanel, BorderLayout.NORTH);
         JLabel label = new JLabel("Machine " + null + " usage by date", SwingConstants.CENTER);
         this.add(label, BorderLayout.SOUTH);

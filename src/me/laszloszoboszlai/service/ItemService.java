@@ -106,7 +106,6 @@ public class ItemService implements ItemServiceInterface {
      */
     public void setCapacity(String name, long value) throws IOException {
         capacity.put(name, value);
-        System.out.println(capacity);
         recordCapacity();
     }
 

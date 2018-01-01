@@ -11,7 +11,7 @@ import java.util.Properties;
  */
 public class UserRepository {
 
-    private static final String PASSWORD_PATH = "D:\\github.com\\RecyclingMachine\\password.properties";
+    private static final String PASSWORD_PATH = "D:\\github.com\\RecyclingMachine\\src\\me\\laszloszoboszlai\\db\\password.properties";
 
     /**
      * Returns the password for the given user
@@ -26,7 +26,6 @@ public class UserRepository {
             inputFile = new FileInputStream(PASSWORD_PATH);
             users.load(inputFile);
             password = users.getProperty(userName);
-
         } catch (IOException ex) {
             ex.printStackTrace();
         } finally {

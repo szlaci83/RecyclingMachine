@@ -9,5 +9,5 @@ public interface PrinterInterface {
      * Print method to be implemented by all the implementing classes.
      * @param str the String to be printed.
      */
-    public void print(String str);
+    void print(String str);
 }

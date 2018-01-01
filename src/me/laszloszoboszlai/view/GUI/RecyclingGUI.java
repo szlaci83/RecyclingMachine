@@ -2,6 +2,7 @@ package me.laszloszoboszlai.view.GUI;
 
 import me.laszloszoboszlai.remote.RecycleRemoteConnection;
 import me.laszloszoboszlai.remote.RecycleRemoteConnectionRPC;
+import me.laszloszoboszlai.utils.ConnectionType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,8 +14,8 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
-/**
-     * A Simple Graphical User Interface for the Recycling Machine.
+    /**
+     * A Simple Client side Graphical User Interface for the Recycling Machine.
      * @author Laszlo Szoboszlai
      *
      */
@@ -22,9 +23,19 @@ import java.rmi.RemoteException;
 
     private static String PATH = "/me/laszloszoboszlai/img/";
     private String sessionCookie;
+
+    /**
+     * Sets the statusGUI to be used by this GUI
+     * @param statusGUI the StatusGUI to be injected
+     */
     public void setStatusGUI(StatusGUI statusGUI) {
         this.statusGUI = statusGUI;
     }
+
+    /**
+     * Sets the visibility of the StatusGUI
+     * @param visibility true to set the StatusGUI visible
+     */
     public void setStatusGUIVisibility(boolean visibility){
         this.statusGUI.setVisible(visibility);
     }
@@ -49,10 +60,19 @@ import java.rmi.RemoteException;
     JButton status = new JButton("Status");
     JButton receipt = new JButton("Receipt");
 
+    /**
+     * Helper method to scale down the images for the avatars of the buttons
+     * @param img the image to be scaled down
+     * @return scaled down version of the image
+     */
     private Image scaleDown(Image img){
         return img.getScaledInstance(50, 80, Image.SCALE_SMOOTH);
     }
 
+    /**
+     * Eventhandler for the button presses
+     * @param e the event triggering this handler
+     */
     public void actionPerformed(ActionEvent e) {
             String buttonName = e.getActionCommand();
             switch (buttonName){
@@ -90,7 +110,6 @@ import java.rmi.RemoteException;
                     break;
                 case "Status" : {
                         LoginGUI loginGUI = null;
-                    System.out.println(sessionCookie);
                         if ( sessionCookie == null) {
                             loginGUI = new LoginGUI(this, sessionCookie);
                             loginGUI.setVisible(true);
@@ -99,7 +118,6 @@ import java.rmi.RemoteException;
                             this.statusGUI.setVisible(true);
                         }
                 }
-
                 case "Receipt":
                     try {
                         this.remoteConnection.printReceipt();
@@ -110,7 +128,7 @@ import java.rmi.RemoteException;
             }
         }
 
-        public RecyclingGUI(String protocol) throws RemoteException {
+        public RecyclingGUI(ConnectionType protocol) throws RemoteException {
             try {
                 this.remoteConnection = connectToRemoteHost(protocol);
             } catch (NotBoundException e) {
@@ -179,17 +197,23 @@ import java.rmi.RemoteException;
      * @throws NotBoundException
      * @throws MalformedURLException
      */
-    private RecycleRemoteConnection connectToRemoteHost(String protocol) throws RemoteException, NotBoundException, MalformedURLException {
+    private RecycleRemoteConnection connectToRemoteHost(ConnectionType protocol) throws RemoteException, NotBoundException, MalformedURLException {
         RecycleRemoteConnection connection = null;
-        if (protocol.equals("RMI")) {
-            connection = (RecycleRemoteConnection) Naming.lookup("rmi://localhost/RecycleService");
-        }
-        if (protocol.equals("XML-RPC")){
-            connection = new RecycleRemoteConnectionRPC("localhost");
+        switch (protocol) {
+            case RMI:
+                connection = (RecycleRemoteConnection) Naming.lookup("rmi://localhost/RecycleService");
+                break;
+            case XML_RPC:
+                connection = new RecycleRemoteConnectionRPC("localhost");
+                break;
         }
         return connection;
     }
 
+    /**
+     * Returns the remote GUI's connection
+     * @return the remote connection used by the GUI
+     */
     public RecycleRemoteConnection getRemoteConnection() {
         return remoteConnection;
     }

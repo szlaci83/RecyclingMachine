@@ -8,12 +8,15 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.rmi.RemoteException;
 
+/**
+ * GUI to display the properties of different depositable items.
+ */
 public class ItemPropertiesGUI extends JFrame implements ActionListener{
     private JButton empty = new JButton("Empty");
     private JButton up = new JButton("▲");
     private JButton down = new JButton("▼");
     private JButton set = new JButton("Set");
-    private JButton save = new JButton("Save");
+    private JButton modify = new JButton("Modify");
 
     private JLabel valueLabel = new JLabel("Value:");
     private JLabel depositedLabel = new JLabel("Deposited:");
@@ -29,6 +32,11 @@ public class ItemPropertiesGUI extends JFrame implements ActionListener{
     private String token;
     private JTextField capacityText = new JTextField(6);
 
+    /**
+     * Helper method to return the slot number of a given item (by name)
+     * @param name name of the item
+     * @return the slot number of the item
+     */
     private int nameToSlot(String name){
         switch (name) {
             case "Bottle":
@@ -43,10 +51,18 @@ public class ItemPropertiesGUI extends JFrame implements ActionListener{
         return 0;
     }
 
+    /**
+     * Eventhandler for the button presses.
+     * @param e the event triggering the handler
+     */
     public void actionPerformed(ActionEvent e) {
         int value = Integer.valueOf(this.value.getText());
         if (!capacityText.getText().isEmpty()) {
-            capacity = Long.parseLong(capacityText.getText());
+            try {
+                capacity = Long.parseLong(capacityText.getText());
+            }catch (NumberFormatException exc){
+                JOptionPane.showMessageDialog(this, "Error, enter a number please!");
+            }
         }
         String buttonName = e.getActionCommand();
 
@@ -55,6 +71,8 @@ public class ItemPropertiesGUI extends JFrame implements ActionListener{
                 try {
                     if (!this.connection.emptySlot(this.token, nameToSlot(this.name))){
                         JOptionPane.showMessageDialog(this, "Error, login required!");
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Counter for " + this.name + " reset to 0!");
                     }
                 } catch (IOException e1) {
                     JOptionPane.showMessageDialog(this, "Error, couldn't connect to server!");
@@ -72,13 +90,16 @@ public class ItemPropertiesGUI extends JFrame implements ActionListener{
                 try {
                     if (!this.connection.changeItemValue(this.token, this.name, value)){
                         JOptionPane.showMessageDialog(this, "Error, login required!");
+                    } else {
+                        JOptionPane.showMessageDialog(this, "New value set to: " + value +"p");
                     }
+
                 } catch (RemoteException e1) {
                     JOptionPane.showMessageDialog(this, "Error, couldn't connect to server!");
                     e1.printStackTrace();
                 }
                 break;
-            case "Save" :
+            case "Modify" :
                 try {
                     if (!this.connection.setCapacity(this.token, this.name, capacity)){
                         JOptionPane.showMessageDialog(this, "Error, login required!");
@@ -90,15 +111,23 @@ public class ItemPropertiesGUI extends JFrame implements ActionListener{
                     JOptionPane.showMessageDialog(this, "Error, couldn't connect to server!");
                     e1.printStackTrace();
                 }
-                this.capacityLabel.setText(capacity.toString());
+                this.capacityLabel.setText("capacity: " + capacity);
+                JOptionPane.showMessageDialog(this, "New capacity set to: " + capacity);
         }
         this.repaint();
     }
 
-    public ItemPropertiesGUI(RecycleRemoteConnection rmi, String token, String name) throws IOException{
+    /**
+     * Constructor to create an ItemProperties GUI for a given item.
+     * @param connection the remote connection to be used by the GUI
+     * @param token the user-token of the logged in user to be used by the GUI
+     * @param name name of the item we want to display the GUI for
+     * @throws IOException
+     */
+    public ItemPropertiesGUI(RecycleRemoteConnection connection, String token, String name) throws IOException{
         this.name = name;
         this.token = token;
-        this.connection = rmi;
+        this.connection = connection;
         Object ItemStatus =  this.connection.getStatus(this.token).get(name);
         if (ItemStatus != null) {
             this.status = Long.parseLong((String) this.connection.getStatus(this.token).get(name));
@@ -107,16 +136,13 @@ public class ItemPropertiesGUI extends JFrame implements ActionListener{
         }
         this.capacity = Long.parseLong((String) this.connection.getCapacity(this.token).get(name));
         this.pack();
-        this.setSize(420,340);
+        this.setSize(420,440);
         this.setLocationRelativeTo(null);
-
-
         JPanel panel = new JPanel();
         panel.setLayout(null);
 
         depositedLabel.setBounds(20, 20, 120, 80);
         panel.add(depositedLabel);
-
         deposited.setText(status.toString());
         deposited.setBounds(20, 40, 120, 80);
         panel.add(deposited);
@@ -128,26 +154,26 @@ public class ItemPropertiesGUI extends JFrame implements ActionListener{
         set.addActionListener(this);
         panel.add(set);
 
-        capacityLabel.setText(capacity.toString());
-        capacityLabel.setBounds(20, 300, 80, 30);
+        capacityLabel.setText("capacity: " + capacity.toString());
+        capacityLabel.setBounds(20, 300, 160, 30);
         panel.add(capacityLabel);
 
-        capacityText.setBounds(80, 300, 80, 30);
+        capacityText.setBounds(170, 300, 80, 30);
         panel.add(capacityText);
 
-        save.setBounds(165, 300, 80, 30);
-        save.addActionListener(this);
-        panel.add(save);
+        modify.setBounds(255, 300, 80, 30);
+        modify.addActionListener(this);
+        panel.add(modify);
 
 
-        up.setBounds(180, 60, 45,45);
+        up.setBounds(180, 60, 55,45);
         up.addActionListener(this);
         panel.add(up);
         int rs = this.connection.getItemValue(token, name);
         value.setText(String.valueOf(rs));
         value.setBounds(180, 140, 45,45);
         panel.add(value);
-        down.setBounds(180, 220, 45,45);
+        down.setBounds(180, 220, 55,45);
         down.addActionListener(this);
         panel.add(down);
         valueLabel.setBounds(180, - 40, 85,145);
