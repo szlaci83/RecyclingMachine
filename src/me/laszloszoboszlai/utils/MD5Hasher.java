@@ -4,10 +4,11 @@ import javax.xml.bind.DatatypeConverter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class MD5Hasher{
+public class MD5Hasher {
 
     /**
      * Helper class to hash texts using MD5 (basic) hashing algorithm
+     *
      * @param text the String to be hashed
      * @return the hashed String
      * @throws NoSuchAlgorithmException

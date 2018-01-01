@@ -20,42 +20,42 @@ public class LoginGUI extends JFrame {
     private JButton login = new JButton("Login");
 
 
-    public LoginGUI(RecyclingGUI recyclingGUI, String cookie){
+    public LoginGUI(RecyclingGUI recyclingGUI, String cookie) {
         this.connection = recyclingGUI.getRemoteConnection();
         this.pack();
-     this.setSize(420,340);
-     this.setLocationRelativeTo(null);
+        this.setSize(420, 340);
+        this.setLocationRelativeTo(null);
 
-     this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-     this.setTitle("Login");
+        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        this.setTitle("Login");
 
-     JPanel panel = new JPanel();
-     panel.setLayout(null);
+        JPanel panel = new JPanel();
+        panel.setLayout(null);
 
-     Image scaledBack = img.getScaledInstance(180, 180, Image.SCALE_SMOOTH);
-     lblImageplaceholder.setBounds(120, 0, 300, 200);
-     lblImageplaceholder.setIcon(new ImageIcon(scaledBack));
+        Image scaledBack = img.getScaledInstance(180, 180, Image.SCALE_SMOOTH);
+        lblImageplaceholder.setBounds(120, 0, 300, 200);
+        lblImageplaceholder.setIcon(new ImageIcon(scaledBack));
 
-     panel.add(lblImageplaceholder);
+        panel.add(lblImageplaceholder);
 
-     nameLabel.setBounds(20,220,60,20);
-     panel.add(nameLabel);
+        nameLabel.setBounds(20, 220, 60, 20);
+        panel.add(nameLabel);
 
-     passwordLabel.setBounds(20,260,80,20);
-     panel.add(passwordLabel);
+        passwordLabel.setBounds(20, 260, 80, 20);
+        panel.add(passwordLabel);
 
-     userName.setBounds(120,220,160,25);
-     panel.add(userName);
+        userName.setBounds(120, 220, 160, 25);
+        panel.add(userName);
 
-     password.setBounds(120,260,160,25);
-     password.setEchoChar('*');
-     panel.add(password);
+        password.setBounds(120, 260, 160, 25);
+        password.setEchoChar('*');
+        panel.add(password);
 
-     login.setBounds(300,220,80,40);
-     panel.add(login);
+        login.setBounds(300, 220, 80, 40);
+        panel.add(login);
 
-     getContentPane().add(panel);
-     panel.repaint();
+        getContentPane().add(panel);
+        panel.repaint();
 
         login.addActionListener(ae -> {
             this.setVisible(false);

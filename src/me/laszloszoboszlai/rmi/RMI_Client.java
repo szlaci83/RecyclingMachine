@@ -12,8 +12,8 @@ import java.rmi.RemoteException;
  * @author Laszlo Szoboszlai
  */
 public class RMI_Client {
-    public static void main(String [] args ) throws RemoteException {
-    RecyclingGUI recyclingGUI = new RecyclingGUI(ConnectionType.RMI);
-    recyclingGUI.setVisible(true);
+    public static void main(String[] args) throws RemoteException {
+        RecyclingGUI recyclingGUI = new RecyclingGUI(ConnectionType.RMI);
+        recyclingGUI.setVisible(true);
     }
 }

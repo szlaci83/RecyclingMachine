@@ -17,9 +17,9 @@ import java.util.Map;
 public class ItemRepository {
 
     //Linux settings
-   // private static final String DEPOSITED_PATH = "/home/laszlo/Projects/RecyclingMachine/deposited.json";
-   // private static final String CAPACITY_PATH = "/home/laszlo/Projects/RecyclingMachine/capacity.json";
-   // private static final String ITEMS_PATH = "/home/laszlo/Projects/RecyclingMachine/src/me/laszloszoboszlai/model/";
+    // private static final String DEPOSITED_PATH = "/home/laszlo/Projects/RecyclingMachine/deposited.json";
+    // private static final String CAPACITY_PATH = "/home/laszlo/Projects/RecyclingMachine/capacity.json";
+    // private static final String ITEMS_PATH = "/home/laszlo/Projects/RecyclingMachine/src/me/laszloszoboszlai/model/";
 
     //WIN settings
     private static final String DEPOSITED_PATH = "D:\\github.com\\RecyclingMachine\\src\\me\\laszloszoboszlai\\db\\deposited.json";
@@ -30,13 +30,14 @@ public class ItemRepository {
 
     /**
      * Saves the items' Map representation into the relevant file as a .json object.
+     *
      * @param items the items' Map representation.
-     * @param name name of the file to store it.
+     * @param name  name of the file to store it.
      * @throws IOException if there is a file I/O error.
      */
     public void saveItems(Map items, String name) throws IOException {
         Writer writer = null;
-        if (name.equals("deposited")){
+        if (name.equals("deposited")) {
             writer = new FileWriter(DEPOSITED_PATH);
         } else {
             writer = new FileWriter(CAPACITY_PATH);
@@ -48,6 +49,7 @@ public class ItemRepository {
 
     /**
      * Loads the number of deposited items from a file into a HashMap.
+     *
      * @return the Hashmap containing the names -> items.
      */
     public HashMap<String, Item> loadItems() {
@@ -55,9 +57,10 @@ public class ItemRepository {
         Gson gson = new Gson();
         try {
             BufferedReader br = new BufferedReader(new FileReader(DEPOSITED_PATH));
-            Type type = new TypeToken<HashMap<String, Item>>(){}.getType();
+            Type type = new TypeToken<HashMap<String, Item>>() {
+            }.getType();
             items = gson.fromJson(br, type);
-        }catch (FileNotFoundException fnfe) {
+        } catch (FileNotFoundException fnfe) {
             System.out.println(fnfe);
         }
         return items;
@@ -65,6 +68,7 @@ public class ItemRepository {
 
     /**
      * Loads the capacity for each item from a file to a HashMap.
+     *
      * @return the HashMap containing the names -> Capacity (piece).
      */
     public HashMap<String, Long> loadCapacity() {
@@ -72,9 +76,10 @@ public class ItemRepository {
         Gson gson = new Gson();
         try {
             BufferedReader br = new BufferedReader(new FileReader(CAPACITY_PATH));
-            Type type = new TypeToken<HashMap<String, Long>>(){}.getType();
+            Type type = new TypeToken<HashMap<String, Long>>() {
+            }.getType();
             items = gson.fromJson(br, type);
-        }catch (FileNotFoundException fnfe) {
+        } catch (FileNotFoundException fnfe) {
             System.out.println(fnfe);
         }
         return items;
@@ -82,18 +87,20 @@ public class ItemRepository {
 
     /**
      * Changes the value of a given item.
-     * @param name the item's value to be changed.
+     *
+     * @param name     the item's value to be changed.
      * @param newValue the new value of the item.
      */
-    public void changeValue(String name, int newValue){
+    public void changeValue(String name, int newValue) {
         String path = ITEMS_PATH + name + ".json";
         HashMap<String, Integer> item = null;
         Gson gson = new Gson();
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
-            Type type = new TypeToken<HashMap<String, Integer>>(){}.getType();
+            Type type = new TypeToken<HashMap<String, Integer>>() {
+            }.getType();
             item = gson.fromJson(bufferedReader, type);
-        }catch (FileNotFoundException fnfe) {
+        } catch (FileNotFoundException fnfe) {
             System.out.println(fnfe);
         }
         item.replace("value", newValue);
@@ -101,13 +108,14 @@ public class ItemRepository {
             Writer writer = new FileWriter(path);
             gson.toJson(item, writer);
             writer.close();
-        }catch (IOException exc) {
+        } catch (IOException exc) {
             System.out.println(exc);
         }
     }
 
     /**
      * Gets the value of a given item.
+     *
      * @param name the name of the item.
      * @return the value of the item.
      */
@@ -117,9 +125,10 @@ public class ItemRepository {
         Gson gson = new Gson();
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
-            Type type = new TypeToken<HashMap<String, Integer>>(){}.getType();
+            Type type = new TypeToken<HashMap<String, Integer>>() {
+            }.getType();
             item = gson.fromJson(bufferedReader, type);
-        }catch (FileNotFoundException fnfe) {
+        } catch (FileNotFoundException fnfe) {
             System.out.println(fnfe);
         }
         return item.get("value");

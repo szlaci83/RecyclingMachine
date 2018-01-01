@@ -1,6 +1,8 @@
 package me.laszloszoboszlai.rmi;
+
 import me.laszloszoboszlai.utils.ConnectionType;
 import me.laszloszoboszlai.view.GUI.AdminLoginGUI;
+
 import java.rmi.RemoteException;
 
 /**

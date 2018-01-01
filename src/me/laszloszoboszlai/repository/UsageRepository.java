@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
 
 /**
  * Repository handling the usage recording and retrieving of the recycling machine.
@@ -21,13 +20,13 @@ import java.util.logging.Level;
  *
  * @author Laszlo Szoboszlai
  */
-public class UsageRepository{
+public class UsageRepository {
 
     private static final String MachineID = "1";
     MongoClient client;
     MongoDatabase database;
 
-    public UsageRepository(){
+    public UsageRepository() {
         this.client = new MongoClient("localhost", 27017);
         this.database = client.getDatabase("recyclingMachine");
         //Display logs from MongoDB
@@ -36,6 +35,7 @@ public class UsageRepository{
 
     /**
      * Method to retreive many matching records to the query.
+     *
      * @param query a MongoDB query.
      * @return an ArrayList of MongoDb Documents matching the given query.
      * @throws IOException if there is an exception during retrieval from the database.
@@ -50,15 +50,16 @@ public class UsageRepository{
 
     /**
      * Method to retrieve records from the database between two dates.
+     *
      * @param from the from data in unix epoch time.
-     * @param to the to date in unix epoch time.
+     * @param to   the to date in unix epoch time.
      * @return an ArrayList of MongoDb Documents between the given dates.
      * @throws IOException if there is an exception during retrieval from the database.
      */
     public ArrayList<Document> findBetweenDates(Long from, Long to) throws IOException {
         BasicDBObject getQuery = new BasicDBObject();
         BasicDBObject gte = new BasicDBObject("$gte", from);
-        if (to != null){
+        if (to != null) {
             gte.append("$lte", to);
         }
         getQuery.put("Timestamp", gte);
@@ -67,6 +68,7 @@ public class UsageRepository{
 
     /**
      * Method to insert a single record (Document) into the database.
+     *
      * @param items Map of items to be inserted. (ItemName -> Item)
      * @throws IOException if there is an exception during retrieval from the database.
      */
@@ -78,11 +80,11 @@ public class UsageRepository{
         record.append("Timestamp", new Date().getTime());
         Gson gson = new Gson();
         String json = new String();
-        for (String itemName : items.keySet()){
+        for (String itemName : items.keySet()) {
             Map<String, String> entry = new HashMap<>();
             entry.put("name", itemName);
-            entry.put("count" , Long.toString(items.get(itemName).getCount()));
-            entry.put("value" , Integer.toString(items.get(itemName).getValue()));
+            entry.put("count", Long.toString(items.get(itemName).getCount()));
+            entry.put("value", Integer.toString(items.get(itemName).getValue()));
             json += gson.toJson(entry);
         }
         record.append("items", json);
@@ -92,7 +94,7 @@ public class UsageRepository{
     /**
      * Method to close the connection to the database.
      */
-    public void closeConnection(){
+    public void closeConnection() {
         client.close();
     }
 }

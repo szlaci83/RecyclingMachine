@@ -13,7 +13,7 @@ import java.rmi.RemoteException;
  */
 public class RPC_Client {
 
-    public static void main(String [] args ) throws RemoteException {
+    public static void main(String[] args) throws RemoteException {
         RecyclingGUI recyclingGUI = new RecyclingGUI(ConnectionType.XML_RPC);
         recyclingGUI.setVisible(true);
     }

@@ -15,6 +15,7 @@ public class UserRepository {
 
     /**
      * Returns the password for the given user
+     *
      * @param userName the name of the user we want the password for
      * @return the password of the user
      */
@@ -37,6 +38,6 @@ public class UserRepository {
                 }
             }
         }
-    return password;
+        return password;
     }
 }

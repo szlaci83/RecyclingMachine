@@ -13,7 +13,7 @@ import java.rmi.RemoteException;
  */
 public class RPC_Admin {
 
-    public static void main(String [] args ) throws RemoteException {
+    public static void main(String[] args) throws RemoteException {
         AdminLoginGUI adminGUI = new AdminLoginGUI(ConnectionType.XML_RPC);
         adminGUI.setVisible(true);
     }

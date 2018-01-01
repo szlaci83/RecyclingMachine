@@ -22,7 +22,9 @@ import java.security.NoSuchAlgorithmException;
  */
 public class AdminLoginGUI extends JFrame {
     private static String PATH = "/me/laszloszoboszlai/img/";
-
+    String[] machines = new String[]{"localhost", "127.0.0.1",
+            "192.168.0.2", "192.168.0.3"};
+    JComboBox<String> machineNo = new JComboBox<>(machines);
     private JLabel lblImageplaceholder = new JLabel("");
     private Image img = new ImageIcon(this.getClass().getResource(PATH + "anon.png")).getImage();
     private JLabel nameLabel = new JLabel("Name:");
@@ -32,11 +34,6 @@ public class AdminLoginGUI extends JFrame {
     private JButton login = new JButton("Login");
     private JLabel machineNoLabel = new JLabel("Machine:");
     private RecycleRemoteConnection connection;
-
-    String[]machines = new String[] {"localhost", "127.0.0.1",
-            "192.168.0.2", "192.168.0.3"};
-
-    JComboBox<String> machineNo = new JComboBox<>(machines);
 
     public AdminLoginGUI(ConnectionType connectionType) {
         this.pack();
@@ -85,8 +82,7 @@ public class AdminLoginGUI extends JFrame {
                 if (token.equals("wrong")) {
                     JOptionPane.showMessageDialog(this, "Wrong password.");
                     this.setVisible(true);
-                }
-                else{
+                } else {
                     this.setVisible(false);
                     ChartGUI chartGUI = new ChartGUI(this.connection, token);
                     chartGUI.setVisible(true);
@@ -113,8 +109,9 @@ public class AdminLoginGUI extends JFrame {
 
     /**
      * Sets the required type (XML-RPC/RMI) connection to the given remote server.
+     *
      * @param protocol the type of the protocol (XML-RPC/RMI)
-     * @param host the remote host's IP address.
+     * @param host     the remote host's IP address.
      * @return the right RecycleRemoteConnection implementation.
      * @throws RemoteException
      * @throws NotBoundException

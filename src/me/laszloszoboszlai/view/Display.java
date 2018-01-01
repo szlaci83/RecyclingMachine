@@ -2,6 +2,7 @@ package me.laszloszoboszlai.view;
 
 import javax.swing.*;
 import java.awt.*;
+
 /**
  * Simple GUI to display the result of using the recycling machine.
  */
@@ -13,7 +14,7 @@ public class Display extends JFrame implements PrinterInterface {
     private JTextArea outputWindow;
 
     /**
-     *  Basic window is created using awt.
+     * Basic window is created using awt.
      */
     public Display() {
         super();
@@ -28,8 +29,10 @@ public class Display extends JFrame implements PrinterInterface {
         getContentPane().add(outputWindow);
         setVisible(true);
     }
+
     /**
      * Prints the text str to the screen. Any previous text will be overwritten.
+     *
      * @see PrinterInterface#print(java.lang.String)
      */
     public void print(String str) {

@@ -7,6 +7,7 @@ import java.util.Calendar;
 
 /**
  * Helper class to create formatted dates for the ChartGUI's date pickers
+ * source : https://github.com/java-tester-x/JavaExercises3/blob/master/resources/DateLabelFormatter.java
  */
 public class DateLabelFormatter extends JFormattedTextField.AbstractFormatter {
 

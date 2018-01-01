@@ -12,9 +12,9 @@ import java.util.Vector;
 /**
  * XML-RPC implementation of the RecycleRemoteConnection. Can be injected to the system to handle XLM-RPC connections
  * between the server and the clients. Calls the relevant methods with the received parameters.
- * @see RecycleRemoteConnection
  *
  * @author Laszlo Szoboszlai
+ * @see RecycleRemoteConnection
  */
 public class RecycleRemoteConnectionRPC implements RecycleRemoteConnection {
 
@@ -66,7 +66,7 @@ public class RecycleRemoteConnectionRPC implements RecycleRemoteConnection {
         Vector params = new Vector();
         params.add(token);
         params.add(slot);
-        executeRemotely( "RecyclingMaintanance.emptySlot", params);
+        executeRemotely("RecyclingMaintanance.emptySlot", params);
         return true;
     }
 

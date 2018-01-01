@@ -9,42 +9,45 @@ import java.io.Reader;
 
 /**
  * Domain class representing a recyclable can
+ *
  * @author Laszlo Szoboszlai
  */
 public class Can extends Item {
-	static int weight = 4; 
-	static int size = 5; 
-	/**
-	 * Creates a can with value 16.
-	 */
-	public Can() { 
-		value = 16; 
-	}
+    static int weight = 4;
+    static int size = 5;
 
-	/**
-	 * Method to instantiate the Can objects from a .json file
-	 * @return instance of the Can object
-	 */
-	public static Can getFromJson() {
-		Can can = null;
-		try (Reader reader = new InputStreamReader(Can.class.getResourceAsStream("Can.json"), "UTF-8")) {
-			Gson gson = new GsonBuilder().create();
-			can =  gson.fromJson(reader, Can.class);
-		} catch (IOException e) {
-			System.out.print(e);
-		}
-		return can;
-	}
+    /**
+     * Creates a can with value 16.
+     */
+    public Can() {
+        value = 16;
+    }
 
-	public Can(int value) {
-		this.value = value;
-	}
+    /**
+     * Method to instantiate the Can objects from a .json file
+     *
+     * @return instance of the Can object
+     */
+    public static Can getFromJson() {
+        Can can = null;
+        try (Reader reader = new InputStreamReader(Can.class.getResourceAsStream("Can.json"), "UTF-8")) {
+            Gson gson = new GsonBuilder().create();
+            can = gson.fromJson(reader, Can.class);
+        } catch (IOException e) {
+            System.out.print(e);
+        }
+        return can;
+    }
 
-	public static int getSize() {
-		return size;
-	}
+    public Can(int value) {
+        this.value = value;
+    }
 
-	public static int getWeight(){
-		return weight;
-	}
+    public static int getSize() {
+        return size;
+    }
+
+    public static int getWeight() {
+        return weight;
+    }
 }

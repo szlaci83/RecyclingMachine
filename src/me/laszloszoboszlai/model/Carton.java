@@ -9,42 +9,45 @@ import java.io.Reader;
 
 /**
  * Domain class representing a recyclable carton
+ *
  * @author Laszlo Szoboszlai
  */
 public class Carton extends Item {
-	static int weight = 20;
-	static int size = 16;
-	/**
-	 * Creates a cartoon with value 28
-	 */
-	public Carton() {
-		value = 28;
-	}
+    static int weight = 20;
+    static int size = 16;
 
-	/**
-	 * Method to instantiate the Carton objects from a .json file
-	 * @return instance of the Carton object
-	 */
-	public static Carton getFromJson() {
-		Carton carton = null;
-		try (Reader reader = new InputStreamReader(Carton.class.getResourceAsStream("Carton.json"), "UTF-8")) {
-			Gson gson = new GsonBuilder().create();
-			carton =  gson.fromJson(reader, Carton.class);
-		} catch (IOException e) {
-			System.out.print(e);
-		}
-		return carton;
-	}
+    /**
+     * Creates a cartoon with value 28
+     */
+    public Carton() {
+        value = 28;
+    }
 
-	public Carton(int value) {
-		this.value = value;
-	}
+    /**
+     * Method to instantiate the Carton objects from a .json file
+     *
+     * @return instance of the Carton object
+     */
+    public static Carton getFromJson() {
+        Carton carton = null;
+        try (Reader reader = new InputStreamReader(Carton.class.getResourceAsStream("Carton.json"), "UTF-8")) {
+            Gson gson = new GsonBuilder().create();
+            carton = gson.fromJson(reader, Carton.class);
+        } catch (IOException e) {
+            System.out.print(e);
+        }
+        return carton;
+    }
 
-	public static int getSize() {
-		return size;
-	}
+    public Carton(int value) {
+        this.value = value;
+    }
 
-	public static int getWeight(){
-		return weight;
-	}
+    public static int getSize() {
+        return size;
+    }
+
+    public static int getWeight() {
+        return weight;
+    }
 }
