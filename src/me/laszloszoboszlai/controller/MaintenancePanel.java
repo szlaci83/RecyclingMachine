@@ -77,11 +77,11 @@ public class MaintenancePanel
 	 * @return true if the operation was successful, false otherwise
 	 * @throws IOException
 	 */
-	public boolean setCapacity(String token, String name, long value) throws IOException{
+	public boolean setCapacity(String token, String name, String value) throws IOException{
 		if (! loginPanel.validateToken(token) ) {
 			return false;
 		}
-		itemService.setCapacity(name, value);
+		itemService.setCapacity(name, Long.parseLong(value));
         return true;
 	}
 

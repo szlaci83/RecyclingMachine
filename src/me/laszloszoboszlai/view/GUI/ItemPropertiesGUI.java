@@ -101,7 +101,7 @@ public class ItemPropertiesGUI extends JFrame implements ActionListener{
                 break;
             case "Modify" :
                 try {
-                    if (!this.connection.setCapacity(this.token, this.name, capacity)){
+                    if (!this.connection.setCapacity(this.token, this.name, Long.valueOf(capacity))){
                         JOptionPane.showMessageDialog(this, "Error, login required!");
                     }
                 } catch (RemoteException e1) {

@@ -71,7 +71,7 @@ public class RecycleRemoteConnectionRMI extends UnicastRemoteObject implements R
 
     @Override
     public boolean setCapacity(String token, String name, long capacity) throws IOException{
-        maintenancePanel.setCapacity(token, name, capacity);
+        maintenancePanel.setCapacity(token, name, String.valueOf(capacity));
         return true;
     }
 
