@@ -33,6 +33,7 @@ public class Carton extends Item {
         try (Reader reader = new InputStreamReader(Carton.class.getResourceAsStream("Carton.json"), "UTF-8")) {
             Gson gson = new GsonBuilder().create();
             carton = gson.fromJson(reader, Carton.class);
+            reader.close();
         } catch (IOException e) {
             System.out.print(e);
         }

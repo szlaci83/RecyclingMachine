@@ -16,7 +16,7 @@ import java.util.Vector;
  * @author Laszlo Szoboszlai
  */
 public class MaintenancePanel {
-    private ItemServiceInterface itemService = new ItemService();
+    private ItemServiceInterface itemService = ItemService.getInstance();
     private LoginPanel loginPanel = new LoginPanel();
 
     /**

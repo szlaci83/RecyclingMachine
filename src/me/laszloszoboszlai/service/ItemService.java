@@ -7,12 +7,13 @@ import org.bson.Document;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Itemservice implementation to handle the coordination of individual repositories
- * to store the items, usage and capacity information.
+ * to store the items, usage and capacity information. Uses singleton pattern.
  *
  * @author Laszlo Szoboszlai
  */
@@ -22,12 +23,25 @@ public class ItemService implements ItemServiceInterface {
     private ItemRepository itemRepository = new ItemRepository();
     private UsageRepository usageRepository = new UsageRepository();
 
+    private static ItemService instance = null;
+
     /**
-     * Constructor to load the capacity and deposited values from their repositories.
+     * Protected constructor, so can not instantiated with "new"
      */
-    public ItemService() {
+    protected ItemService() {
         this.capacity = itemRepository.loadCapacity();
         this.existingItems = itemRepository.loadItems();
+    }
+
+    /**
+     * Public method to ensure only one instance exists.
+     * @return
+     */
+    public static ItemService getInstance() {
+        if(instance == null) {
+            instance = new ItemService();
+        }
+        return instance;
     }
 
     /**
@@ -37,20 +51,20 @@ public class ItemService implements ItemServiceInterface {
      * @return the updated Map
      */
     private Map depositItems(Map<String, Item> Items) {
-        Map<String, Item> addedItems = new HashMap<>();
+        Map<String, Item> depositedItems = new HashMap<>();
+        for (String existing : existingItems.keySet()) {
+            depositedItems.put(existing, existingItems.get(existing));
+        }
         for (String newItem : Items.keySet()) {
             Item temp = Items.get(newItem);
             if (existingItems.containsKey(newItem)) {
                 Long updatedCount = Items.get(newItem).getCount() + existingItems.get(newItem).getCount();
                 temp.setCount(updatedCount);
-                existingItems.remove(newItem);
+                existingItems.put(newItem, temp);
             }
-            addedItems.put(newItem, temp);
+            depositedItems.put(newItem, temp);
         }
-        for (String oldItem : existingItems.keySet()) {
-            addedItems.put(oldItem, existingItems.get(oldItem));
-        }
-        return addedItems;
+        return depositedItems;
     }
 
     /**
@@ -60,7 +74,8 @@ public class ItemService implements ItemServiceInterface {
      * @throws IOException if there is an I/O error.
      */
     public void recordDeposit(Map<String, Item> items) throws IOException {
-        itemRepository.saveItems(depositItems(items), "deposited");
+        Map<String, Item> deposited = depositItems(items);
+        itemRepository.saveItems(deposited , "deposited");
     }
 
     /**
@@ -146,10 +161,9 @@ public class ItemService implements ItemServiceInterface {
      * @throws IOException if there is an I/O error.
      */
     public void emptySlot(String slot) throws IOException {
-        Item itemToBeEmptied = existingItems.get(slot);
-
-        itemToBeEmptied.setCount(0L);
-        existingItems.put(slot, itemToBeEmptied);
+        Item toBeChanged = existingItems.get(slot);
+        toBeChanged.setCount(0L);
+        existingItems.replace(slot, toBeChanged);
         recordExisting();
     }
 

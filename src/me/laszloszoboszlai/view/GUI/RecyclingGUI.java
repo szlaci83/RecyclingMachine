@@ -142,13 +142,13 @@ public class RecyclingGUI extends JFrame implements ActionListener {
             e.printStackTrace();
         }
         this.pack();
-        this.setSize(640, 800);
+        this.setSize(640, 700);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Recycling machine 0.1");
 
-        Image scaledBack = img.getScaledInstance(450, 460, Image.SCALE_SMOOTH);
-        lblImageplaceholder.setBounds(100, 0, 500, 530);
+        Image scaledBack = img.getScaledInstance(350, 360, Image.SCALE_SMOOTH);
+        lblImageplaceholder.setBounds(150, -50, 500, 530);
         lblImageplaceholder.setIcon(new ImageIcon(scaledBack));
 
         JPanel panel = new JPanel();
@@ -156,28 +156,28 @@ public class RecyclingGUI extends JFrame implements ActionListener {
 
         panel.add(lblImageplaceholder);
 
-        can.setBounds(100, 500, 150, 100);
+        can.setBounds(100, 400, 150, 100);
         can.setIcon(new ImageIcon(scaleDown(canImg)));
         panel.add(can);
 
-        bottle.setBounds(265, 500, 150, 100);
+        bottle.setBounds(265, 400, 150, 100);
         bottle.setIcon(new ImageIcon(scaleDown(bottleImg)));
         panel.add(bottle);
 
 
-        crate.setBounds(100, 615, 150, 100);
+        crate.setBounds(100, 515, 150, 100);
         crate.setIcon(new ImageIcon(scaleDown(crateImg)));
         panel.add(crate);
 
-        carton.setBounds(265, 615, 150, 100);
+        carton.setBounds(265, 515, 150, 100);
         carton.setIcon(new ImageIcon(scaleDown(cartonImg)));
         panel.add(carton);
 
-        receipt.setBounds(430, 500, 150, 100);
+        receipt.setBounds(430, 400, 150, 100);
         receipt.setIcon(new ImageIcon(scaleDown(receiptImg)));
         panel.add(receipt);
 
-        status.setBounds(430, 615, 150, 100);
+        status.setBounds(430, 515, 150, 100);
         status.setIcon(new ImageIcon(scaleDown(statusImg)));
         status.addActionListener(this);
         panel.add(status);

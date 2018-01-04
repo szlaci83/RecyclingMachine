@@ -46,7 +46,7 @@ public class ChartGUI extends JFrame {
         this.pack();
         this.setSize(620, 640);
         this.setTitle("Admin Dashboard");
-        this.setLocation(125, 150);
+        this.setLocation(0, 0);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         UtilDateModel model = new UtilDateModel();

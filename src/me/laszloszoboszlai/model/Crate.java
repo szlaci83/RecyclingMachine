@@ -26,6 +26,7 @@ public class Crate extends Item {
         try (Reader reader = new InputStreamReader(Crate.class.getResourceAsStream("Crate.json"), "UTF-8")) {
             Gson gson = new GsonBuilder().create();
             crate = gson.fromJson(reader, Crate.class);
+            reader.close();
         } catch (IOException e) {
             System.out.print(e);
         }

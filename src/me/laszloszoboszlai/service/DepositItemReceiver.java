@@ -13,7 +13,7 @@ import java.rmi.RemoteException;
  * @author Laszlo Szoboszlai
  */
 public class DepositItemReceiver implements DepositItemReceiverInterface {
-    private ItemServiceInterface itemService = new ItemService();
+    private ItemServiceInterface itemService = ItemService.getInstance();
     private ReceiptBasis theReceiptBasis;
     private PrinterInterface printer = null;
 

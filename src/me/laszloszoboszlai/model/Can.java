@@ -33,6 +33,7 @@ public class Can extends Item {
         try (Reader reader = new InputStreamReader(Can.class.getResourceAsStream("Can.json"), "UTF-8")) {
             Gson gson = new GsonBuilder().create();
             can = gson.fromJson(reader, Can.class);
+            reader.close();
         } catch (IOException e) {
             System.out.print(e);
         }

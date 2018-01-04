@@ -26,8 +26,6 @@ public class ItemRepository {
     private static final String CAPACITY_PATH = "D:\\github.com\\RecyclingMachine\\src\\me\\laszloszoboszlai\\db\\capacity.json";
     private static final String ITEMS_PATH = "D:\\github.com\\RecyclingMachine\\src\\me\\laszloszoboszlai\\model\\";
 
-    private static final String MachineID = "1";
-
     /**
      * Saves the items' Map representation into the relevant file as a .json object.
      *
@@ -36,7 +34,7 @@ public class ItemRepository {
      * @throws IOException if there is a file I/O error.
      */
     public void saveItems(Map items, String name) throws IOException {
-        Writer writer = null;
+        Writer writer;
         if (name.equals("deposited")) {
             writer = new FileWriter(DEPOSITED_PATH);
         } else {
@@ -56,10 +54,10 @@ public class ItemRepository {
         HashMap<String, Item> items = null;
         Gson gson = new Gson();
         try {
-            BufferedReader br = new BufferedReader(new FileReader(DEPOSITED_PATH));
+            BufferedReader reader = new BufferedReader(new FileReader(DEPOSITED_PATH));
             Type type = new TypeToken<HashMap<String, Item>>() {
             }.getType();
-            items = gson.fromJson(br, type);
+            items = gson.fromJson(reader, type);
         } catch (FileNotFoundException fnfe) {
             System.out.println(fnfe);
         }
@@ -75,10 +73,10 @@ public class ItemRepository {
         HashMap<String, Long> items = null;
         Gson gson = new Gson();
         try {
-            BufferedReader br = new BufferedReader(new FileReader(CAPACITY_PATH));
+            BufferedReader reader = new BufferedReader(new FileReader(CAPACITY_PATH));
             Type type = new TypeToken<HashMap<String, Long>>() {
             }.getType();
-            items = gson.fromJson(br, type);
+            items = gson.fromJson(reader, type);
         } catch (FileNotFoundException fnfe) {
             System.out.println(fnfe);
         }
@@ -92,6 +90,11 @@ public class ItemRepository {
      * @param newValue the new value of the item.
      */
     public void changeValue(String name, int newValue) {
+        switch (name){
+            case "Can":
+
+        }
+
         String path = ITEMS_PATH + name + ".json";
         HashMap<String, Integer> item = null;
         Gson gson = new Gson();
